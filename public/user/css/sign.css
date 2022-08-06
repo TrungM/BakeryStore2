@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda+One&family=Nunito:wght@200;300;400;500;600&display=swap');
+
+/* ===Css HTML=== */
+:root {
+    --boder-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
+    --boder-radius-hover: 4% 95% 6% 95%/95% 4% 92% 5%;
+    --main-color: #be9c79;
+    --black: #333;
+    --white: #fff;
+    --light-color: #666;
+    --border: .2rem solid var(--black);
+    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+* {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+*::selection {
+    background-color: var(--main-color);
+    color: var(--white);
+}
+
+::-webkit-scrollbar {
+    height: .5rem;
+    width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+}
+
+/* END */
+section {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.heading img {
+    height: 4rem;
+    margin-bottom: 1rem;
+}
+
+.heading h3 {
+    text-align: center;
+    font-size: 4rem;
+    color: var(--black);
+    font-family: 'Merienda One', cursive;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: var(--main-color);
+    cursor: pointer;
+    color: var(--white);
+    font-size: 1.8rem;
+    padding: 1rem 3rem;
+}
+
+.btn:hover {
+    background-color: var(--black);
+}
+
+
+
+/* Login */
+body {
+    background-size: auto;
+    background-attachment: fixed;
+    background-image: url(../images/home-bg.jpg);
+}
+
+.login-form-container {
+    background-color: #fff;
+    position: relative;
+    text-align: center;
+    min-height: auto;
+    bottom: 3rem;
+    top: 2rem;
+}
+
+.login-form-container form {
+    background-color: #fff;
+    position: absolute;
+    max-width: 40rem;
+    -webkit-box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+    padding: 2.6rem 2.6rem;
+    border-radius: .5rem;
+    left: 45rem;
+}
+
+.login-form-container form .login-google {
+    background: var(--main-color);
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    padding: 1rem 1rem;
+}
+
+.login-form-container form .login-google:hover {
+    background-color: var(--black);
+    ;
+}
+
+.login-form-container form .login-google img {
+    font-size: 6rem;
+    float: left;
+    top: 8rem;
+    padding: 0.4rem 1rem;
+}
+
+.login-form-container form .login-google span {
+    font-size: 1.7rem;
+    top: 8rem;
+    color: #fff;
+}
+
+.login-form-container form h3 {
+    padding-bottom: 1rem;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: #130f40;
+}
+
+.login-form-container form .box {
+    margin: .7rem 0;
+    border-radius: .5rem;
+    background: #f7f7f7;
+    padding: 1rem 1.2rem;
+    font-size: 1.6rem;
+    color: #130f40;
+    text-transform: none;
+    width: 100%;
+}
+
+.login-form-container form .remember {
+    padding: 1rem 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: .5rem;
+}
+
+.login-form-container form .remember label {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.login-form-container form .btn {
+    margin: 1rem 0;
+    width: 100%;
+    text-align: center;
+}
+
+.login-form-container form p {
+    padding-top: 1rem;
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.login-form-container form p a {
+    color: var(--main-color);
+}
+
+.login-form-container form p a:hover {
+    color: #130f40;
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:991px) {
+
+    html {
+        font-size: 55%;
+    }
+
+}
+
+@media (max-width:745px) {
+    /* .login-form-container form {
+
+        left: 35rem;
+        top: 10rem;
+    } */
+
+}
+
+@media (max-width:687px) {
+    .login-form-container form {
+
+        left: 15rem;
+        top: 10rem;
+    }
+
+}
+
+@media (max-width:500px) {
+    .login-form-container form {
+
+        left: 5rem;
+        top: 0rem;
+    }
+
+}
+
+@media (max-height:482px) {
+
+    html {
+        font-size: 50%;
+    }
+
+    .heading img {
+        height: 3rem;
+    }
+
+    .heading h3 {
+        font-size: 3rem;
+    }
+
+    .login-form-container form {
+
+        top: 0rem;
+    }
+}

@@ -1,0 +1,911 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda+One&family=Nunito:wght@200;300;400;500;600&display=swap');
+
+/* ===Css HTML=== */
+:root {
+    --boder-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
+    --boder-radius-hover: 4% 95% 6% 95%/95% 4% 92% 5%;
+    --main-color: #be9c79;
+    --black: #333;
+    --white: #fff;
+    --light-color: #666;
+    --border: .2rem solid var(--black);
+    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+* {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+*::selection {
+    background-color: var(--main-color);
+    color: var(--white);
+}
+
+::-webkit-scrollbar {
+    height: .5rem;
+    width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+}
+
+/* END */
+
+
+
+
+
+/* Footer */
+.footer .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.footer .box-container .box {
+    text-align: center;
+}
+
+.footer .box-container .box i {
+    font-size: 2.5rem;
+    line-height: 6rem;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+
+.footer .box-container .box h3 {
+    margin: 1rem 0;
+    font-size: 2rem;
+    color: var(--black);
+}
+
+.footer .box-container .box p {
+    line-height: 2;
+    font-size: 1.6rem;
+    color: var(--light-color);
+}
+
+.footer .credit {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: var(--border);
+    font-size: 2rem;
+    color: var(--black);
+    /* padding-bottom: 7rem; */
+}
+
+.footer .credit span {
+    color: var(--main-color);
+}
+
+/* Footer */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#wrapper {
+    margin: 1rem 1rem;
+
+}
+
+/* Css cho header */
+#header {
+    padding: 2rem 2rem;
+    font-size: 2.6rem;
+    margin-bottom: 2rem;
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+#header a {
+    color: black;
+    padding: 2rem 2rem;
+    font-size: 2.6rem;
+    margin-bottom: 2rem;
+
+}
+
+#header a:hover {
+    color: var(--main-color);
+    padding: 2rem 2rem;
+    font-size: 2.6rem;
+    margin-bottom: 2rem;
+
+}
+
+/* Css cho main */
+#main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: auto;
+}
+
+/* Css content */
+
+#sidebar {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    flex-basis: 40rem;
+    min-height: 20rem;
+    padding: 2rem;
+
+}
+
+#wrapper #main #sidebar img {
+    width: 100%;
+    /* height: 2rem; */
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+
+
+#content {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    flex-basis: 50rem;
+    min-height: 20rem;
+    padding: 2rem;
+
+}
+
+.view-product-item {
+    padding: 2rem 2rem;
+    font-size: 2.5rem;
+    line-height: 2;
+}
+
+.view-product-item .name-product {
+    font-weight: 600;
+    font-size: 1.7rem;
+}
+
+.view-product-item .price-product span {
+    font-size: 2.6rem;
+    color: #EA8025;
+
+}
+
+.view-product-item .size-product h4 {
+    font-size: 1.7rem;
+
+}
+
+.view-product-item .size-product .icon-products svg {
+    margin-top: 1.9rem;
+}
+
+.view-product-item .size-product .icon-products {
+    font-size: 1.7rem;
+    padding: 0.8rem 0.7rem;
+    background: var(--main-color);
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    text-align: justify;
+    margin-right: 2rem;
+
+}
+
+.view-product-item .description-product {
+    font-size: 1.7rem;
+    margin-top: 2rem;
+
+}
+
+.view-product-item .order_methods {
+    list-style: none;
+    padding: 1rem 1rem;
+    font-size: 1.7rem;
+    margin-top: 2rem;
+}
+
+.view-product-item .order_methods .order_delivery {
+    background: #EA8025;
+    padding: 0.5rem 2rem;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    margin-right: 2rem;
+    text-align: center;
+
+}
+
+.view-product-item .order_methods .order_delivery span {
+    color: black;
+    font-weight: bold;
+}
+
+.view-product-item .order_methods .order_store {
+    background: #EA8025;
+    padding: 0.5rem 2rem;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    margin-right: 2rem;
+    text-align: center;
+
+}
+
+.view-product-item .order_methods .order_store span {
+    color: black;
+    font-weight: bold;
+}
+
+.space {
+    padding: 1rem 2rem;
+}
+
+#next-products {
+    color: white;
+    padding: 2rem;
+
+}
+
+
+/* Css  dishes */
+.dishes .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 1.5rem;
+}
+
+#active-heart {
+    color: #fff;
+    background-color: var(--main-color);
+}
+
+.dishes .box-container .box {
+    padding: 2.5rem;
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.dishes .box-container .box .fa-heart,
+.dishes .box-container .box .fa-eye {
+    position: absolute;
+    top: 1.5rem;
+    background: #eee;
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+    color: var(--black);
+    transition: all 0.5s;
+
+}
+
+.dishes .box-container .box .fa-heart:hover,
+.dishes .box-container .box .fa-eye:hover {
+    background: var(--main-color);
+    color: #fff;
+}
+
+.dishes .box-container .box .fa-heart {
+    right: -15rem;
+}
+
+.dishes .box-container .box .fa-eye {
+    left: -15rem;
+}
+
+.dishes .box-container .box:hover .fa-heart {
+    right: 1.5rem;
+}
+
+.dishes .box-container .box:hover .fa-eye {
+    left: 1.5rem;
+}
+
+.dishes .box-container .box img {
+    height: 17rem;
+    margin: 1rem 0;
+}
+
+.dishes .box-container .box h3 {
+    color: var(--black);
+    font-size: 2.5rem;
+}
+
+.dishes .box-container .box .stars {
+    padding: 1rem 0;
+}
+
+.dishes .box-container .box .stars i {
+    font-size: 1.7rem;
+    color: var(--main-color);
+}
+
+.dishes .box-container .box span {
+    color: black;
+    font-weight: bolder;
+    margin-right: 1rem;
+    font-size: 2.5rem;
+}
+
+.dishes .heading h4 {
+    font-size: 2.5rem;
+    padding: 2rem 2rem;
+    color: black;
+}
+
+/* END */
+.dishes img {
+    max-width: 100%;
+    margin-bottom: 2rem;
+}
+
+/* END */
+
+
+/* comment */
+
+
+#comment {
+    font-size: 5rem;
+    background: #fff;
+    border-top: .1rem solid rgba(0, 0, 0, .2);
+    padding:2rem 2rem
+}
+
+#comment h4 {
+    font-size: 2.5rem;
+    padding: 2rem 2rem;
+    color: black;
+    text-align: center;
+}
+
+.form_comment {
+    padding: 2rem;
+    border-radius: 4px;
+    border: 1px solid #dadada;
+    width: 70%;
+}
+
+.form_comment textarea {
+    width: 100%;
+    border: none;
+    border: 2px solid #dadada;
+    border-radius: 4px 4px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+    line-height: 20px;
+    resize: none;
+}
+
+.comment_image {
+    display: flex;
+    /* border: rgba(0, 0, 0, .2) solid 2rem; */
+    width: 100%;
+    justify-content: space-between;
+    font-size: 1.8rem;
+
+}
+
+;
+
+.comment_image .comment_img {
+    font-size: 1.8rem;
+}
+
+.comment_image .comment_img {
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 1rem 1rem;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    background-color: #EA8025;
+    margin-top: 2rem;
+    ;
+}
+
+.active-click{
+  color:#EA8025;
+
+}
+.btn-comment {
+    display: inline-block;
+    background-color: var(--main-color);
+    cursor: pointer;
+    color: var(--white);
+    font-size: 1.8rem;
+    padding: 1rem 3rem;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    margin-top: 2rem;
+    ;
+
+}
+
+.totalcomment {
+    font-size: 1.8rem;
+    padding: 2rem 2rem;
+    cursor: pointer;
+
+}
+
+.user_comment {
+    font-size: 2rem;
+    padding: 2rem 2rem;
+    line-height: 1.5;
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    width: 80%;
+
+}
+
+.user_comment .header_name {
+    font-weight: bold;
+
+}
+
+.reply {
+    font-size: 2rem;
+    background: #eee;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    width: 50%;
+    padding-left: 2rem;
+    margin: 2rem 2rem;
+    padding: 1.5rem 1.5rem;
+
+}
+
+/* end */
+
+
+
+
+
+
+
+/* feedback */
+
+
+#feedback {
+    font-size: 5rem;
+    background: #fff;
+    border-top: .1rem solid rgba(0, 0, 0, .2);
+    padding:2rem 2rem
+}
+
+#feedback h4 {
+    font-size: 2.5rem;
+    padding: 2rem 2rem;
+    color: black;
+    text-align: center;
+}
+
+.form_feedback {
+    padding: 2rem;
+    border-radius: 4px;
+    border: 1px solid #dadada;
+    width: 70%;
+}
+
+.form_feedback textarea {
+    width: 100%;
+    border: none;
+    border: 2px solid #dadada;
+    border-radius: 4px 4px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+    line-height: 20px;
+    resize: none;
+}
+
+.feedback_image {
+    display: flex;
+    /* border: rgba(0, 0, 0, .2) solid 2rem; */
+    width: 100%;
+    justify-content: space-between;
+    font-size: 1.8rem;
+
+}
+
+
+.user_feedback {
+    font-size: 2rem;
+    padding: 2rem 2rem;
+    line-height: 1.5;
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    width: 80%;
+
+}
+
+.user_feedback .header_name {
+    font-weight: bold;
+
+}
+
+
+
+/* end */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:991px) {
+
+    html {
+        font-size: 55%;
+    }
+
+}
+
+@media (max-width:768px) {
+
+    #menu-btn {
+        display: inline-block;
+        transition: .2s linear;
+    }
+
+    #menu-btn.fa-times {
+        transform: rotate(180deg);
+    }
+
+
+    .header .flex .navbar {
+        position: absolute;
+        top: 99%;
+        left: 0;
+        right: 0;
+        background-color: var(--white);
+        border-top: var(--border);
+        border-bottom: var(--border);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: .2s linear;
+    }
+
+
+    .header .flex .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .header .flex .navbar a {
+        display: block;
+        margin: 2rem;
+    }
+
+    .header .flex .icons #menu-btn {
+        display: block;
+        float: right;
+    }
+
+    .header .flex .icons i,
+    .header .flex .icons a {
+        cursor: pointer;
+        margin-left: .5rem;
+        height: 4.5rem;
+        line-height: 4.5rem;
+        width: 4.5rem;
+        text-align: center;
+        font-size: 1.7rem;
+        color: var(--black);
+        border-radius: 50%;
+        background: #eee;
+    }
+
+
+
+    .home-bg {
+        background-position: left;
+    }
+
+    .home-bg .home {
+        justify-content: center;
+    }
+
+    .home-bg .home .content h3 {
+        font-size: 4rem;
+    }
+
+    .about .content h3 {
+        font-size: 3rem;
+    }
+
+}
+
+@media (max-width:450px) {
+
+    html {
+        font-size: 50%;
+    }
+
+    .heading img {
+        height: 3rem;
+    }
+
+    .heading h3 {
+        font-size: 3rem;
+    }
+
+}
