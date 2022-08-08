@@ -16,5 +16,7 @@ Team members include:
 Documetation included on the main folder:
 
 Intallation guide
+
 Database source : 'prj-2.sql'
+
 Documentation : 'REVIEW_Bakery_STORE'
