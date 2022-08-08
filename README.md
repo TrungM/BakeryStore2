@@ -10,6 +10,7 @@ Team members include:
 2)Nguyễn Gia Thiện -Student1335976 -Dev
 
 3)Đổng Thái Tuấn -Student1322489 -Dev
+
 4)Phạm Nhật Minh -Student1328429 -Dev
 
 Documetation included on the main folder:
