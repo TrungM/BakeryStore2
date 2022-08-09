@@ -19,6 +19,13 @@ use phpDocumentor\Reflection\PseudoTypes\False_;
 class HistoryController extends Controller
 {
 
+
+    public function history_order($customer_id)
+    {
+        $ds = DB::table('tb_order')->where("customer_id", $customer_id)->orderBy("order_id", "DESC")->get();
+
+        return view("user.page-items.history",["history"=>$ds]);
+    }
     public  function userinformation($customer_id)
     {
         $ds = DB::table('tb_order')->where("customer_id", $customer_id)->orderBy("order_id", "DESC")->paginate(1);
@@ -238,8 +245,7 @@ class HistoryController extends Controller
                 <div class="user_feedback" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem ">
         <div class="header_name">
             <img src="" alt="">
-            <i class="fa-solid fa-camera"></i>
-            <span>' . $p->customer_name . '</span>
+            <i class="fa-solid fa-user"></i>               <span>' . $p->customer_name . '</span>
             <span style="font-size:1.2rem">' . $p->feedback_date . '</span>
         </div>';
 
@@ -291,8 +297,7 @@ class HistoryController extends Controller
                 if ($a->feedback_reply == $p->feedback_id) {
                     $output .= ' <div class="reply">
                 <div class="header_admin">
-                    <i class="fa-solid fa-camera"></i>
-                    <span>' . $a->customer_id . '</span>
+                <i class="fa-solid fa-user" style="color:#be9c79"></i>                     <span>' . $a->customer_id . '</span>
                     <span style="font-size:1.7rem"></span>
                     <span style="font-size:1.2rem">' . $a->feedback_date . '</span>
 
@@ -454,8 +459,8 @@ class HistoryController extends Controller
           ' . $p->product_price . '
         </td>
         <td style="padding: 1rem; ">
-       vuax1
-      </td>
+        ' . $p->product_size . '
+        </td>
 
       <td style="padding: 1rem; ">
       ' . $p->product_price * $p->product_quantity .   '

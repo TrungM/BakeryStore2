@@ -10,6 +10,49 @@ use App\Models\Rating;
 class ProductController extends Controller
 {
 
+
+    public function delete_size($id){
+        DB::table('tb_size')->where('size_id', $id)->delete();
+        return redirect('admin/size');
+    }
+  public function updateSize(Request $request, $id){
+    $size = $request->all();
+    DB::table('tb_size')->where('size_id', $id)->update([
+        'product_id' => $size['product_id'],
+        'size' => $size['size'],
+        'size_price' => $size['size_price'],
+    ]);
+    return redirect('admin/size');
+
+
+  }
+
+    public function update_page($id){
+        $size = DB::table('tb_size')->where('size_id', $id)->first();
+
+        return view('admin/update_size' , compact('size'));
+
+    }
+    public function sizeManager(){
+        $size = DB::table('tb_size')->get();
+        return view("admin.create_size", ["size" => $size]);
+       }
+
+      public function sizeManager_insert_1(){
+        return view('admin/add_size');
+
+      }
+       public function sizeManager_insert(Request $request)
+       {
+           $size = $request->all();
+           DB::table('tb_size')->insert([
+               'product_id' => $size['product_id'],
+               'size' => $size['size'],
+               'size_price' => $size['size_price'],
+           ]);
+
+           return redirect('admin/size');
+       }
     public function replyComment(Request $request)
     {
         $data = $request->all();
@@ -72,8 +115,7 @@ class ProductController extends Controller
                 <div class="user_comment" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem ">
         <div class="header_name">
             <img src="" alt="">
-            <i class="fa-solid fa-camera"></i>
-            <span>' . $p->comment_name . '</span>
+            <i class="fa-solid fa-user"></i>            <span>' . $p->comment_name . '</span>
             <span style="font-size:1.2rem">' . $p->comment_date . '</span>
         </div>
 
@@ -87,8 +129,7 @@ class ProductController extends Controller
                 if ($a->comment_reply == $p->comment_id) {
                     $output .= ' <div class="reply">
         <div class="header_admin">
-            <i class="fa-solid fa-camera"></i>
-            <span>' . $a->comment_name . '</span>
+        <i class="fa-solid fa-user" style="color:#be9c79"></i>            <span>' . $a->comment_name . '</span>
             <span style="font-size:1.7rem"></span>
             <span style="font-size:1.2rem">' . $a->comment_date . '</span>
 
@@ -96,10 +137,7 @@ class ProductController extends Controller
         <div class="admin_text">
         ' . $a->comment . '
         </div>
-        <div class="reply_user" style="color: red;    cursor: pointer;
-        ">
-            tra loi
-        </div>
+
     </div>
     ';
                 }
@@ -315,4 +353,7 @@ class ProductController extends Controller
         $search_product = DB::table('products')->where('product_name', 'LIKE', '%' . $keywords . '%')->get();
         return view('user.page-items.search', ['categories' => $category, 'search_product' => $search_product]);
     }
+
+
+
 }

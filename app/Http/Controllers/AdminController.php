@@ -6,27 +6,41 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-// use App\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
     public function addUser(Request $request)
     {
+        $request->validate([
+            'fullname' => 'required',
+            'email' => 'required|email|unique:tb_customer,customer_email',
+            'password' => 'required|same:confirm',
+            'phone'=>'required',
+            'address'=>'required'
+        ]);
 
         $email = $request->email;
         $pwd = $request->password;
-        $name = $request->name;
+        $name = $request->fullname;
+        $phone = $request->phone;
+        $address= $request->address;
         $role = $request->role;
-        $active = $request->active;
-        DB::table('tb_user')->insert([
-            'email' => $email,
-            'password' => $pwd,
-            'name' => $name,
-            'role' => intval($role),
-            'active' => intval($active)
-        ]);
-        return redirect('admin/users');
+        $temp = DB::table('tb_customer')->where('customer_email', $email)->get();
+
+
+            DB::table('tb_customer')->insert([
+                'customer_email' => $email,
+                'customer_password' => $pwd,
+                'customer_name' => $name,
+                'customer_phone' => $phone,
+                'customer_address' => $address,
+                'role' => intval($role),
+
+            ]);
+            return redirect('admin/staff');
+
+
     }
 
     public function resetPassword($id)
@@ -45,7 +59,7 @@ class AdminController extends Controller
 
     public function staff()
     {
-        $users = DB::table('tb_user')->where('role', 1)->get();
+        $users = DB::table('tb_customer')->where('role', 1)->get();
         return view('admin.staff')->with(['ds' => $users]);
     }
 
@@ -53,11 +67,10 @@ class AdminController extends Controller
     {
         return view('admin.addUser');
     }
-    public function details($id)
-    {
-        $user = DB::table('tb_user')->where('id', $id)->first();
-        return view('user/details')->with(['user' => $user]);
-    }
+    public function details($id) {
+        $user = DB::table('tb_customer')->where('customer_id', $id)->first();
+        return view('admin/details')->with(['user'=>$user]);
+        }
 
     public function adminindex()
     {
@@ -92,4 +105,28 @@ class AdminController extends Controller
     }
 
 
+
+
+
+    public function updateInfo($id)
+    {
+
+        $user = DB::table('tb_customer')->where('customer_id', $id)->first();
+        return view('admin.updateInfo', ['u' => $user]);
+    }
+    public function updateInfoPost(Request $request, $id)
+    {
+        $user = $request->all();
+
+        //kiem tra trong so cac phan tu du lieu dc up len , co pt kieu 'file' te len 'fileImage'?
+        // xử lý upload hình vào thư mục
+
+        DB::table('tb_customer')->where('customer_id', $id)->update([
+            'customer_name' => $user['name'],
+            'customer_email'=> $user['email'],
+            'customer_phone' => $user['phone'],
+            'customer_address' => $user['address'],
+        ]);
+        return redirect('admin/staff');
+    }
 }

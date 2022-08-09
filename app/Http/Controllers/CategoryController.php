@@ -20,8 +20,9 @@ class CategoryController extends Controller
         $category_by_id = DB::table('products')->join('tb_category', 'tb_category.category_id', '=', 'products.category_id')
             ->where('products.category_id', $category_id)->orderBy('products.product_price', 'ASC')
             ->get();
-
-        return view('user.page-items.show_product_category')->with('category_show', $category_product)->with('category_by_id', $category_by_id);
+            $category_by_name= DB::table('products')->join('tb_category', 'tb_category.category_id', '=', 'products.category_id')
+            ->where('products.category_id', $category_id)->paginate(1);
+        return view('user.page-items.show_product_category')->with('category_show', $category_product)->with('category_by_id', $category_by_id)->with('category_by_name', $category_by_name);
     }
 
     public function desproducts_category($category_id)
@@ -30,8 +31,9 @@ class CategoryController extends Controller
         $category_by_id = DB::table('products')->join('tb_category', 'tb_category.category_id', '=', 'products.category_id')
             ->where('products.category_id', $category_id)->orderBy('products.product_price', 'DESC')
             ->get();
-
-        return view('user.page-items.show_product_category')->with('category_show', $category_product)->with('category_by_id', $category_by_id);
+            $category_by_name= DB::table('products')->join('tb_category', 'tb_category.category_id', '=', 'products.category_id')
+            ->where('products.category_id', $category_id)->paginate(1);
+        return view('user.page-items.show_product_category')->with('category_show', $category_product)->with('category_by_id', $category_by_id)->with('category_by_name', $category_by_name);
     }
 
     public function submenu($category_id)

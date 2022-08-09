@@ -35,10 +35,10 @@
                                             style="text-align: center; margin-bottom: 2rem; font-size:3rem; font-weight:bold;">
                                             {{ $post->post_desc }}</h1>
                                     </b>
-                                    <img style="width: 100%;padding:1rem 1rem; "
+                                    <img style="width: 80%;padding:1rem 1rem; "
                                         src="{{ url('admin/img/' . $post->post_images) }}" alt="">
                                     <div style="font-size: 2.5rem;padding:4rem 4rem; margin-right:5rem">
-                                        <h4>{{ $post->post_content }}</h4>
+                                        <h4>{!! $post->post_content !!}</h4>
                                     </div>
 
                                 </div>

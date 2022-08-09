@@ -35,15 +35,15 @@
                             <form action="" class="show_product">
                                 @csrf
                                 <a href="{{ URL::to('submenu/' . $p->category_id) }}" class="value1">
-                                    <option value="All">All</option>
+                                    <option value="All">Tất cả </option>
                                 </a>
                                 <a href="{{ URL::to('ascproducts_category/' . $p->category_id) }}" class="value2">
-                                    <option value="Price-Low to high">Price-Low to high</option>
+                                    <option value="Price-Low to high">Giá từ thấp đến cao </option>
                                 </a>
 
 
                                 <a href="{{ URL::to('desproducts_category/' . $p->category_id) }}" class="value3">
-                                    <option value="">Price-High to low</option>
+                                    <option value="">Giá từ cao đến thấp</option>
                                 </a>
 
                                 {{-- <option value="">Newest</option> --}}
@@ -59,8 +59,8 @@
 
             <div id="content">
                 <section class="dishes" id="dishes">
-                    <img alt="Hi-tea Healthy"
-                        src="//file.hstatic.net/1000075078/file/cover_8dca94a796324989af57bf9c1e5d80e8_master.jpg">
+                    <img  style="width: 100%; height:40rem;"
+                    src="{{ asset('user/images/products_bg.jpg') }}">
                     <div class="heading">
                         <img src="images/heading-img.png" alt="">
                         @foreach ($category_by_name as $c)

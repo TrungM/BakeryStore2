@@ -92,7 +92,7 @@ section {
 body{
    background-size:auto;
    background-attachment: fixed;
-   background-image: url(../images/home-bg.jpg);
+   background-image: url(../images/bg_sign.jpg);
 }
 .login-form-container {
    background-color: #fff;
@@ -213,7 +213,7 @@ padding: 0.4rem 1rem;
 
 @media (max-width:745px) {
    .login-form-container form {
-     
+
      left :35rem;
      top:10rem;
    }
@@ -221,19 +221,19 @@ padding: 0.4rem 1rem;
 }
 @media (max-width:600px) {
    .login-form-container form {
-     
+
      left :15rem;
      top:10rem;
    }
-   
+
 }
 @media (max-width:500px) {
    .login-form-container form {
-     
+
      left :5rem;
      top:10rem;
    }
-   
+
 }
 @media (max-height:482px) {
 
@@ -249,7 +249,7 @@ padding: 0.4rem 1rem;
       font-size: 3rem;
    }
    .login-form-container form {
-     
+
       left :20rem;
       right: 12rem;
       top:2rem;

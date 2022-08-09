@@ -108,6 +108,7 @@
                                     <th> product_name </th>
                                     <th> product_price</th>
                                     <th> product_quantity </th>
+                                    <th> product_size </th>
                                     <th> product_total</th>
 
                                     {{-- <th> product_size </th>
@@ -129,6 +130,7 @@
                                         <td>{{ $p->product_name }}</td>
                                         <td>{{ number_format($p->product_price, 0, ',', '.') }}</td>
                                         <td>{{ $p->product_quantity }}</td>
+                                        <td>{{ $p->product_size}}VNĐ</td>
                                         <td>{{ number_format( $subtotal, 0, ',', '.') }}</td>
 
                                     </tr>

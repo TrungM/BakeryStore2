@@ -92,7 +92,7 @@ section {
 body {
     background-size: auto;
     background-attachment: fixed;
-    background-image: url(../images/home-bg.jpg);
+    background-image: url(../images/bg_sign.jpg);
 }
 
 .login-form-container {

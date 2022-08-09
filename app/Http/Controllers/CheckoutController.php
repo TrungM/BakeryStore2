@@ -7,9 +7,45 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
-
+use App\Models\city;
+use App\Models\province;
+use App\Models\wards;
 class CheckoutController extends Controller
 {
+
+
+    // public function delivery(Request $request)
+    // {
+
+    //     $city = City::orderby('matp', 'ASC')->get();
+    //     return view('user.page-items.checkout')->with(compact('city'));
+    // }
+
+    public function select_delivery(Request $request)
+    {
+        $data = $request->all();
+        if ($data['action']) {
+            $output = '';
+            if ($data['action'] == "city") {
+                $select_province = province::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
+                $output .= '<option>--Chọn quận  huyện --</option>';
+                foreach ($select_province as $province) {
+                    $output .= '<option value="' . $province->maqh . '">' . $province->name_quanhuyen . '</option>
+
+                    ';
+
+                }
+            } else {
+                $select_wards = wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
+                $output .= '<option>--Chọn phường xã--</option>';
+                foreach ($select_wards as $wards) {
+                    $output .= '<option value="' . $wards->name_xaphuong . '">' . $wards->name_xaphuong . '</option>';
+                }
+            }
+        }
+        echo $output;
+    }
+
     public function checkLogin(Request $request)
     {
         if ($request->session()->has('users')) {
@@ -46,35 +82,38 @@ class CheckoutController extends Controller
 
 
 
-    public function checkout()
+    public function checkout(Request $request)
     {
-        return view('user.page-items.checkout');
+
+        $city = City::where('matp', 79)->get();
+        return view('user.page-items.checkout')->with(compact('city'));
     }
     public function logincheckout()
     {
-
         return view('user.page-items.login-checkout');
     }
 
-    public function addCustomer(Request $request)
-    {
-        $data = array();
-        $data['customer_name'] = $request->customer_name;
-        $data['customer_password'] = $request->customer_password;
-        $data['customer_phone'] = $request->customer_phone;
-        $data['customer_email'] = $request->customer_email;
-        $data['customer_address'] = $request->customer_address;
-        $data['role'] = $request->role;
+    // public function addCustomer(Request $request)
+    // {
 
 
-        $customer_id = DB::table("tb_customer")->insertGetId($data);
-        // chi lay id
+    //     $data = array();
+    //     $data['customer_name'] = $request->customer_name;
+    //     $data['customer_password'] = $request->customer_password;
+    //     $data['customer_phone'] = $request->customer_phone;
+    //     $data['customer_email'] = $request->customer_email;
+    //     $data['customer_address'] = $request->customer_address;
+    //     $data['role'] = $request->role;
 
-        Session::put('customer_id', $customer_id);
-        Session::put('customer_name', $request->customer_name);
 
-        return redirect('login_checkout');
-    }
+    //     $customer_id = DB::table("tb_customer")->insertGetId($data);
+    //     // chi lay id
+
+    //     Session::put('customer_id', $customer_id);
+    //     Session::put('customer_name', $request->customer_name);
+
+    //     return redirect('login_checkout');
+    // }
 
 
     // public function customerInformation(Request $request)
@@ -123,7 +162,6 @@ class CheckoutController extends Controller
     {
 
 
-
         $data = array();
         $data['shipping_name'] = $request->shipping_name;
         $data['shipping_phone'] = $request->shipping_phone;
@@ -156,10 +194,13 @@ class CheckoutController extends Controller
             $order_d_data['product_name'] = $p->name;
             $order_d_data['product_price'] = $p->price;
             $order_d_data['product_quantity'] = $p->qty;
+            $order_d_data['product_size'] = $p->options->size;
             DB::table('tb_order_detail')->insertGetId($order_d_data);
         }
         // sua
-        return redirect('user/page-items/success_order');
+                Cart::destroy();
+
+        return redirect('checkout');
     }
 
     public function  logoutcheckout()
@@ -167,7 +208,6 @@ class CheckoutController extends Controller
         Session::flush();
         return redirect('home');
     }
-
 
 
 

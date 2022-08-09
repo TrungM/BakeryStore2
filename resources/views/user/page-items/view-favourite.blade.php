@@ -8,12 +8,7 @@
 
                     <section class="home" id="home">
 
-                        <div class="content">
-                            <h3>mooncakes </h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                            <a href="#about" class="btn">about us</a>
-                        </div>
+
 
                     </section>
 
@@ -68,9 +63,7 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-button-next color-El"></div>
-        <div class="swiper-button-prev color-El"></div>
-        <div class="swiper-pagination"></div>
+
     </div>
 
     <!-- home section ends -->

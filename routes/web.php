@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,12 @@ use App\Http\Controllers\PostController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Start//---Category ---///
 
+Route::get('home',[HomeController::class,'home']);
+Route::get('service',[HomeController::class,'service']);
+
+// END
 
 // ----Start---admin
 Route::prefix('admin')->name('admin')->middleware('checkLogin:admin')->group(function () {
@@ -38,6 +44,8 @@ Route::prefix('admin')->name('admin')->middleware('checkLogin:admin')->group(fun
     Route::get('resetPassword/{id}', [AdminController::class, 'resetPassword']);
     Route::get('details/{id}', [AdminController::class, 'details'])->name('profile');
 
+    Route::post('updateInfoPost/{id}', [AdminController::class, 'updateInfoPost']);
+    Route::get('updateInfo/{id}', [AdminController::class, 'updateInfo']);
 
 });
 
@@ -68,7 +76,6 @@ Route::get('login/google/callback', [AccountController::class, 'handleGoogleCall
 
 // route cho tat ca cac trang nguoi dung
 // ----Start---
-Route::get('home',[AccountController::class,'home']);
 
 Route::get('store',[AccountController::class,'store']);
 Route::get('user/page-items/checkout',[AccountController::class,'checkout']);
@@ -76,7 +83,8 @@ Route::get('sign',[AccountController::class,'sign']);
 Route::get('user/page-items/login',[AccountController::class,'login']);
 Route::get('user/page-items/login-checkout',[AccountController::class,'checkoutLogin']);
 
-Route::get('user/page-items/success_order',[AccountController::class,'successOrder']);
+Route::post('addCustomer', [AccountController::class, 'addCustomer']);
+
 
 //---- END---
 
@@ -92,13 +100,18 @@ Route::get('logout', [AdminController::class, 'logout']);
 // check out
 Route::get('login_checkout', [CheckoutController::class, 'logincheckout']);
 Route::get('logout_checkout', [CheckoutController::class, 'logoutcheckout']);
-Route::get('checkout', [CheckoutController::class, 'checkout']);
-Route::post('add_customer', [CheckoutController::class, 'addCustomer']);
+// Route::prefix('user')->name('user')->middleware('checkLogin:user')->group(function () {
+
+    Route::get('checkout', [CheckoutController::class, 'checkout']);
+
+// });
+// Route::post('add_customer', [CheckoutController::class, 'addCustomer']);
 Route::post('customer_information', [CheckoutController::class, 'customerInformation']);
 Route::post('save_customer_shipping', [CheckoutController::class, 'saveCustomerShipping']);
 Route::post('update_customer/{customer_id}',[CheckoutController::class,'updateCustomer']);
 Route::post('checkLogin', [CheckoutController::class, 'checkLogin']);
-
+Route::get('delivery', [CheckoutController::class, 'delivery']);
+Route::post('select_delivery', [CheckoutController::class, 'select_delivery']);
 //---- END---
 
 
@@ -126,6 +139,13 @@ Route::post('reply_comment',[ProductController::class,'replyComment']);
     Route::get('productupdate/{product_id}', [ProductController::class, 'update']);
     Route::post('updatePost/{id}',  [ProductController::class, 'updatePost']);
     Route::get('delete/{id}', [ProductController::class, 'delete']);
+    Route::get('admin/size', [ProductController::class, 'sizeManager']);
+    Route::post('sizeManager_insert', [ProductController::class, 'sizeManager_insert']);
+    Route::get('admin/add_size', [ProductController::class, 'sizeManager_insert_1']);
+    Route::get('admin/update_size/{size_id}', [ProductController::class, 'update_page']);
+    Route::post('admin/updateSize/{size_id}',  [ProductController::class, 'updateSize']);
+    Route::get('delete_size/{size_id}', [ProductController::class, 'delete_size']);
+
 // END
 
 // Start//---Cart ---///
@@ -136,6 +156,7 @@ Route::post('reply_comment',[ProductController::class,'replyComment']);
 Route::get('show_cart',[CartController::class,'show_cart']);
 Route::post('save_cart',[CartController::class,'save_cart']);
 Route::post('update_cart_quantity',[CartController::class,'update_cart_quantity']);
+Route::post('update_cart_size',[CartController::class,'update_cart_size']);
 Route::get('delete-to-cart/{rowId}',[CartController::class,'deleteTocart']);
 
 // END
@@ -171,7 +192,7 @@ Route::post('insert-rating',[HistoryController::class,'insertRating']);
 Route::post('send_feedback/{product_id}',[HistoryController::class,'sendFeedback']);
 Route::post('showDetailorder',[HistoryController::class,'showDetailorder']);
 
+Route::get('history_order/{customer_id}',[HistoryController::class,'history_order']);
 
 // END
-
 

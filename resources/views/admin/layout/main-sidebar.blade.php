@@ -161,6 +161,15 @@
                                 </li>
 
                             </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('admin/size') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Size </p>
+                                    </a>
+                                </li>
+
+                            </ul>
                         </li>
 
                         <li class="nav-item menu-open">

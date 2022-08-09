@@ -314,7 +314,7 @@ html {
 }
 
 .view-product-item .size-product .icon-products {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     padding: 0.8rem 0.7rem;
     background: var(--main-color);
     border-radius: .5rem;
@@ -322,7 +322,6 @@ html {
     box-shadow: var(--box-shadow);
     text-align: justify;
     margin-right: 2rem;
-
 }
 
 .view-product-item .description-product {
@@ -335,7 +334,7 @@ html {
     list-style: none;
     padding: 1rem 1rem;
     font-size: 1.7rem;
-    margin-top: 2rem;
+    margin-top: 6rem;
 }
 
 .view-product-item .order_methods .order_delivery {
@@ -346,12 +345,19 @@ html {
     box-shadow: var(--box-shadow);
     margin-right: 2rem;
     text-align: center;
+    cursor: pointer;
+
+}
+.view-product-item .order_methods .order_delivery button {
+
+    cursor: pointer;
 
 }
 
 .view-product-item .order_methods .order_delivery span {
     color: black;
     font-weight: bold;
+
 }
 
 .view-product-item .order_methods .order_store {

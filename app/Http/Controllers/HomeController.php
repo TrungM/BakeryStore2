@@ -12,11 +12,13 @@ class HomeController extends Controller
 
     public function home()
     {
-        $ds = DB::table('products')->orderBy('product_star', 'DESC')->paginate(6);
+        $ds = DB::table('products')->where('product_star', '>',3)->paginate(6);
 
         return view("user.page-items.home",["product_home" => $ds]);
     }
 
-
+    public function service(){
+        return view("user.page-items.service");
+    }
 
 }

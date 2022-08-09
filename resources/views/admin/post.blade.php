@@ -28,19 +28,24 @@
             </div>
             <div class="form-group" >
                 <label for="exampleInputPassword1">Nội dung bài viết</label>
-                <textarea style="resize: none" rows="8" class="form-control" name="post_content" id="exampleInputPassword1"
+                <textarea style="resize: none" rows="1" class="form-control" name="post_content" id="ckeditor"
                     placeholder="Nội dung bài viết"></textarea>
             </div>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="exampleInputFile"  name="post_images" >
                 <label class="custom-file-label" for="exampleInputFile">Hình ảnh sản phẩm</label>
                 </div>
-            <div style="margin-top: 2rem ">
+            <div >
                 <button type="submit" name="add_category_product" class="btn btn-info">Thêm danh mục</button>
             </div>
 
         </form>
     </div>
 </section>
+<script src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('ckeditor');
+        CKEDITOR.replace('ckeditor1');
+    </script>
 @stop
 

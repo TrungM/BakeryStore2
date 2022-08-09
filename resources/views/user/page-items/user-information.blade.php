@@ -17,7 +17,6 @@
                                 <p style="padding:2rem 2rem; text-align: center;">Mã số khách hàng</p>
                                 <p class="code-number">{{$a->customer_id}}</p>
                             </div>
-                        @endforeach
 
                     </div>
                     <div class="user-information-menu">
@@ -45,16 +44,21 @@
                             </li>
 
                             <li class="user-information-item4">
-                                <i class="fa-solid fa-clock-rotate-left"
+                                <a href="{{ URL::to('history_order/'.$a->customer_id) }}" >
+                                    <i class="fa-solid fa-clock-rotate-left"
                                     style="color: #be9c79;
-                            ;margin-left: -2rem;"></i> <span
+                            ;margin-left: -2rem;"></i> <span  style="color:black",
                                     class="user-item-txt">Lịch sử mua
                                     hàng</span>
+                                </a>
+
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+            @endforeach
+
             <div id="content">
                 <div class="user-info-right ">
                     <!-- Thong tin khach hang -->
@@ -148,7 +152,7 @@
                                                    if ( $p->order_status=="Đang xử lý" )
                                                     {
                                                 ?>
-                                                <div class="delete-oreder">
+                                                <div class="delete-oreder"     onclick="return confirm('Bạn chắc chứ ')">
                                                     <a href="{{ URL::to('delete_order/' . $p->order_code) }}">
                                                         <p><i class="fa-solid fa-trash-can"></i>Hủy đơn </p>
                                                     </a>
@@ -159,7 +163,8 @@
                                                     {
                                                     ?>
                                                 <div class="delete-oreder" style="display:none">
-                                                    <a href="{{ URL::to('delete_order/' . $p->order_code) }}">
+                                                    <a href="{{ URL::to('delete_order/' . $p->order_code) }}"
+                                                    >
                                                         <p><i class="fa-solid fa-trash-can"></i>Hủy đơn </p>
                                                     </a>
                                                 </div>
@@ -201,16 +206,17 @@
                                             </div>
                                             <hr>
                                             <div class="footer-header">
+                                                <div class="price-delivery">
+                                                    <h5>Phí vận chuyển</h5>
+                                                    <p>30.000 VNĐ</p>
+
+                                                </div>
                                                 <div class="price-footer">
                                                     <h5>Thành tiền </h5>
                                                     <p>{{ $p->order_total }}</p>
 
                                                 </div>
-                                                <div class="price-delivery">
-                                                    <h5>Phí vận chuyển</h5>
-                                                    <p>30.000đ</p>
 
-                                                </div>
                                                 <div class="total-price">
                                                     <h5>Tổng </h5>
                                                     <p>{{ $p->order_total }}</p>
@@ -350,107 +356,7 @@
             </div>
 
                <!-- Lich su don hang  -->
-        <div class="history-order active-user-information">
-            <div class="status-order">
-                <div class="code-order"
-                    style="background: linear-gradient(rgb(255, 149, 34) 0%, rgb(218, 84, 9) 50%); min-height: 50px;border-radius: .7rem;
-                    border: .1rem solid rgba(0, 0, 0, .2);">
-                    Mã số đơn hàng :M12345</div>
-                <div class="order-information">
-                    <div class="order-header">
-                        <div class="header-text-order">
-                            <h4 style="color: green">Hoàn thành </h4>
-                        </div>
-                        <div class="delete-oreder">
-                            <a href="">
-                                <p style="color:#be9c79">
-                                    <i class="fa-solid fa-comment-dots" style="padding:1 rem 1rem ; "></i>Viết đáng giá
-                                </p>
-                            </a>
-                        </div>
-                    </div>
 
-
-
-                </div>
-                <div class="total"
-                    style="background: linear-gradient(rgb(255, 149, 34) 0%, rgb(218, 84, 9) 50%); min-height: 50px;
-                    border: .1rem solid rgba(0, 0, 0, .2);">
-                    <div class="header-text">
-                        <h3 style="padding-left:1rem ;">Tổng cộng </h3>
-                    </div>
-                    <hr>
-                    <div class="footer-header">
-                        <div class="price-footer">
-                            <h5>Thành tiền </h5>
-                            <p>105.000đ</p>
-
-                        </div>
-                        <div class="price-delivery">
-                            <h5>Phí vận chuyển</h5>
-                            <p>30.000đ</p>
-
-                        </div>
-                        <div class="total-price">
-                            <h5>Tổng </h5>
-                            <p>105.000đ</p>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="status-order">
-                <div class="code-order"
-                    style="background: linear-gradient(rgb(255, 149, 34) 0%, rgb(218, 84, 9) 50%); min-height: 50px;border-radius: .7rem;
-                    border: .1rem solid rgba(0, 0, 0, .2);">
-                    Mã số đơn hàng :M12345</div>
-                <div class="order-information">
-                    <div class="order-header">
-                        <div class="header-text-order">
-                            <h4 style="color:black;">Đã hủy</h4>
-                        </div>
-                        <!-- <div class="delete-oreder">
-                                                                                                                                                                                                    <a href="">
-                                                                                                                                                                                                        <p style="color:#be9c79">
-                                                                                                                                                                                                            <i class="fa-solid fa-comment-dots" style="padding:1 rem 1rem ; "></i>Viết đáng giá</p>
-                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                </div> -->
-                    </div>
-
-
-
-
-                </div>
-                <div class="total"
-                    style="background: linear-gradient(rgb(255, 149, 34) 0%, rgb(218, 84, 9) 50%); min-height: 50px;
-                    border-bottom: .1rem solid rgba(0, 0, 0, .2);">
-                    <div class="header-text">
-                        <h3 style="padding-left:1rem ;">Tổng cộng </h3>
-                    </div>
-                    <hr>
-                    <div class="footer-header">
-                        <div class="price-footer">
-                            <h5>Thành tiền </h5>
-                            <p>105.000đ</p>
-
-                        </div>
-                        <div class="price-delivery">
-                            <h5>Phí vận chuyển</h5>
-                            <p>30.000đ</p>
-
-                        </div>
-                        <div class="total-price">
-                            <h5>Tổng </h5>
-                            <p>105.000đ</p>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
         </div>
 
     </div>

@@ -13,11 +13,31 @@
                     </h5>
                 </div>
                 <div class="modal-body-address">
-
                     <div>
                         <input type="text" class="form-group-address" placeholder="Vui lòng nhập địa chỉ"
                             name="shipping_address">
                     </div>
+                        {{-- <div class="card-body">
+                            <div class="form-group " >
+                                <select name="city" id="city" class="form-control input-sm m-bot15 choose city form-group-address  shipping_address">
+                                    <option value="">--Chọn tỉnh thành phố --</option>
+                                    @foreach($city as $thanhpho)
+                                    <option value="{{$thanhpho->matp}}">{{$thanhpho->name_city}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="province" id="province" class="form-control input-sm m-bot15 choose province form-group-address province_btn shipping_address">
+                                    <option value="">--Chọn quận huyện--</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="wards" id="wards" class="form-control input-sm m-bot15  wards form-group-address wards_btn shipping_address ">
+                                    <option value="">--Chon xã phường--</option>
+                                </select>
+                            </div>
+                        </div> --}}
+
                     <div class="btn-address"
                         style="    background:#fd7e14;
                     border-radius: 1rem;
@@ -292,13 +312,12 @@
                                             <td style="font-size: 1.6rem;">{{ number_format($p->price) }}</td>
                                             <td>
                                                 <p style="font-size: 1.6rem ;padding-left:1.5rem"> <span
-                                                        class="size-product-bills">Vua</span><i>x</i><span
-                                                        class="amount-size-bills" style="font-size: 1.5rem;">1</span></p>
+                                                        class="size-product-bills">{{ $p->options->size }}</p>
                                             </td>
                                             <td style="font-size: 1.6rem;">
                                                 <p style="padding:1rem 2rem ;"> <span>
                                                         <?php
-                                                        $subtotal = $p->price * $p->qty;
+                                                        $subtotal = $p->price * $p->qty + $p->options->size;
                                                         echo number_format($subtotal);
                                                         ?>
                         </div>
@@ -306,8 +325,9 @@
                         </span></p>
                         </td>
                         <td>
-                            <p style="padding:3rem 2rem ;"> <a href="{{ URL::to('delete-to-cart/' . $p->rowId) }}"
+                            <p style="padding:3rem 2rem ;"  onclick="return confirm('Bạn chắc chứ ')"> <a href="{{ URL::to('delete-to-cart/' . $p->rowId) }}"
                                     style="color: #fd7e14"><i class="fa-solid fa-trash-can"></i></a>
+
                             </p>
                         </td>
 
@@ -327,12 +347,12 @@
                         <div class="footer-header">
                             <div class="price-footer">
                                 <h5>Thành tiền </h5>
-                                <p>{{ Cart::subtotal() . '' . 'đ' }}</p>
+                                <p>{{ Cart::subtotal() . '' . 'VNĐ' }}</p>
 
                             </div>
                             <div class="price-delivery">
-                                <h5>Phí vận chuyển<br> (miễn phí ship cho đơn trên 300.000đ)</h5>
-                                <p>30.000đ</p>
+                                <h5>Phí vận chuyển<br></h5>
+                                <p>30.000VNĐ</p>
 
                             </div>
                         </div>
@@ -340,11 +360,11 @@
                             <div class="heading-text">
                                 <h4 style="margin-left:2rem;">Thành tiền </h4>
                                 <div class="price-bill">
-                                    <p style="margin-left:2rem;">{{ Cart::subtotal() . '' . 'đ' }}</p>
+                                    <p style="margin-left:2rem;">{{ Cart::total() . '' . 'VNĐ' }}</p>
                                 </div>
                             </div>
 
-                            <button class="button-bills">
+                            <button class="button-bills" onclick="return confirm('Bạn có muốn đặt hàng ')">
                                 <p>Đặt hàng</p>
                             </button>
 
@@ -383,7 +403,51 @@
             $(".button-bills").click(function(e) {
                 validationCheck(e);
             })
+            // $('.add_delivery').click(function(){
+            //     var city = $('.city').val();
+            //     var province = $('.province').val();
+            //     var wards = $('.wards').val();
+            //     var fee_ship = $('.fee_ship').val();
+            //     var _token = $('input[name="_token"]').val();
+            //     $.ajax({
+            //         url: "{{ URL::to('admin/insert_delivery')}}",
+            //         method: 'post',
+            //         data: {
+            //             city:city,
+            //             province:province,
+            //             wards:wards,
+            //             fee_ship:fee_ship,
+            //             _token: _token
+            //         },
+            //         success: function(data) {
+            //             alert('Them phi van chuyen thanh cong');
+            //         }
+            //     });
+            // });
+            // $('.choose').on('change',function() {
+            //     var action = $(this).attr('id');
+            //     var ma_id = $(this).val();
+            //     var _token = $('input[name="_token"]').val();
+            //     var result = '';
 
+            //     if (action == 'city') {
+            //         result = 'province';
+            //     } else {
+            //         result = 'wards';
+            //     }
+            //     $.ajax({
+            //         url: '{{ url('select_delivery') }}',
+            //         method: 'POST',
+            //         data: {
+            //             action: action,
+            //             ma_id: ma_id,
+            //             _token: _token
+            //         },
+            //         success: function(data) {
+            //             $('#' + result).html(data);
+            //         }
+            //     });
+            // });
         })
 
 
@@ -499,9 +563,9 @@
 
 
             }
-            if (/[0-9]/.test(phone) == true && /[a-zA-Z0-9]/.test(phone) == true && /[a-zA-Z]/.test(phone) == false
-            && phone.length != "" && phone.length  >= 10 &&
-            phone.length <=12) {
+            if (/[0-9]/.test(phone) == true && /[a-zA-Z0-9]/.test(phone) == true && /[a-zA-Z]/.test(phone) == false &&
+                phone.length != "" && phone.length >= 10 &&
+                phone.length <= 12) {
                 $("#phone").attr("readonly", true);
 
 

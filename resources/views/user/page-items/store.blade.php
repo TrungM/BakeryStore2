@@ -21,7 +21,7 @@
                             </div>
                             <div class="map-store">
                                 <a href="">
-                                     <span>Xem ban do</span>
+                                     <span>Xem bản đồ </span>
                                 </a>
                             </div>
                             <div class="address-store">
@@ -68,7 +68,7 @@
                             </div>
                             <div class="map-store">
                                 <a href="">
-                                     <span>Xem ban do</span>
+                                    <span>Xem bản đồ </span>
                                 </a>
                             </div>
                             <div class="address-store">
@@ -115,7 +115,7 @@
                             </div>
                             <div class="map-store">
                                 <a href="">
-                                     <span>Xem ban do</span>
+                                    <span>Xem bản đồ </span>
                                 </a>
                             </div>
                             <div class="address-store">

@@ -12,6 +12,10 @@ const modalBodyTimesInput = document.querySelector(".modal-body-times input");
 const modalBodyTimes = document.querySelector(".modal-body-times select");
 const checkoutAddressText1 = document.querySelector(" .checkout-time .checkout-address-text h5 span");
 const checkoutAddressTextTimes = document.querySelector(" .checkout-time .checkout-address-text p span");
+// const city_Btn = document.querySelector("#city");
+// const province_Btn = document.querySelector("#province");
+// const wards_Btn = document.querySelector("#wards");
+
 const buttonTimes=document.querySelector(" .btn-times");
 const errorAddress=document.querySelector("#error_address");
 const errorDay=document.querySelector("#error_day");
@@ -23,6 +27,7 @@ console.log(modalBodyTimesInput.value);
 
 
 })
+
 modalBodyTimes.addEventListener("click", function(e){
    checkoutAddressTextTimes.textContent = `${modalBodyTimes.value}`
 
@@ -47,7 +52,7 @@ btnAddress.addEventListener("click", function(e){
         errorAddress.setAttribute("style","display:none")
     }
    modalContentAddress.classList.remove("active-address")
-   checkoutAddressText.textContent = `${modalBodyAddressInput.value}`
+   checkoutAddressText.textContent = `${modalBodyAddressInput.value }`
 
 })
 formGroupAddress.addEventListener("click", function (e) {

@@ -10,7 +10,7 @@
             <a href=" {{ URL::to('home') }}">home</a>
             <a href=" {{ URL::to('product') }}">product</a>
             <a href="{{ URL::to('post-bai-viet') }}  ">blog</a>
-            <a href="#gallery">Service</a>
+            <a href="{{ URL::to('service') }}">Service</a>
             <a href="{{ URL::to('store') }}">Store</a>
         </nav>
 
@@ -88,7 +88,7 @@
 
     <div class="products-container">
 
-        <h3 class="title">your products</h3>
+        <h3 class="title">Sản phẩm của bạn </h3>
 
         <div class="box-container">
             <?php
@@ -106,20 +106,20 @@
                         <h3>{{ $p->name }}</h3>
                         <form action="{{ URL::to('update_cart_quantity') }}" method="POST">
                             @csrf
-                            <span> quantity : </span>
+                            <span> Số lượng : </span>
                             <input type="number" name="cart_quantity" value="{{ $p->qty }}" id=""
-                                min="1">
+                            min="1" max="10">
                             <input type="hidden" name="rowId_cart" value="{{ $p->rowId }}" id="">
                             <br>
                             <button class="btn" type="submit" style="font-size: 1.2rem">Cập nhật</button>
+                            <br>
+                            <br>
+                            <span>Size : </span>
+                                  <span class="size"> {{ $p->options->size }} </span>
+                                  <input type="hidden" name="cart_size"  value="{{ $p->options->size }}" id=""  >
+                            <br><br>
                         </form>
-
-
-                        <br>
-                        {{-- <span> size : </span>
-                              <span class="size">Vua</span> --}}
-                        <br><br>
-                        <span> price : </span>
+                        <span> giá : </span>
                         <span class="price"> {{ number_format($p->price) }}</span>
                     </div>
                 </div>
@@ -132,32 +132,40 @@
 
     <div class="cart-total">
 
-        <h3 class="title"> cart total </h3>
+        <h3 class="title"> Tổng tiền giỏ hàng </h3>
 
         <div class="box">
 
-            <h3 class="subtotal"> subtotal : <span>{{ Cart::subtotal() }}VNĐ</span> </h3>
-            <h3 class="total"> total : <span>{{ Cart::subtotal() }}VNĐ</span> </h3>
+            <h3 class="subtotal"> tổng phụ : <span>{{ Cart::subtotal() }}VNĐ</span> </h3>
+            <h3 class="total"> tổng tiền  : <span>{{ Cart::subtotal()}}VNĐ</span> </h3>
             <?php
             $customer_id= Session::get('id');
 
             if ($customer_id != null) {
 
             ?>
-            <a href="{{ URL::to('checkout') }}" class="btn">proceed to checkout</a>
+            @if (Cart::count()==0)
+            <a href="{{ URL::to('product') }}" class="btn"  onclick="return alert('Giỏ hàng của bạn trống !!!! ')">Thanh toán giỏ hàng </a>
+
+            @else
+            <a href="{{ URL::to('checkout') }}" class="btn">Thanh toán giỏ hàng</a>
+            @endif
             <?php
         }else{
             ?>
-            <a href="{{ URL::to('login_checkout') }}" class="btn">proceed to checkout</a>
+            <a href="{{ URL::to('login_checkout') }}" class="btn"
+            onclick="return confirm('Vui lòng đăng nhập để thanh toán ')">Thanh toán giỏ hàng</a>
 
             <?php
         }
 
-?>
+                   ?>
         </div>
 
     </div>
     <link rel="stylesheet" href="{{ asset('user/css/nav.css') }}">
     <script src="{{ asset('user/js/nav.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </section>

@@ -44,7 +44,7 @@
                                         <td><img style="width:100px" src="{{ url('admin/img/' . $post->post_images) }}"
                                                 alt=""></td>
                                         <td>{{ $post->post_desc }}</td>
-                                        <td>{{ $post->post_content }}</td>
+                                        <td>{!! $post->post_content !!}</td>
                                         {{-- <td>{{ $post->post_meta_keywords }}</td> --}}
                                         {{-- <td>{{ $p->created_at }}</td> --}}
 

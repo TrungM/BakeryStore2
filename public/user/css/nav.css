@@ -580,7 +580,7 @@ section {
     object-fit: cover;
 }
 
-.menu .box-container .box .image .fa-heart {
+.menu .box-container .box .image .fa-eye{
     position: absolute;
     top: 2.5rem;
     right: 2.5rem;
@@ -594,7 +594,7 @@ section {
     color: var(--black);
 }
 
-.menu .box-container .box .image .fa-heart:hover {
+.menu .box-container .box .image .fa-eye:hover {
     background-color: var(--main-color);
     transform: rotate(10deg);
     transition: all 0.5s;

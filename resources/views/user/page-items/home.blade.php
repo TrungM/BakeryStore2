@@ -1,87 +1,87 @@
    @extends('user.layout.index');
    @section('content')
-   <!-- home section starts  -->
-    <div class="swiper home-slider">
+       <!-- home section starts  -->
+       <div class="swiper home-slider">
 
-        <div class="swiper-wrapper wrapper">
-            <div class="swiper-slide slide">
-                <div class="home-bg">
+           <div class="swiper-wrapper wrapper">
+               <div class="swiper-slide slide">
+                   <div class="home-bg">
 
-                    <section class="home" id="home">
+                       <section class="home" id="home">
 
-                        <div class="content">
-                            <h3>slice cake</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                                <a href="{{URL::to('submenu/2')}}" class="btn">our menu</a>
-                            </div>
+                           <div class="content">
+                               <h3>slice cake</h3>
+                               <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
+                                   mollitia laudantium dolorum dolore.</p>
+                               <a href="{{ URL::to('submenu/2') }}" class="btn">our menu</a>
+                           </div>
 
-                    </section>
+                       </section>
 
-                </div>
-            </div>
-            <div class="swiper-slide slide">
-                <div class="home-bg1">
+                   </div>
+               </div>
+               <div class="swiper-slide slide">
+                   <div class="home-bg1">
 
-                    <section class="home" id="home">
+                       <section class="home" id="home">
 
-                        <div class="content">
-                            <h3>whole cake</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                                <a href="{{URL::to('submenu/1')}}" class="btn">our menu</a>
-                            </div>
+                           <div class="content">
+                               <h3>whole cake</h3>
+                               <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
+                                   mollitia laudantium dolorum dolore.</p>
+                               <a href="{{ URL::to('submenu/1') }}" class="btn">our menu</a>
+                           </div>
 
-                    </section>
+                       </section>
 
-                </div>
-            </div>
-            <div class="swiper-slide slide">
-                <div class="home-bg2">
+                   </div>
+               </div>
+               <div class="swiper-slide slide">
+                   <div class="home-bg2">
 
-                    <section class="home" id="home">
+                       <section class="home" id="home">
 
-                        <div class="content">
-                            <h3>pastry</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                                <a href="{{URL::to('submenu/3')}}" class="btn">our menu</a>
-                            </div>
+                           <div class="content">
+                               <h3>pastry</h3>
+                               <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
+                                   mollitia laudantium dolorum dolore.</p>
+                               <a href="{{ URL::to('submenu/3') }}" class="btn">our menu</a>
+                           </div>
 
-                    </section>
+                       </section>
 
-                </div>
-            </div>
+                   </div>
+               </div>
 
-        </div>
-        <div class="swiper-button-next color-El"></div>
-        <div class="swiper-button-prev color-El"></div>
-        <div class="swiper-pagination"></div>
-    </div>
+           </div>
+           <div class="swiper-button-next color-El"></div>
+           <div class="swiper-button-prev color-El"></div>
+           <div class="swiper-pagination"></div>
+       </div>
 
-    <!-- home section ends -->
+       <!-- home section ends -->
 
-    <!-- about section starts  -->
+       <!-- about section starts  -->
 
-    <section class="about" id="about">
+       <section class="about" id="about">
 
-        <div class="image">
-            <img src= {{asset('user/images/calum-lewis-8Nc_oQsc2qQ-unsplash.jpg')}} alt="" >
-        </div>
+           <div class="image">
+               <img src={{ asset('user/images/calum-lewis-8Nc_oQsc2qQ-unsplash.jpg') }} alt="">
+           </div>
 
-        <div class="content">
-            <h3>Good morning. <br>I could help you have a good breakfast</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam suscipit sunt repellendus, dolorum
-                recusandae placeat quae. Iste eaque aspernatur, animi deleniti voluptas, sunt molestias eveniet sint
-                consectetur facere a ex.</p>
-            <a href="{{URL::to('submenu/5')}}" class="btn">our menu</a>
-        </div>
+           <div class="content">
+               <h3>Good morning. <br>I could help you have a good breakfast</h3>
+               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam suscipit sunt repellendus, dolorum
+                   recusandae placeat quae. Iste eaque aspernatur, animi deleniti voluptas, sunt molestias eveniet sint
+                   consectetur facere a ex.</p>
+               <a href="{{ URL::to('submenu/5') }}" class="btn">our menu</a>
+           </div>
 
-    </section>
+       </section>
 
-    <!-- about section ends -->
+       <!-- about section ends -->
 
-    {{-- <!-- facility section starts  -->
+       {{-- <!-- facility section starts  -->
 
     <section class="facility">
 
@@ -126,344 +126,188 @@
 
     <!-- facility section ends --> --}}
 
-    <!-- menu section starts  -->
+       <!-- menu section starts  -->
 
-    <section class="menu" id="menu">
-        <div class="heading">
-            <h3> our menu popular</h3>
+       <section class="menu" id="menu">
+           <div class="heading">
+               <h3> our menu popular</h3>
 
-        </div>
-
-
-        <div class="box-container">
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="image">
-                    <img src={{asset('user/images/menu-1.jpg')}} alt="">
-                    <div class="box-heart">
-                        <a href="#" class="fas fa-heart heart"></a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <h3>delicious food</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, accusantium.</p>
-                    <a href="#" class="btn">add to cart</a>
-                    <span class="price">$12.99</span>
-                </div>
-            </div>
+           </div>
 
 
-
-
-        </div>
-
-    </section>
-
-    <!-- menu section ends -->
-
-    <!-- gallery section starts  -->
-
-    <section class="gallery" id="gallery">
-
-        <div class="heading">
-            <img src={{asset('user/images/heading-img.png')}} alt="">
-            <h3>our gallery</h3>
-        </div>
-
-        <div class="box-container">
-            <img src={{asset('user/images/bakery1.jpg')}} alt="">
-            <img src={{asset('user/images/gallery-2.webp')}} alt="">
-            <img src={{asset('user/images/gallery-3.webp')}} alt="">
-            <img src={{asset('user/images/bakery4.jpg')}} alt="">
-            <img src={{asset('user/images/bakery5.jpg')}} alt="">
-            <img src={{asset('user/images/barkery6.jpg')}} alt="">
-        </div>
-
-    </section>
-
-    <!-- gallery section ends -->
-
-    <!-- about section starts  -->
-
-    <section class="delivery" id="delivery">
-        <div class="heading">
-            <img src={{asset('user/images/heading-img.png')}} alt="">
-            <h3> about us </h3>
-        </div>
-
-
-        <div class="row">
-
-            <div class="image">
-                <img src={{asset('user/images/our-team-5.jpg')}} alt="">
-            </div>
-
-            <div class="content">
-                <h3> why choose us? </h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, sequi corrupti corporis quaerat
-                    voluptatem ipsam neque labore modi autem, saepe numquam quod reprehenderit rem? Tempora aut soluta
-                    odio corporis nihil!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, nemo. Sit porro illo eos cumque
-                    deleniti iste alias, eum natus.</p>
-                <div class="icons-container">
-                    <a href="">
-                        <div class="icons">
-                            <i class="fas fa-shipping-fast"></i>
-                            <span>free delivery</span>
+           <div class="box-container">
+               @foreach ($product_home as $a)
+                   <div class="box">
+                       <div class="image">
+                        <img src={{ url('user/images/' . $a->product_images) }} alt="">
+                        <div class="box-heart">
+                            <a href="{{ URL::to('view-product/' . $a->product_id) }}" class="fas fa-eye"></a>
                         </div>
-                    </a>
-                    <a href="">
-                        <div class="icons">
-                            <i class="fas fa-dollar-sign"></i>
-                            <span>easy payments</span>
-                        </div>
-                    </a>
-                    <a href="">
-                        <div class="icons">
-                            <i class="fas fa-headset"></i>
-                            <span>24/7 service</span>
-                        </div>
-                </div>
-                </a>
+                       </div>
+                       <div class="content">
+                           <div class="stars">
+                            @if ($a->product_star == 1)
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                        @elseif ($a->product_star == 2)
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                        @elseif ($a->product_star == 3)
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                        @elseif ($a->product_star == 4)
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                        @elseif ($a->product_star == 5)
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:be9c79"></i>
+                        @elseif ($a->product_star == 0)
+                            <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
+                        @endif
+                           </div>
+                           <h3> {{$a->product_name}}</h3>
+                           <p>{{ $a->product_description }}</p>
+                           <span class="price">{{number_format($a->product_price)}}VNĐ
+                        </span>
+                       </div>
+                   </div>
+               @endforeach
 
-                <a href="#" class="btn">learn more</a>
-            </div>
 
-        </div>
 
-    </section>
 
-    <!-- about section ends -->
 
-    <!-- contact section starts  -->
 
-    <section class="contact" id="contact">
+           </div>
 
-        <div class="heading">
-            <img src={{asset('user/images/heading-img.png')}} alt="">
-            <h3>contact us</h3>
-        </div>
+       </section>
 
-        <div class="row">
+       <!-- menu section ends -->
 
-            <div class="image">
-                <img src={{asset('user/images/contact-img.svg')}} alt="">
-            </div>
+       <!-- gallery section starts  -->
 
-            <form action="" method="post" class="formEmail">
-                <h3>Sign in by email</h3>
-                <input type="email" name="email" required class="box" maxlength="20" placeholder="Insert your email">
-                <button class="btn">
-                    <p>Sign in</p>
-                </button>
-            </form>
+       <section class="gallery" id="gallery">
 
-        </div>
+           <div class="heading">
+               <img src={{ asset('user/images/heading-img.png') }} alt="">
+               <h3>our gallery</h3>
+           </div>
 
-    </section>
-<script>
-    var swiper = new Swiper(".home-slider", {
-    cssMode: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-        el: ".swiper-pagination",
-    },
-    mousewheel: true,
-    keyboard: true,
-    loop: true,
-});
+           <div class="box-container">
+               <img src={{ asset('user/images/bakery1.jpg') }} alt="">
+               <img src={{ asset('user/images/gallery-2.webp') }} alt="">
+               <img src={{ asset('user/images/gallery-3.webp') }} alt="">
+               <img src={{ asset('user/images/bakery4.jpg') }} alt="">
+               <img src={{ asset('user/images/bakery5.jpg') }} alt="">
+               <img src={{ asset('user/images/barkery6.jpg') }} alt="">
+           </div>
 
-</script>
-    <!-- contact section ends -->
-@endsection
+       </section>
+
+       <!-- gallery section ends -->
+
+       <!-- about section starts  -->
+
+       <section class="delivery" id="delivery">
+           <div class="heading">
+               <img src={{ asset('user/images/heading-img.png') }} alt="">
+               <h3> about us </h3>
+           </div>
+
+
+           <div class="row">
+
+               <div class="image">
+                   <img src={{ asset('user/images/our-team-5.jpg') }} alt="">
+               </div>
+
+               <div class="content">
+                   <h3> why choose us? </h3>
+                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, sequi corrupti corporis quaerat
+                       voluptatem ipsam neque labore modi autem, saepe numquam quod reprehenderit rem? Tempora aut soluta
+                       odio corporis nihil!</p>
+                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, nemo. Sit porro illo eos cumque
+                       deleniti iste alias, eum natus.</p>
+                   <div class="icons-container">
+                       <a href="">
+                           <div class="icons">
+                               <i class="fas fa-shipping-fast"></i>
+                               <span>free delivery</span>
+                           </div>
+                       </a>
+                       <a href="">
+                           <div class="icons">
+                               <i class="fas fa-dollar-sign"></i>
+                               <span>easy payments</span>
+                           </div>
+                       </a>
+                       <a href="">
+                           <div class="icons">
+                               <i class="fas fa-headset"></i>
+                               <span>24/7 service</span>
+                           </div>
+                   </div>
+                   </a>
+
+                   <a href="{{URL::to('service')}}" class="btn">learn more</a>
+               </div>
+
+           </div>
+
+       </section>
+
+       <!-- about section ends -->
+
+       <!-- contact section starts  -->
+
+       <section class="contact" id="contact">
+
+           <div class="heading">
+               <img src={{ asset('user/images/heading-img.png') }} alt="">
+               <h3>contact us</h3>
+           </div>
+
+           <div class="row">
+
+               <div class="image">
+                   <img src={{ asset('user/images/contact-img.svg') }} alt="">
+               </div>
+
+               <form action="" method="post" class="formEmail">
+                   <h3>Sign in by email</h3>
+                   <input type="email" name="email" required class="box" maxlength="20"
+                       placeholder="Insert your email">
+                   <button class="btn">
+                       <p>Sign in</p>
+                   </button>
+               </form>
+
+           </div>
+
+       </section>
+       <script>
+           var swiper = new Swiper(".home-slider", {
+               cssMode: true,
+               autoplay: {
+                   delay: 5000,
+                   disableOnInteraction: false,
+               },
+               navigation: {
+                   nextEl: ".swiper-button-next",
+                   prevEl: ".swiper-button-prev",
+               },
+               pagination: {
+                   el: ".swiper-pagination",
+               },
+               mousewheel: true,
+               keyboard: true,
+               loop: true,
+           });
+       </script>
+       <!-- contact section ends -->
+   @endsection
