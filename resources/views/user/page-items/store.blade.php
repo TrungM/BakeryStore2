@@ -20,7 +20,8 @@
                                 HCM Hoa Hồng
                             </div>
                             <div class="map-store">
-                                <a href="">
+                                <a href="https://goo.gl/maps/RnKXVm2Y7F8V9d1HA">
+
                                      <span>Xem bản đồ </span>
                                 </a>
                             </div>

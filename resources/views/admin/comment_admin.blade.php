@@ -55,9 +55,9 @@
                                         </td>
                                         <td>{{ $a->comment_name }}</td>
                                         <td>{{ $a->comment_date }}</td>
-                                        <td><a
+                                        {{-- <td><a
                                                 href="{{ url('view-product/' . $a->product->product_id) }}">{{ $a->product->product_name }}</a>
-                                        </td>
+                                        </td> --}}
 
                                         <td>
                                             @if ($a->comment_status == 1)

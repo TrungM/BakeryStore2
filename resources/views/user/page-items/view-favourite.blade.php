@@ -14,54 +14,7 @@
 
                 </div>
             </div>
-            <div class="swiper-slide slide">
-                <div class="home-bg">
 
-                    <section class="home" id="home">
-
-                        <div class="content">
-                            <h3>Breakfast</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                            <a href="#about" class="btn">about us</a>
-                        </div>
-
-                    </section>
-
-                </div>
-            </div>
-            <div class="swiper-slide slide">
-                <div class="home-bg">
-
-                    <section class="home" id="home">
-
-                        <div class="content">
-                            <h3>Cake</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                            <a href="#about" class="btn">about us</a>
-                        </div>
-
-                    </section>
-
-                </div>
-            </div>
-            <div class="swiper-slide slide">
-                <div class="home-bg">
-
-                    <section class="home" id="home">
-
-                        <div class="content">
-                            <h3>Combo </h3>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut officia, accusantium
-                                mollitia laudantium dolorum dolore.</p>
-                            <a href="#about" class="btn">about us</a>
-                        </div>
-
-                    </section>
-
-                </div>
-            </div>
         </div>
 
     </div>

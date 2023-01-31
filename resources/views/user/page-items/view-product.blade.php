@@ -303,7 +303,7 @@
                 var comment_content = $(".comment_content").val();
                 var comment_name = $(".comment_name").val();
                 var _token = $('input[name="_token"]').val();
-                // if(comment_name==""){
+                // if(comment_name==""){`
                 //     alert("hi");
                 // }
                 if(comment_content.length==18 || comment_name==""){

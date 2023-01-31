@@ -33,8 +33,8 @@
                                     <th>Tên bài viết</th>
                                     <th>Hình ảnh bài viết</th>
                                     <th>Slug</th>
-                                    <th>Mô tả bài viết</th>
-                                    <th>Từ khóa bài viết</th>
+                                    {{-- <th>Mô tả bài viết</th> --}}
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,7 +44,7 @@
                                         <td><img style="width:100px" src="{{ url('admin/img/' . $post->post_images) }}"
                                                 alt=""></td>
                                         <td>{{ $post->post_desc }}</td>
-                                        <td>{!! $post->post_content !!}</td>
+                                        {{-- <td>{!! $post->post_content !!}</td> --}}
                                         {{-- <td>{{ $post->post_meta_keywords }}</td> --}}
                                         {{-- <td>{{ $p->created_at }}</td> --}}
 
@@ -54,10 +54,10 @@
                                                 href="{{ URL::to('admin/view_order/') }}">
                                                 <i class="fas fa-folder"></i> View
                                             </a> --}}
-                                            <a class="btn btn-info btn-sm"
+                                            {{-- <a class="btn btn-info btn-sm"
                                                 href="{{ url::to('update_post/' . $post->post_id) }}">
                                                 <i class="fas fa-pencil-alt"></i> Edit
-                                            </a>
+                                            </a> --}}
                                             <a class="btn btn-danger btn-sm"
                                                 href="{{ url::to('delete-post/' . $post->post_id) }}"
                                                 onclick="return confirm('Bạn có muốn xóa')">

@@ -34,7 +34,6 @@
                     <th>Email</th>
                     <th>Full name</th>
                     <th>Role</th>
-                    <th>Active</th>
                     <th>Actions</th>
                     <th>Order</th>
                 </tr>
@@ -42,14 +41,15 @@
             <tbody>
                 @foreach($ds as $u)
                 <tr>
-                    <td>{{ $u->id }}</td>
-                    <td>{{ $u->email }}</td>
-                    <td>{{ $u->name }}</td>
+                    <td>{{ $u->customer_id }}</td>
+                    <td>{{ $u->customer_email }}</td>
+                    <td>{{ $u->customer_name }}</td>
                     <td>{{ $u->role == 1 ? 'Admin' : 'User' }}</td>
-                    <td>{{ $u->is_active == 1 ? 'Active' : 'Disable' }}</td>
-                    <td><a href="{{url("admin/resetPassword/{$u->id}")}}">Reset Password</a> |
-                        <a href="{{url("user/details/{$u->id}")}}">View Profile</a>
+                    <td><a href="{{url("admin/resetPassword/{$u->customer_id}")}}">Reset Password</a> |
+                        <a href="{{url("admin/details/{$u->customer_id}")}}">View Profile</a>|
+                        <a href="{{ url("admin/customer_order/{$u->customer_id}") }}">View Order</a>
                     </td>
+
                 </tr>
                 @endforeach
             </tbody>

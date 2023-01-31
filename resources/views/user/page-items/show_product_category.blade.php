@@ -20,7 +20,7 @@
                         @endforeach
                     </ul>
                     <div class="arrange-header">
-                        Oder by
+                        Sắp xếp
                     </div>
                     <div class="arrange-div">
 

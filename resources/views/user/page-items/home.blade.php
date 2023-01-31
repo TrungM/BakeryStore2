@@ -274,18 +274,11 @@
 
            <div class="row">
 
-               <div class="image">
-                   <img src={{ asset('user/images/contact-img.svg') }} alt="">
+               <div class="image" >
+                   <img src={{ asset('user/images/contact-img.svg') }} alt="" style="width:80%">
                </div>
 
-               <form action="" method="post" class="formEmail">
-                   <h3>Sign in by email</h3>
-                   <input type="email" name="email" required class="box" maxlength="20"
-                       placeholder="Insert your email">
-                   <button class="btn">
-                       <p>Sign in</p>
-                   </button>
-               </form>
+
 
            </div>
 

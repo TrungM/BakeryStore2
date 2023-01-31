@@ -53,7 +53,7 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = DB::table('tb_user')->where('role', 0)->get();
+        $users = DB::table('tb_customer')->where('role', 0)->get();
         return view('admin.customer')->with(['ds' => $users]);
     }
 
@@ -128,5 +128,18 @@ class AdminController extends Controller
             'customer_address' => $user['address'],
         ]);
         return redirect('admin/staff');
+    }
+
+
+    public function customerOrder($id){
+        $order = DB::table('tb_order')->where('customer_id', $id)->get();
+        $user = DB::table('tb_customer')->where('customer_id', $id)->first();
+        return view('admin.customer_order', ['u' => $user], ['ds'=>$order]);
+    }
+
+    public function customerOrderdetail($code){
+        $detail = DB::table('tb_order_detail')->where('order_code', $code)->get();
+
+        return view('admin.customer_orderdetail', ['ds' => $detail]);
     }
 }

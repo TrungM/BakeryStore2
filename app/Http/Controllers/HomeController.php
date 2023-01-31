@@ -20,5 +20,8 @@ class HomeController extends Controller
     public function service(){
         return view("user.page-items.service");
     }
+    public function sign(){
+        return view("user.page-items.sign");
+    }
 
 }
