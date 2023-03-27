@@ -9,10 +9,9 @@ class wards extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-        'name_xaphuong', 'type','maqh'
+        'xaid' ,   'name', 'type','maqh'
     ];
 
-    protected $primaryKey = 'xaid';
-    protected $table = 'xaphuongthitran';
+    protected $table = 'tb_wards';
 
 }

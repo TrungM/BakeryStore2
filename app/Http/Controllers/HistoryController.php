@@ -18,35 +18,6 @@ use phpDocumentor\Reflection\PseudoTypes\False_;
 
 class HistoryController extends Controller
 {
-
-
-    public function history_order($customer_id)
-    {
-        $ds = DB::table('tb_order')->where("customer_id", $customer_id)->orderBy("order_id", "DESC")->get();
-
-        return view("user.page-items.history",["history"=>$ds]);
-    }
-    public  function userinformation($customer_id)
-    {
-        $ds = DB::table('tb_order')->where("customer_id", $customer_id)->orderBy("order_id", "DESC")->paginate(1);
-        $customer_detail = DB::table('tb_customer')->where("customer_id", $customer_id)->get();
-
-        return view(
-            "user.page-items.user-information",
-            ['cus_detail' => $customer_detail],
-            ["status" => $ds],
-        );
-    }
-
-    public  function  DeleteOrder(Request $request, $order_code)
-    {
-        $customer_id = Session::get("id");
-        DB::table('tb_order')
-            ->join('tb_order_detail', 'tb_order_detail.order_code', '=', 'tb_order.order_code')
-            ->where('tb_order.order_code', $order_code)->delete();
-        // dd($menuOrder_code);
-        return redirect("user-infromation/" . $customer_id);
-    }
     public function replyFeedback(Request $request)
     {
         $data = $request->all();
@@ -127,7 +98,7 @@ class HistoryController extends Controller
                 }
             }
             $feedback->feedback = $data['content_feedback'];
-            $feedback->customer_id = $data['customer_id'];
+            $feedback->customer_id = Session::get("customer_id");
             $feedback->product_id = $product_id;
             $feedback->feedback_status = 0;
             $feedback->feedback_reply = 0;
@@ -137,7 +108,7 @@ class HistoryController extends Controller
 
 
             $feedback->save();
-            return redirect()->back()->with("message1", "Bạn đã thêm đáng giá thành công " . $products);
+            return redirect("purchase/".Session::get("customer_id"));
         }
     }
 
@@ -219,14 +190,13 @@ class HistoryController extends Controller
     {
         $product_id = $request->product_id;
         $data = $request->all();
-        // $feedback = Feedback::where('product_id', $product_id)->where("feedback_status", 0)->get();
-        // $rating = Rating::where('product_id', $product_id)->get();
+
 
         $order_by_rating  = DB::table('tb_feedback')
             ->join('tb_rating', 'tb_rating.order_code', '=', 'tb_feedback.order_code')
-            ->join('tb_customer', 'tb_customer.customer_id', '=', 'tb_feedback.customer_id')
+            ->join('tb_user', 'tb_user.id', '=', 'tb_feedback.customer_id')
             ->join('tb_gallery_feedback', 'tb_gallery_feedback.feedback_code', '=', 'tb_feedback.feedback_code')
-            ->select('tb_feedback.*', 'tb_rating.*', 'tb_customer.*', 'tb_gallery_feedback.*')
+            ->select('tb_feedback.*', 'tb_rating.*', 'tb_user.*', 'tb_gallery_feedback.*')
             ->where('product_id', $product_id)
             ->where("feedback_reply", 0)
             ->where("product_id_star", $product_id)
@@ -245,35 +215,35 @@ class HistoryController extends Controller
                 <div class="user_feedback" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem ">
         <div class="header_name">
             <img src="" alt="">
-            <i class="fa-solid fa-user"></i>               <span>' . $p->customer_name . '</span>
+            <i class="fa-solid fa-user"></i>               <span>' . $p->name . '</span>
             <span style="font-size:1.2rem">' . $p->feedback_date . '</span>
         </div>';
 
             if ($p->rating == 1) {
                 $output .= '
-                    <i class="fas fa-star" style="color:be9c79"></i>';
+                    <i class="fas fa-star" style="color:#be9c79"></i>';
             } elseif ($p->rating == 2) {
                 $output .= '
-                    <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>';
+                    <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>';
             } elseif ($p->rating == 3) {
                 $output .= '
-                    <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>';
+                    <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>';
             } elseif ($p->rating == 4) {
                 $output .= '
-                    <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>';
+                    <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>';
             } elseif ($p->rating == 5) {
                 $output .= '
-                    <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>
-                        <i class="fas fa-star" style="color:be9c79"></i>';
+                    <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>
+                        <i class="fas fa-star" style="color:#be9c79"></i>';
             } elseif ($p->rating == 0) {
                 $output .= '
                     <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>';
@@ -318,7 +288,7 @@ class HistoryController extends Controller
 
 
 
-    public function starFeedback(Request $request)
+    public function   starFeedback(Request $request)
     {
         $data = $request->all();
         $product = Product::where('product_id', $data['order_product_id'])->get();
@@ -327,16 +297,9 @@ class HistoryController extends Controller
         $rating = round($rating);
         $output = "";
         $i = 1;
-
-        foreach ($product as $p) {
-            $output .= ' <header style="font-size:1.5rem " class="name-rating">' . $p->product_name . ' </header>
-            ';
-        }
         for ($i; $i <= 5; $i++) {
 
             foreach ($product as $p) {
-
-
                 $output .= '
             <span title="star_rating" id=' . $p->product_id . '-' . $i . '
             data-index=' . $i . ' data-product_id=' . $p->product_id . '
@@ -349,143 +312,6 @@ class HistoryController extends Controller
             }
         }
 
-
-
         echo $output;
     }
-    public function   feedbackOrder($order_code)
-    {
-        $customer_id = Session::get("id");
-        $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
-        return redirect("user-infromation/" . $customer_id, compact('order_details', 'order_details'));
-    }
-    // public  function  OrderDetailUser($order_code)
-    // {
-    //     $customer_id = Session::get("customer_id");
-    //     $order_details = OrderDetails::with('product')->where('order_code', $order_code)->get();
-
-
-    //     return redirect("user-infromation/" . $customer_id, compact('order_details'));
-    // }
-
-    public function showDetailorder(Request $request)
-    {
-        $data = $request->all();
-        $OrderDetails = OrderDetails::where("order_code", $data['order_detail_code'])->get();
-        $shipping = Shipping::where("shipping_id", $data['order_detail_shipping'])->get();
-
-
-
-        $output = "";
-
-        foreach ($shipping as $p) {
-            $output .= '
-
-            <div style=" padding:1.5rem 1.5rem; font-size:1.5rem; font-weight:boild;">Thông tin người nhận </div>
-            <table >
-            <thead>
-                <tr style="font-size:15px">
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Day</th>
-                    <th>Time</th>
-                    <th> Payment</th>
-                    <th>Note</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr  style=" background: #fff;
-                border-radius: .5rem;
-                border: .1rem solid rgba(0, 0, 0, .2);
-                box-shadow: var(--box-shadow);
-                min-height: 5rem;
-                padding: 1rem;font-size:10px;text-align:center ">
-                    <td> ' . $p->shipping_name . '</td>
-                    <td> ' . $p->shipping_address . '</td>
-                    <td> ' . $p->shipping_phone . '</td>
-                    <td> ' . $p->shipping_time_day . '</td>
-                    <td> ' . $p->shipping_time_hour . '</td>
-                    <td> ' . $p->shipping_payment . '</td>
-                    <td> ' . $p->shipping_note . '</td>
-
-                </tr>
-
-
-
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
-
-            ';
-        }
-
-        $output .= '
-        <div style=" padding:1.3rem 1.3rem; font-size:1.5rem; font-weight:boild;">Thông tin sản phẩm </div>
-
-
-
-        <table>
-<thead class="header_bill "  style="font-size:18px">
-    <th>
-        <h5>Sản phẩm</h5>
-    </th>
-    <th>
-        <h5>Giá</h5>
-    </th>
-    <th>
-        <h5>Size</h5>
-    </th>
-    <th>
-        <h5>Tiền</h5>
-    </th>
-
-</thead>';
-        foreach ($OrderDetails as $p) {
-
-            $output .= '<tbody>
-    <tr style=" background: #fff;
-    border-radius: .5rem;
-    border: .1rem solid rgba(0, 0, 0, .2);
-    box-shadow: var(--box-shadow);
-    min-height: 5rem;
-    padding: 1rem; font-size:10px">
-        <td style="font-size: 1.4rem; padding: 1rem; ">
-        ' . $p->product_name . '<i>x</i>       ' . $p->product_quantity . '
-        </td>
-        <td style="padding: 1rem; ">
-          ' . $p->product_price . '
-        </td>
-        <td style="padding: 1rem; ">
-        ' . $p->product_size . '
-        </td>
-
-      <td style="padding: 1rem; ">
-      ' . $p->product_price * $p->product_quantity .   '
-     </td>
-
-
-</tr>
-
-
-
-</tbody>';
-        }
-
-        $output .= '</table>';
-
-        echo $output;
-    }
-
-
-
-
-    // public function contentForm($product_id)
-    // {
-    //     $customer_id = Session::get("customer_id");
-    //     $order_details = OrderDetails::with('product')->where('product_id', $product_id)->get();
-    //     return redirect("user-infromation/" . $customer_id);
-    // }
 }

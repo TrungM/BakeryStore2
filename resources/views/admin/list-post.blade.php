@@ -1,5 +1,5 @@
-@extends('admin.layout.layout');
-@section('title', 'list-post');
+@extends('admin.layout.layout')
+@section('title', 'list-post')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">

@@ -1,5 +1,5 @@
-@extends('admin.layout.layout');
-@section('title', 'create-new-product');
+@extends('admin.layout.layout')
+@section('title', 'create-new-product')
 @section('content')
     <style>
         .container-fluid {

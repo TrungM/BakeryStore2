@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class province extends Model
+class Province extends Model
 {
-
+    use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'name_quanhuyen', 'type','matp'
+      'name', 'type',
     ];
 
-    protected $primaryKey = 'maqh';
-    protected $table = 'quanhuyen';
-
+    protected $primaryKey = 'matp';
+    protected $table = 'tb_province';
 }

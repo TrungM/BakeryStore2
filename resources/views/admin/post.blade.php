@@ -1,5 +1,5 @@
-@extends('admin.layout.layout');
-@section('title', 'post');
+@extends('admin.layout.layout')
+@section('title', 'post')
 @section('content')
 
     <div class="container">

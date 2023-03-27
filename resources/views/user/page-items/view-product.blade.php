@@ -1,4 +1,4 @@
-@extends('user.layout.index');
+@extends('user.layout.index')
 @section('content')
     <div id="wrapper">
 
@@ -13,7 +13,7 @@
                 <div class="view-product-item">
                     <h1 class="name-product" style="font-weight: bold;">{{ $p->product_name }}</h1>
                     <div class="price-product">
-                        <span>{{ number_format($p->product_price) }}VNĐ</span>
+                        <span>${{ $p->product_price }}</span>
                     </div>
                     <?php
 
@@ -28,25 +28,25 @@
                     ?>
                     <div style="cursor: no-drop">
                         @if ($rating == 1)
-                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
                         @elseif ($rating == 2)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
                         @elseif ($rating == 3)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
                         @elseif ($rating == 4)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
                         @elseif ($rating == 5)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
                         @elseif ($rating == 0)
                             <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
                         @endif
@@ -55,25 +55,25 @@
                         @csrf
                         <div class="size-product">
                             <h4>Size</h4>
-                            @foreach ($product_size as $value)
-                                <span class="icon-products">
-                                    <strong>{{ $value->size }}
-                                    </strong>
-                                    {{-- <input type="radio" id="size" name="size" value="{{ $value->size }}" checked > --}}
-                                    <input type="radio" id="size" name="size" value="{{ $value->size_price }}"
-                                        checked>
+                            <select name="size" id="size" class="icon-products">
+                                <option value="">Choose size</option>
+                                @foreach ($product_size as $value)
+                                <option value="{{ $value->size_id }}">{{ $value->size }} ${{ $value->size_price }}</option>
+                                @endforeach
 
-                                    <input type="hidden" name="product_hidden" id="size" value="{{ $value->size }}">
-                                </span>
-                            @endforeach
+                            </select>
+                            @error("size")
+                            <p class="size_error">{{ $message }}</p>
+                            @enderror
+
                         </div>
                         <div class="description-product">
-                            <h4>Mô tả sản phẩm</h4>
+                            <h4>Description</h4>
                             <p>{{ $p->product_description }}</p>
                         </div>
 
                         <div class="quantity">
-                            <h4 style="font-size: 1.9rem">Số lượng</h4>
+                            <h4 style="font-size: 1.9rem">Quantity</h4>
                             <input type="number" name="qty" id="qty"
                                 value="{{ $p->product_id - $p->product_id + 1 }}" min="1" max="10"
                                 style="width: 8%">
@@ -85,7 +85,7 @@
                         <ul class="order_methods">
                             <li class="order_delivery">
                                 <span>
-                                    <button type="submit" onclick="return alert('Thêm sản phẩm thành công !!!! ')">
+                                    <button type="submit" onclick="return alert('Add cart successfully !!!! ')">
                                         <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -93,12 +93,12 @@
                                                 fill="black" fill-opacity="0.6"></path>
                                         </svg>Add to cart
                                     </button></span>
+                            </li>
 
+
+                        </ul>
                     </form>
-                    </li>
 
-
-                    </ul>
                 </div>
             </div>
         </div>
@@ -106,14 +106,13 @@
             <section class="dishes" id="dishes">
 
                 <div class="heading">
-                    <h4> Sản phẩm liên quan</h4>
+                    <h4> Recomment Products</h4>
                 </div>
                 <div class="box-container">
                     @foreach ($c as $a)
                         <div class="box">
                             <div class="box-heart">
-                                <a class="fas fa-heart heart" id="{{ $a->product_id }}"
-                                    onclick="add_wishlist(this.id)"></a>
+                                <a class="fas fa-heart heart" id="{{ $a->product_id }}" onclick="add_wishlist(this.id)"></a>
                             </div>
                             <a href="{{ URL::to('view-product/' . $a->product_id) }}" class="fas fa-eye"></a>
 
@@ -123,31 +122,31 @@
                             <h3>{{ $a->product_name }}</h3>
                             <div class="stars">
                                 @if ($a->product_star == 1)
-                                    <i class="fas fa-star" style="color:be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
                                 @elseif ($a->product_star == 2)
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
                                 @elseif ($a->product_star == 3)
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
                                 @elseif ($a->product_star == 4)
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
                                 @elseif ($a->product_star == 5)
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
-                                    <i class="fas fa-star" style="color:be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
                                 @elseif ($a->product_star == 0)
                                     <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
                                 @endif
 
                             </div>
-                            <span>{{ number_format($a->product_price) }}VNĐ</span>
+                            <span>${{ $a->product_price }}</span>
 
 
                             <input type="hidden" id="wishlist_productname{{ $p->product_id }}"
@@ -161,17 +160,6 @@
 
                         </div>
                     @endforeach
-
-
-
-
-
-
-
-
-
-
-
                 </div>
 
             </section>
@@ -187,10 +175,10 @@
                 @csrf
                 <?php
 
-                $customer_id = Session::get('id');
-                $customer_name = DB::table('tb_customer')
-                    ->where('customer_id', $customer_id)
-                    ->value('customer_name');
+                $customer_id = Session::get('customer_id');
+                $customer_name = DB::table('tb_user')
+                    ->where('id', $customer_id)
+                    ->value('name');
 
                 ?>
                 @if ($customer_id != null)
@@ -245,9 +233,9 @@
         <div class="totalcomment" style="display:flex;">
             <p style="margin-right:2rem; font-weight:bold" class="comment_click active-click"><span
                     style="padding: 0.4rem; ">{{ $comment_count }}
-                </span>Bình Luận</p>
+                </span>Comment</p>
             <p style="font-weight:bold" class="feedback_click"><span style="padding: 0.4rem">{{ $feedback_count }}
-                </span>Đánh giá</p>
+                </span>Feedback</p>
         </div>';
         <form action="">
             @csrf
@@ -306,10 +294,10 @@
                 // if(comment_name==""){`
                 //     alert("hi");
                 // }
-                if(comment_content.length==18 || comment_name==""){
+                if (comment_content.length == 18 || comment_name == "") {
                     e.preventDefault();
-                $("#error_comment").html(
-                    "<span style='color:red;'>*Vui lòng không để trống * </span>");
+                    $("#error_comment").html(
+                        "<span style='color:red;'>*Vui lòng không để trống * </span>");
 
                 }
                 $.ajax({

@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +32,45 @@ Route::get('sign', [HomeController::class, 'sign']);
 
 // END
 
+// sign in
+
+Route::get('login', [LoginController::class, 'login']);
+Route::post("active_login", [LoginController::class, "login_profile"]);
+Route::get('logout', [LoginController::class, 'logout']);
+Route::get('logout_home', [LoginController::class, 'logout_home']);
+
+//sign up
+
+Route::get('sign', [LoginController::class, 'sign_up']);
+
+Route::post("active_sign",[LoginController::class,"active_sign_up"]);
+
+//forgetPassword
+
+Route::get('forgetPassword', [LoginController::class, 'loadViewforgetPassword']);
+Route::post('active_forgetPassword', [LoginController::class, 'liveforgetPassword']);
+
+// create new pass
+Route::middleware('checkpass')->group(function () {
+    Route::get('create-new-pass', [LoginController::class, 'loadViewCreateNewPass']);
+Route::post('active_new_pass', [LoginController::class, 'active_new_pass']);
+});
+// login google
+//composer require laravel/socialite
+Route::get('logingoogle', [LoginController::class, 'redirectToGoogle']);
+Route::get('google/callback', [LoginController::class, 'callback_google']);
+
+Route::middleware('checkcustomer')->group(function () {
+});
+
+
 // ----Start---admin
-// Route::prefix('admin')->name('admin')->middleware('checkLogin:admin')->group(function () {
+Route::prefix('admin')->middleware('checkadmin')->group(function () {
+
+    /////////------------------------------Manager---------Start------/////////////////
     Route::get('index', [AdminController::class, 'adminindex']);
     Route::get('dashboard', [AdminController::class, 'showdashboard']);
     Route::post('admin-dashboard', [AdminController::class, 'dashboard']);
-    Route::get('logout', [AdminController::class, 'logout']);
     Route::get('manager_order', [AdminController::class, 'managerOder']);
     Route::get('index', [AdminController::class, 'adminindex']);
     Route::get('customer', [AdminController::class, 'users']);
@@ -53,7 +88,15 @@ Route::get('sign', [HomeController::class, 'sign']);
     Route::get('manager_order', [OrderController::class, 'managerOder']);
     Route::get('view_order/{order_code}', [OrderController::class, 'viewOrder']);
     Route::get('update/{order_code}', [OrderController::class, 'Update']);
-// });
+
+        /////////------------------------------Manager---------END------/////////////////
+
+});
+
+
+
+Route::middleware('checkadmin')->group(function () {
+
 
 // quan ly bai viet
 
@@ -65,6 +108,8 @@ Route::get('post-bai-viet', [PostController::class, 'post_bai_viet']);
 Route::get('bai-viet/{post_title}', [PostController::class, 'bai_viet']);
 //end
 // admin product
+// Route::prefix('admin')->middleware('checkadmin')->group(function () {
+// });
 Route::get('admin/adminproduct', [ProductController::class, 'adminproductmanage']);
 Route::get('/product2', [ProductController::class, 'searchPost']);
 Route::get('admin/productinsert', [ProductController::class, 'insert']);
@@ -76,55 +121,44 @@ Route::get('admin/delete/{id}', [ProductController::class, 'delete']);
 Route::POST('/tim-kiem', [ProductController::class, 'search2']);
 Route::get('/ascproducts_search', [ProductController::class, 'ascproducts_search']);
 Route::get('/desproducts_search', [ProductController::class, 'desproducts_search']);
-//login google
-Route::get('login/google', [AccountController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('login/google/callback', [AccountController::class, 'handleGoogleCallback']);
+});
 
 // route cho tat ca cac trang nguoi dung
 // ----Start---
 
 Route::get('store', [AccountController::class, 'store']);
-Route::get('user/page-items/checkout', [AccountController::class, 'checkout']);
-Route::get('sign', [AccountController::class, 'sign']);
-Route::get('user/page-items/login', [AccountController::class, 'login']);
-Route::get('user/page-items/login-checkout', [AccountController::class, 'checkoutLogin']);
 
-Route::post('addCustomer', [AccountController::class, 'addCustomer']);
 
 
 //---- END---
 
-// route cho tat ca cac trang nguoi quan ly
-// ----Start---
-Route::get('admin/index', [AdminController::class, 'adminindex']);
-Route::get('admin/dashboard', [AdminController::class, 'showdashboard']);
-Route::post('admin-dashboard', [AdminController::class, 'dashboard']);
-Route::get('logout', [AdminController::class, 'logout']);
 
 
 // admin-dashboard: dang nhu 1 cai ham
 // check out
-Route::get('login_checkout', [CheckoutController::class, 'logincheckout']);
-Route::get('logout_checkout', [CheckoutController::class, 'logoutcheckout']);
-// Route::prefix('user')->name('user')->middleware('checkLogin:user')->group(function () {
+Route::middleware('checkcustomer')->group(function () {
 
 Route::get('checkout', [CheckoutController::class, 'checkout']);
+Route::post('district', [CheckoutController::class, 'district']);
+Route::post('wards', [CheckoutController::class, 'wards']);
+Route::get('purchase/{customer_id}', [CheckoutController::class, 'purchase']);
 
-// });
+
+});
 // Route::post('add_customer', [CheckoutController::class, 'addCustomer']);
 Route::post('customer_information', [CheckoutController::class, 'customerInformation']);
 Route::post('save_customer_shipping', [CheckoutController::class, 'saveCustomerShipping']);
 Route::post('update_customer/{customer_id}', [CheckoutController::class, 'updateCustomer']);
-Route::post('checkLogin', [CheckoutController::class, 'checkLogin']);
 Route::get('delivery', [CheckoutController::class, 'delivery']);
 Route::post('select_delivery', [CheckoutController::class, 'select_delivery']);
+
 //---- END---
 
 
 // Start//---Products---///
 Route::get('product', [ProductController::class, 'product']);
-Route::get('ASCproduct', [ProductController::class, 'ascproducts']);
-Route::get('DESproduct', [ProductController::class, 'descproducts']);
+Route::get('product/ASCproduct', [ProductController::class, 'ascproducts']);
+Route::get('product/DESproduct', [ProductController::class, 'descproducts']);
 Route::get('view-favourite', [ProductController::class, 'viewfavourite']);
 Route::get('view-product/{id}', [ProductController::class, 'viewproduct']);
 Route::get('category', [ProductController::class, 'category']);
@@ -170,26 +204,24 @@ Route::get('delete-to-cart/{rowId}', [CartController::class, 'deleteTocart']);
 // Start//---Category ---///
 
 Route::get('submenu/{category_id}', [CategoryController::class, 'submenu']);
-Route::get('ascproducts_category/{category_id}', [CategoryController::class, 'ascproducts_category']);
-Route::get('desproducts_category/{category_id}', [CategoryController::class, 'desproducts_category']);
+Route::get('submenu/ascproducts_category/{category_id}', [CategoryController::class, 'ascproducts_category']);
+Route::get('submenu/desproducts_category/{category_id}', [CategoryController::class, 'desproducts_category']);
 
 // END
 // Start//---Order ---///
 
-// Route::get('admin/manager_order', [OrderController::class, 'managerOder']);
-// Route::get('admin/view_order/{order_code}', [OrderController::class, 'viewOrder']);
-// Route::get('admin/update/{order_code}', [OrderController::class, 'Update']);
 Route::post('update_status', [OrderController::class, 'updateStatus']);
 
 // END
 // Start//---User-information ---///
-Route::get('user-infromation/{customer_id}', [HistoryController::class, 'userinformation']);
+Route::get('detail-customer/{customer_id}', [HistoryController::class, 'userinformation']);
 Route::get('menu_order/{order_code}', [HistoryController::class, 'menuOrder']);
 Route::get('delete_order/{order_code}', [HistoryController::class, 'DeleteOrder']);
 
 Route::get('order_detail_user/{order_code}', [HistoryController::class, 'OrderDetailUser']);
 Route::get('admin/feedback_admin', [HistoryController::class, 'admin_feedback_save']);
-Route::post('load-feedback', [HistoryController::class, 'loadfeedback']);
+Route::get("feedback/{order_code}/{id}",[CheckoutController::class,'feebackLoadView']);
+Route::post('load_feedback', [HistoryController::class, 'loadfeedback']);
 Route::post('send-feedback', [HistoryController::class, 'sendfeedback']);
 Route::post('allow_feedback', [HistoryController::class, 'allowfeedback']);
 Route::post('reply_feedback', [HistoryController::class, 'replyfeedback']);
@@ -200,4 +232,15 @@ Route::post('showDetailorder', [HistoryController::class, 'showDetailorder']);
 
 Route::get('history_order/{customer_id}', [HistoryController::class, 'history_order']);
 
+// END
+
+// Start//---User-information ---///
+Route::middleware('checkcustomer')->group(function () {
+
+Route::get('detail-profile/{customer_id}', [ProfileController::class, 'loadViewProfile']);
+Route::post('detail-profile/edit/{customer_id}', [ProfileController::class, 'editDetailProfile']);
+Route::post('detail-profile/change-password/{customer_id}', [ProfileController::class, 'ChangePassword']);
+Route::post('detail-profile/uploadimg/{customer_id}', [ProfileController::class, 'uploadImageProfile']);
+
+});
 // END

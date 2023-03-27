@@ -6,6 +6,7 @@ const value1=document.querySelector(".value1 input");
 const value2=document.querySelector(".value2 input");
 const value3=document.querySelector(".value3 input");
 const heartItem = document.querySelectorAll(".box-heart");
+// const  sortbyitem= document.querySelectorAll(".arrange-items a option");
 
 [...heartItem].forEach((item) => item.addEventListener("click", function (e) {
    e.preventDefault();
@@ -13,8 +14,11 @@ const heartItem = document.querySelectorAll(".box-heart");
 //    e.target.setAttribute("id", "active-heart")
    e.target.setAttribute("style", "background-color:#be9c79; color:#fff")
 
-}))
+}));
 
+// [...sortbyitem].forEach((item) => item.addEventListener("click", function (e) {
+//     arrangDivText.textContent=`${item.value}`;
+// }))
 
 angleDownArrange.addEventListener("click", function(e){
 
@@ -30,17 +34,9 @@ angleDownArrange.addEventListener("click", function(e){
 //     arrangDivText.textContent=`${value1.value}`;
 //     arrangeItems.classList.add("arrange-items-active");
 //  })
-//  value2.addEventListener("click", function(e){
-//     e.preventDefault();
-//     console.log(value2.value);
-//     arrangDivText.textContent=`${value2.value}`;
-//     arrangeItems.classList.add("arrange-items-active");
-//  })
-//  value3.addEventListener("click", function(e){
-//     e.preventDefault();
-//     arrangeItems.classList.add("arrange-items-active");
-//     arrangDivText.textContent=`${value3.value}`;
-//  })
+
+
+
 
 
 

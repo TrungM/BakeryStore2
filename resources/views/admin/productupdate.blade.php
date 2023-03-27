@@ -12,10 +12,32 @@
         margin-top: 40px;
     }
 </style>
+<section class="content-header" style="text-decoration-line: underline 1px black">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6"  >
+                <h1>Detail or Edit Product</h1>
+                <h3    style="color: green; font-size:1rem ">
+                    @if(session('success_edit') )
+                    {{session('success_edit')}}
+                    @endif
 
+                </h3>
+            </div>
+
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Detail or Edit Product</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section>
     <div class="row" id="a">
         <!-- left column -->
-        <div class="col-md-6" id="b">
+        <div class="col-md-6">
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
@@ -24,29 +46,63 @@
                 <!-- /.card-header -->
                 <!-- form start -->
 
-                 <form enctype="multipart/form-data" method="POST" action="{{ url('admin/updatePost/'.$p->product_id) }}"  onsubmit="return kiemtra()">
+                 <form enctype="multipart/form-data" method="POST" action="{{ url('admin/updatePost/'.$p->product_id) }}"  >
                     @csrf
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="">Product ID</label>
-                            <input type="text" class="form-control" name="product_id" id="product_id"
-                                value="{{$p->product_id}}" readonly>
-                        </div>
+
                         <div class="form-group">
                             <label for="">Product name</label>
                             <input type="text" class="form-control" name="product_name" id="product_name"
-                            value="{{$p->product_name}}" required>
+                            value="{{$p->product_name}}" >
+                            @error('product_name')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group">
                             <label for="">Description</label>
                             <input type="text" class="form-control" name="product_description" id="product_description"
-                            value="{{$p->product_description}}" required>
+                            value="{{$p->product_description}}" >
+                            @error('product_description')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
                         <div class="form-group">
                             <label for="">Price</label>
-                            <input type="number" class="form-control" name="product_price" id="product_price"
-                            value="{{$p->product_price}}" required min="1">
+                            <input type="text" class="form-control" name="product_price" id="product_price"
+                            value="{{$p->product_price}}" >
+                            @error('product_price')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="">Quantity</label>
+                            <input type="number" class="form-control" name="product_qty" id="product_qty"
+                            value="{{$p->product_qty}}" >
+                            @error('product_qty')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="" class="form-control" name="category_id">
+
+                                <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+
+                                @foreach ($category_list as $item)
+                                    <option value="{{ $item->category_id }}">{{ $item->category_name }}</option>
+                                @endforeach
+
+
+                            </select>
+                            @error('category_id')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+
+
+                        </div>
+
+
                         <div class="form-group">
                             <label for="">File input</label>
                             <img src="{{asset('user/images/'.$p->product_images)}}" alt="{{$p->product_id}}" class="img-fluid">
@@ -55,25 +111,16 @@
                                     <input type="file" class="custom-file-input" id="fileImage" name="fileImage">
                                     <label class="custom-file-label" for="">Choose file</label>
                                 </div>
+                                @error('fileImage')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="">Category ID</label>
-                            <input type="number" class="form-control" name="category_id" id="category_id"
-                            value="{{$p->category_id}}" required min="1" max="6">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">Product Star</label>
-                            <input type="number" class="form-control" name="product_star" id="product_star"
-                            value="{{$p->product_star}}" min="0" value="0" readonly>
-                        </div>
-
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary update_product" >Save</button>
                     </div>
                     <div>
                         @if (session('err_msg'))
@@ -89,6 +136,8 @@
 
         </div>
     </div>
+</section>
+
 
 @endsection
 
@@ -96,41 +145,17 @@
 @section('script-section')
     <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
     <script>
-        $(function() {
-            bsCustomFileInput.init();
-        });
+        $(".update_product").click(function(e) {
+                $choose = confirm("Are you sure update product");
+                if ($choose == true) {
+                    window.load();
+                } else {
+                    e.preventDefault();
+
+                }
+            });
 
 
-
-        function kiemtra() {
-            //Kiem tra fullname
-            let prodname = $("#product_name").val().trim();
-            let proddes = $("#product_description").val().trim();
-            let prodprice = $("#product_price").val().trim();
-            let cateid = $("#category_id").val().trim();
-            if (prodname == "") {
-                alert('Name Cant Not Be Blank!!!');
-                $("#product_name").focus();
-                return false;
-            }
-            //kiem tra description
-            if (proddes == "") {
-                alert('Description Cant Not Be Blank!!!');
-                $("#product_description").focus();
-                return false;
-            }
-            //kiem tra price
-            if (prodprice < 1) {
-                alert('Price Must Be Greater Than 0!');
-                $("#product_price").focus();
-                return false;
-            }
-            if (cateid < 1 || cateid > 6) {
-                alert('Category ID must be in range [1-6]');
-                $("#category_id").focus();
-                return false;
-            }
-        }
     </script>
 
 @stop

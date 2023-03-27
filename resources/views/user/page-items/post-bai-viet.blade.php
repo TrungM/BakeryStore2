@@ -1,4 +1,4 @@
-@extends('user.layout.index');
+@extends('user.layout.index')
 @section('content')
     <section class="blogs" id="blogs">
 

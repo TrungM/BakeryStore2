@@ -2,46 +2,82 @@
 @section('title', 'create-new-product')
 
 @section('content')
-<style>
-    #a{
-     display: flex;
-     align-items: center;
-     justify-content: center;
-    }
-    #b{
-        margin-top: 40px;
-    }
-</style>
+    <style>
+        #a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #b {
+            margin-top: 40px;
+        }
+    </style>
+
+    <section class="content-header" style="text-decoration-line: underline 1px black">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add Size </h1>
+                    <h3 class="card-title " style="color: green">
+                        @if (session('status'))
+                            {{ session('status') }}
+                        @endif
+                    </h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Add Size </li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
     <div class="row" id="a">
         <!-- left column -->
-        <div class="col-md-6" id="b">
+        <div class="col-md-6">
             <!-- general form elements -->
             <div class="card card-primary">
 
                 <!-- /.card-header -->
                 <!-- form start -->
 
-                <form  method="POST" action="{{ url('sizeManager_insert') }}"
-                onsubmit="return kiemtra()">
+                <form method="POST" action="{{ url('sizeManager_insert') }}">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="">Product id</label>
-                            <input type="text" class="form-control" name="product_id" id="product_id"
-                                placeholder="Enter product id" required>
+                            <label for="">Product name</label>
+
+                            <select name="product_name" id="product_id" class="form-control">
+                                <option value="">Choose option product name</option>
+                                @foreach ($list_product as $p)
+                                    <option value="{{ $p->product_id }}">{{ $p->product_name }}</option>
+                                @endforeach
+                            </select>
+
+                            @error("product_name")
+                            <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="">Size</label>
                             <input type="text" class="form-control" name="size" id="size"
-                                placeholder="Enter product size" >
+                                placeholder="Enter product size">
+                                @error("size")
+                                <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="">Size Price</label>
                             <input type="text" class="form-control" name="size_price" id="size_price"
-                            placeholder="Enter product size price" >
+                                placeholder="Enter product size price" >
+                                @error("size_price")
+                                <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
                         </div>
 
 
@@ -49,13 +85,13 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary"  >Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     <div>
                         @if (session('err_msg'))
-                        <h6 style="color: red">
-                           Errors: {{ session('err_msg') }}
-                        </h6>
+                            <h6 style="color: red">
+                                Errors: {{ session('err_msg') }}
+                            </h6>
                         @endif
                     </div>
                 </form>
@@ -75,37 +111,6 @@
         $(function() {
             bsCustomFileInput.init();
         });
-
-        function kiemtra() {
-            //Kiem tra fullname
-            let prodname = $("#product_name").val().trim();
-            let proddes = $("#product_description").val().trim();
-            let prodprice = $("#product_price").val().trim();
-            let cateid = $("#category_id").val().trim();
-            if (prodname == "") {
-                alert('Name Cant Not Be Blank!!!');
-                $("#product_name").focus();
-                return false;
-            }
-            //kiem tra description
-            if (proddes == "") {
-                alert('Description Cant Not Be Blank!!!');
-                $("#product_description").focus();
-                return false;
-            }
-            //kiem tra price
-            if (prodprice < 1) {
-                alert('Price Must Be Greater Than 0!');
-                $("#product_price").focus();
-                return false;
-            }
-            if (cateid < 1 || cateid > 6) {
-                alert('Category ID must be in range [1-6]');
-                $("#category_id").focus();
-                return false;
-            }
-        }
-
     </script>
 
 @stop

@@ -14,10 +14,11 @@ class Order extends Model
     ];
     protected $primaryKey = 'order_id';
  	protected $table = 'tb_order';
-
-    // public function product(){
-    //     // dem product_id trong order ddi so sanh voi product_id trong bang products
-    //     return $this->belongsTo('App\Models\Product','product_id');
-    // }
+//  	public function product(){
+//       return $this->belongsTo(OrderDetails::class,'order_code');
+//   }
+function details(){
+    return $this->hasMany(OrderDetails::class,"order_id");
+    }
 
 }

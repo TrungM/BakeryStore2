@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ url('/') }}" class="brand-link">
+    <a href="" class="brand-link">
         <img src="{{ asset('user/images/logo.png') }}" alt="" style="color:#fd7e14; width:20%">
         {{-- <i class="fa-solid fa-cake-candles" ></i> --}}
         <span class="brand-text font-weight-light">Bakery Store</span>
@@ -15,13 +15,13 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block">
+                    @if (Session::has("username_admin"))
 
-                    <?php
-                    $name = Session::get('customer_name');
-                    if ($name) {
-                        echo $name;
-                    }
-                    ?>
+                    <p>{{   session ("username_admin")}}</p>
+
+                    @endif
+
+
                 </a>
             </div>
         </div>
@@ -58,15 +58,15 @@
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Đơn hàng
+                                   Order
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ URL::to('admin/manager_order') }}" class="nav-link">
-                                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                                        <p>Quản lý đơn hàng</p>
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Manager order</p>
                                     </a>
                                 </li>
 
@@ -146,9 +146,9 @@
 
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Sản phẩm
+                                    Product
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -156,7 +156,7 @@
                                 <li class="nav-item">
                                     <a href="{{ url('admin/adminproduct') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Quản lý sản phẩm </p>
+                                        <p>Manage Product </p>
                                     </a>
                                 </li>
 
@@ -165,7 +165,7 @@
                                 <li class="nav-item">
                                     <a href="{{ url('admin/size') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Size </p>
+                                        <p> Manage Size </p>
                                     </a>
                                 </li>
 

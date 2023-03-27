@@ -68,6 +68,18 @@
 
     <!-- page script -->
     @yield('script-section')
+    <script>
+        //  $(".aabdyr").click(function(e) {
+        //     $choose = confirm("Are you sure delete product");
+        //     if ($choose == true) {
+        //         window.load();
+        //     } else {
+        //         e.preventDefault();
+
+        //     }
+        // });
+    </script>
+
 </body>
 
 </html>

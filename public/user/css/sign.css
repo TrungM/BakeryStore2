@@ -88,67 +88,76 @@ section {
 
 
 
-/* Login */
+/* sign */
 body {
-    background-size: auto;
+    background-size: 100%;
     background-attachment: fixed;
     background-image: url(../images/bg_sign.jpg);
 }
 
-.login-form-container {
-    background-color: #fff;
-    position: relative;
-    text-align: center;
-    min-height: auto;
-    bottom: 3rem;
-    top: 2rem;
+#sign {
+    display: flex;
+
+    justify-content: center;
+    padding: 2rem 2rem;
+    /* margin-top: 5rem; */
+
+    vertical-align: bottom;
+
 }
 
-.login-form-container form {
+.sign-form-container {
+    min-height: auto;
+
+}
+.sign-form-container h3,.text-sign {
+    text-align: center;
+}
+.sign-form-container form {
     background-color: #fff;
-    position: absolute;
-    max-width: 40rem;
+    width: 50rem;
     -webkit-box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
     box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
-    padding: 2.6rem 2.6rem;
-    border-radius: .5rem;
-    left: 45rem;
+    padding: 2rem 2rem;
+    border-radius: 1rem;
+
+
 }
 
-.login-form-container form .login-google {
+.sign-form-container form .sign-google {
     background: var(--main-color);
     border: .1rem solid rgba(0, 0, 0, .2);
     box-shadow: var(--box-shadow);
     padding: 1rem 1rem;
 }
 
-.login-form-container form .login-google:hover {
+.sign-form-container form .sign-google:hover {
     background-color: var(--black);
     ;
 }
 
-.login-form-container form .login-google img {
+.sign-form-container form .sign-google img {
     font-size: 6rem;
     float: left;
     top: 8rem;
     padding: 0.4rem 1rem;
 }
 
-.login-form-container form .login-google span {
+.sign-form-container form .sign-google span {
     font-size: 1.7rem;
     top: 8rem;
     color: #fff;
 }
 
-.login-form-container form h3 {
+.sign-form-container form h3 {
     padding-bottom: 1rem;
     font-size: 2.5rem;
     text-transform: uppercase;
     color: #130f40;
 }
 
-.login-form-container form .box {
+.sign-form-container form .box {
     margin: .7rem 0;
     border-radius: .5rem;
     background: #f7f7f7;
@@ -159,7 +168,7 @@ body {
     width: 100%;
 }
 
-.login-form-container form .remember {
+.sign-form-container form .remember {
     padding: 1rem 0;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -170,40 +179,99 @@ body {
     gap: .5rem;
 }
 
-.login-form-container form .remember label {
+.sign-form-container form .remember label {
     font-size: 1.5rem;
     cursor: pointer;
     color: #666;
 }
 
-.login-form-container form .btn {
+.sign-form-container form .btn {
     margin: 1rem 0;
     width: 100%;
     text-align: center;
 }
 
-.login-form-container form p {
+.sign-form-container form p {
     padding-top: 1rem;
     font-size: 1.5rem;
     color: #666;
 }
 
-.login-form-container form p a {
+.sign-form-container form p a {
     color: var(--main-color);
 }
 
-.login-form-container form p a:hover {
+.sign-form-container form p a:hover {
     color: #130f40;
     text-decoration: underline;
 }
 
 
 
+.option-sign {
+    padding: 0.5rem 0.5rem;
+    border: var(--main-color) solid 1px;
+    text-align: center;
+}
+
+.option-sign a .google {
+    display: flex;
+    margin-left: auto;
+
+}
+
+.option-sign a .google span {
+    flex-basis: 10%;
+}
+
+.option-sign:hover {
+    background-color: var(--main-color);
+    opacity: 0.9;
+}
 
 
 
+.option-sign .name-option {
+    font-size: 2rem;
+    color: #10221b;
+    flex-basis: 80%;
+
+}
+
+.text-sign {
+    margin-bottom: 1rem;
+}
 
 
+
+.container_file {
+
+    width: 100%;
+    text-align: left;
+  }
+  input[type="file"] {
+    position: absolute;
+    z-index: -1;
+    top: 10px;
+    left: 8px;
+    font-size: 17px;
+    color: red;
+  }
+  .button-wrap {
+    position: relative;
+  }
+  .button_file {
+    display: inline-block;
+    margin: .7rem 0;
+    border-radius: .5rem;
+    background: #f7f7f7;
+    padding: 1rem 1.2rem;
+    font-size: 1.6rem;
+    color: #666;
+    text-transform: none;
+    width: 100%;
+    cursor: pointer;
+}
 
 
 
@@ -215,29 +283,11 @@ body {
 
 }
 
-@media (max-width:745px) {
-    /* .login-form-container form {
-
-        left: 35rem;
-        top: 10rem;
-    } */
-
-}
-
-@media (max-width:687px) {
-    .login-form-container form {
-
-        left: 15rem;
-        top: 10rem;
-    }
-
-}
-
 @media (max-width:500px) {
-    .login-form-container form {
+    .sign-form-container form {
 
-        left: 5rem;
-        top: 0rem;
+        width: 100%;
+
     }
 
 }
@@ -256,8 +306,4 @@ body {
         font-size: 3rem;
     }
 
-    .login-form-container form {
-
-        top: 0rem;
-    }
 }

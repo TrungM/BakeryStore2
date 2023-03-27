@@ -12,20 +12,28 @@
                             </a>
                         </li>
                         @foreach ($category_show as $a)
-                            <li>
-                                <a class="" href="{{ URL::to('submenu/' . $a->category_id) }}">
+                            <li >
+                                <a class="li-submenu" href="{{ URL::to('submenu/' . $a->category_id) }}">
                                     {{ $a->category_name }}
                                 </a>
                             </li>
                         @endforeach
                     </ul>
                     <div class="arrange-header">
-                        Sắp xếp
+                        Sort by
                     </div>
                     <div class="arrange-div">
 
-                        <p style="cursor: pointer;
-                      ">Sắp xếp sản phẩm</p>
+                        <p style="cursor: pointer;">
+                            @if (Session::has('Plth'))
+                                {{ session('Plth') }}
+                            @elseif (Session::has('Phtl'))
+                                {{ session('Phtl') }}
+                               @else
+                               {{ session('Newest') }}
+                               @endif
+
+                        </p>
                         <i class="fa-solid fa-angle-down"></i>
                     </div>
 
@@ -35,15 +43,15 @@
                             <form action="" class="show_product">
                                 @csrf
                                 <a href="{{ URL::to('submenu/' . $p->category_id) }}" class="value1">
-                                    <option value="All">Tất cả </option>
+                                    <option value="Newest">Newest </option>
                                 </a>
-                                <a href="{{ URL::to('ascproducts_category/' . $p->category_id) }}" class="value2">
-                                    <option value="Price-Low to high">Giá từ thấp đến cao </option>
-                                </a>
+                                <a href="{{ URL::to('submenu/ascproducts_category/' . $p->category_id) }}" class="value2">
+                                    <option value="Price low to high">Price low to high </option>
+                                     </a>
 
 
-                                <a href="{{ URL::to('desproducts_category/' . $p->category_id) }}" class="value3">
-                                    <option value="">Giá từ cao đến thấp</option>
+                                <a href="{{ URL::to('submenu/desproducts_category/' . $p->category_id) }}" class="value3">
+                                    <option value="Price high to low">Price high to low</option>
                                 </a>
 
                                 {{-- <option value="">Newest</option> --}}
@@ -111,7 +119,7 @@
                                     @endif
 
                                 </div>
-                                <span>{{ number_format($p->product_price) }}VNĐ</span>
+                                <span>${{$p->product_price}}</span>
 
 
                                 <input type="hidden" id="wishlist_productname{{ $p->product_id }}"
@@ -134,6 +142,9 @@
 
 
                 </section>
+                <div class="pagination">
+                    {{ $category_by_id->links() }}
+                </div>
             </div>
         </div>
 

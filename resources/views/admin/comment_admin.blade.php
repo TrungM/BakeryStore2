@@ -1,16 +1,16 @@
-@extends('admin.layout.layout');
-@section('title', 'product');
+@extends('admin.layout.layout')
+@section('title', 'product')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Liet ke chi tiet don hang </h1>
+                    <h1>List comment</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
+                        <li class="breadcrumb-item active">Comment</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 {{-- customer-tb --}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Thông tin tài khoản mua hàng </h3>
+                        <h3 class="card-title"> </h3>
                     </div>
 
                     <!-- /.card-header -->
@@ -55,9 +55,9 @@
                                         </td>
                                         <td>{{ $a->comment_name }}</td>
                                         <td>{{ $a->comment_date }}</td>
-                                        {{-- <td><a
+                                        <td><a
                                                 href="{{ url('view-product/' . $a->product->product_id) }}">{{ $a->product->product_name }}</a>
-                                        </td> --}}
+                                        </td>
 
                                         <td>
                                             @if ($a->comment_status == 1)

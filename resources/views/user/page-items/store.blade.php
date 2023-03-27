@@ -1,4 +1,4 @@
-@extends('user.layout.index');
+@extends('user.layout.index')
 @section('content')
 
 <div id="wrapper">

@@ -6,20 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
-use Cart;
-use App\Models\city;
-use App\Models\province;
+use  Gloudemans\Shoppingcart\Facades\Cart;
+
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\wards;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Sendmail;
+use App\Mail\SendmailOrder;
+
 class CheckoutController extends Controller
 {
 
 
-    // public function delivery(Request $request)
-    // {
-
-    //     $city = City::orderby('matp', 'ASC')->get();
-    //     return view('user.page-items.checkout')->with(compact('city'));
-    // }
 
     public function select_delivery(Request $request)
     {
@@ -33,7 +34,6 @@ class CheckoutController extends Controller
                     $output .= '<option value="' . $province->maqh . '">' . $province->name_quanhuyen . '</option>
 
                     ';
-
                 }
             } else {
                 $select_wards = wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
@@ -46,128 +46,29 @@ class CheckoutController extends Controller
         echo $output;
     }
 
-    public function checkLogin(Request $request)
-    {
-        if ($request->session()->has('users')) {
-            $request->session()->forget('users');
-        }
-
-        $email = $request->email;
-        $pwd = $request->pwd;
-
-        $user = DB::table('tb_customer')->where('customer_email', $email)->first();
-
-        if ($user != null && $user->customer_password == $pwd) {
-
-            session(['user' => $user]);
-
-
-            if ($user->role == 1) {
-                Session::put('customer_name', $user->customer_name);
-
-                return redirect('admin/index');
-                //return redirect()->route('adminuserlist');
-            } else {
-
-                Session::put('email', $user->customer_email);
-                Session::put('password', $user->customer_password);
-                Session::put('id', $user->customer_id);
-                return redirect("home");
-            }
-        } else {
-            return redirect("login_checkout")->with('message', 'Mật khẩu hoặc tài khoản bị sai .');
-        }
-    }
 
 
 
 
     public function checkout(Request $request)
     {
+        $province = Province::where("name", 'Thành phố Hồ Chí Minh ')->orwhere("name", 'Thành phố Hà Nội ')->get();
+        $detail = DB::table("tb_user")->where("id", $request->session()->get("customer_id"))->first();
 
-        $city = City::where('matp', 79)->get();
-        return view('user.page-items.checkout')->with(compact('city'));
-    }
-    public function logincheckout()
-    {
-        return view('user.page-items.login-checkout');
+        return view('user.page-items.checkout', ["province" => $province, "detail" => $detail]);
     }
 
-    // public function addCustomer(Request $request)
-    // {
-
-
-    //     $data = array();
-    //     $data['customer_name'] = $request->customer_name;
-    //     $data['customer_password'] = $request->customer_password;
-    //     $data['customer_phone'] = $request->customer_phone;
-    //     $data['customer_email'] = $request->customer_email;
-    //     $data['customer_address'] = $request->customer_address;
-    //     $data['role'] = $request->role;
-
-
-    //     $customer_id = DB::table("tb_customer")->insertGetId($data);
-    //     // chi lay id
-
-    //     Session::put('customer_id', $customer_id);
-    //     Session::put('customer_name', $request->customer_name);
-
-    //     return redirect('login_checkout');
-    // }
-
-
-    // public function customerInformation(Request $request)
-
-    // {
-    //     $customer_email = $request->customer_email;
-    //     // $customer_id= $request->customer_id;
-    //     $customer_password = $request->customer_password;
-    //     $result = DB::table("tb_customer")->where("customer_email", $customer_email)->where("customer_password", $customer_password)->first();
-    //     if ($result) {
-    //         Session::put('customer_email', $result->customer_email);
-    //         Session::put('customer_password', $result->customer_password);
-    //         Session::put('customer_id', $result->customer_id);
-    //         return redirect("home");
-    //     } else {
-    //         Session::put('message', 'Mat khau hoac ten bi sai');
-    //         return redirect("login_checkout");
-    //     }
-    // }
-    public  function  updateCustomer(Request $request, $customer_id)
-    {
-        $data = array();
-        $data['customer_name'] = $request->customer_name;
-        $data['customer_email'] = $request->customer_email;
-        $data['customer_password'] = $request->customer_password;
-        // $data['customer_password']=md5($request->customer_password);
-
-        $data['customer_phone'] = $request->customer_phone;
-        $data['customer_address'] = $request->customer_address;
-
-        $result = DB::table('tb_customer')->where('customer_id', $customer_id)->update($data);
-
-
-
-        return redirect("user-infromation/" . $customer_id);
-    }
-    // public function logout(){
-    //     Session::put ('admin_name' , null);
-    //     Session::put ('admin_id' , null);
-    //     return redirect('user/page-items/home');
-
-    // }
 
 
     public function saveCustomerShipping(Request $request)
     {
-
 
         $data = array();
         $data['shipping_name'] = $request->shipping_name;
         $data['shipping_phone'] = $request->shipping_phone;
         $data['shipping_time_day'] = $request->shipping_time_day;
         $data['shipping_time_hour'] = $request->shipping_time_hour;
-        $data['shipping_address'] = $request->shipping_address;
+        $data['shipping_address'] = $request->shipping_address_main;
         $data['shipping_note'] = $request->shipping_note;
         $data['shipping_payment'] = $request->shipping_payment;
 
@@ -179,11 +80,12 @@ class CheckoutController extends Controller
         Session::put('shipping_id', $shipping_id);
 
         $order_data = array();
-        $order_data['customer_id'] = Session::get('id');
+        $order_data['customer_id'] = Session::get('customer_id');
         $order_data['shipping_id'] = Session::get('shipping_id');
-        $order_data['order_total'] = Cart::total();
-        $order_data['order_status'] = 'Đang xử lý';
+        $order_data['order_total'] = Cart::total() + 20.0;
+        $order_data['order_status'] = 'Pending';
         $order_data['order_code'] = substr(md5(microtime()), rand(0, 26), 5);;
+        $order_data['order_items']   = Cart::countItems();
         $order_id = DB::table("tb_order")->insertGetId($order_data);
 
         $content = Cart::content();
@@ -193,24 +95,105 @@ class CheckoutController extends Controller
             $order_d_data['product_id'] = $p->id;
             $order_d_data['product_name'] = $p->name;
             $order_d_data['product_price'] = $p->price;
+            $order_d_data['product_images'] = $p->options->image;
             $order_d_data['product_quantity'] = $p->qty;
             $order_d_data['product_size'] = $p->options->size;
+            $order_d_data['product_size_price'] = $p->options->p_size;
             DB::table('tb_order_detail')->insertGetId($order_d_data);
         }
-        // sua
-                Cart::destroy();
+        //send email
 
+        $username = DB::table("tb_user")->where("email", $request->customer_email_order)->first();
+
+        $data_email = [
+            "order_code" => $order_data['order_code'],
+            "username" => $username->name,
+            "content" => $content,
+            "order_total" => $order_data['order_total'],
+            "order_s_total" =>  Cart::total(),
+            "time_order" => date("Y/m/d"),
+            "payment" =>$data['shipping_payment'],
+            "shipping_name" =>$data['shipping_name'],
+            "shipping_address" => $data['shipping_address'],
+            "shipping_time" => $data['shipping_time_day'].' '.$data['shipping_time_hour'],
+            "shipping_phone" => $data['shipping_phone'],
+        ];
+
+        Mail::to($request->customer_email_order)->send(new SendmailOrder($data_email));
+
+        // sua
+        Cart::destroy();
         return redirect('checkout');
     }
 
-    public function  logoutcheckout()
+    // public function  logoutcheckout()
+    // {
+    //     Session::flush();
+    //     return redirect('home');
+    // }
+
+
+    public function district(Request $request)
     {
-        Session::flush();
-        return redirect('home');
+
+        $exists = Province::where("matp", $request->shipping_province)->exists();
+        $output = "";
+
+        if ($exists == true) {
+            $value_district = District::where("matp", $request->shipping_province)->get();
+            $output .= ' <option value=""  data-district=""> Enter your district </option> ';
+            foreach ($value_district as $item) {
+                $output .=    '<option value="' .  $item->maqh . '"  data-district="' . $item->name . '"> ' .  $item->name . ' </option>';
+            }
+            return   $output;
+        } else {
+            return    $output .= ' <option value=""  data-district=""> Enter your district </option> ';
+        }
     }
 
 
+    public function wards(Request $request)
+    {
+
+        $exists = District::where("maqh", $request->shipping_district)->exists();
+        $output = "";
+
+        if ($exists == true) {
+            $value_wards = wards::where("maqh", $request->shipping_district)->get();
+            $output .= ' <option value="" data-wards=""> Enter your wards </option> ';
+            foreach ($value_wards as $item) {
+                $output .=    '<option value="' . $item['xaid'] . '" data-wards="' . $item['name'] . '"> ' . $item['name'] . ' </option>';
+            }
+            return   $output;
+        } else {
+            return    $output .= ' <option value="" data-wards=""> Enter your wards </option> ';
+        }
+    }
+
+    public function purchase($customer_id)
+    {
+        $ds =   DB::table('tb_order')
+            ->join('tb_shipping', 'tb_shipping.shipping_id', '=', 'tb_order.shipping_id')
+            ->select("tb_order.*", "tb_shipping.*")
+            ->where("tb_order.customer_id", $customer_id)
+            ->orderBy("order_id", "DESC")
+            ->get();
+        // $order_id_s = array();
+        // foreach ($ds as $item) {
+        //     $order_id_s[] = $item->order_id;
+        // };
+        $detail = DB::table('tb_order_detail')->get();
+        // $detail= Order::find(1)->details->count();
+        return view('user.page-items.purchase', ['ds' => $ds, "detail" => $detail]);
+    }
 
 
+    public function feebackLoadView($order_code,$id){
 
+        $a=OrderDetails::where("order_code",$order_code)->where("product_id",$id)->first();
+        $ds =   DB::table('tb_order')->orderBy("order_id", "DESC")->get();
+
+
+        return view('user.page-items.feedback',["a"=>$a,"ds"=>$ds]);
+    }
 }

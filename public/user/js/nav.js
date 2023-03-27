@@ -9,7 +9,7 @@ const heart = document.querySelector(".heart");
 const linkHeart = document.querySelectorAll("#content .dishes .box-container .box .box-heart a");
 const boxHeart = document.querySelectorAll(".box-heart");
 const user = document.querySelector(".fa-user");
-const hoverLog = document.querySelector(".hover-login-logout");
+const hoverLog = document.querySelector(".option-customer");
 // const btnCheckout2 = document.querySelector(".btn-checkout2");
 [...boxHeart].forEach((item) => item.addEventListener("click", function (e) {
     e.preventDefault();

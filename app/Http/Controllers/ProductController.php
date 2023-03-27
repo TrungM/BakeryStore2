@@ -6,53 +6,76 @@ use Illuminate\support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Rating;
+use App\Models\Category;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
 
 
-    public function delete_size($id){
+    public function delete_size($id)
+    {
         DB::table('tb_size')->where('size_id', $id)->delete();
         return redirect('admin/size');
     }
-  public function updateSize(Request $request, $id){
-    $size = $request->all();
-    DB::table('tb_size')->where('size_id', $id)->update([
-        'product_id' => $size['product_id'],
-        'size' => $size['size'],
-        'size_price' => $size['size_price'],
-    ]);
-    return redirect('admin/size');
+    public function updateSize(Request $request, $id)
+    {
+        $size = $request->all();
+        $request->validate([
+            "product_id" => ["required"],
+            "size" => ["required"],
+            "size_price" => ["required", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/", "max:10"]
 
-
-  }
-
-    public function update_page($id){
-        $size = DB::table('tb_size')->where('size_id', $id)->first();
-
-        return view('admin/update_size' , compact('size'));
-
+        ]);
+        DB::table('tb_size')->where('size_id', $id)->update([
+            'product_id' => $size['product_id'],
+            'size' => $size['size'],
+            'size_price' => $size['size_price'],
+        ]);
+        return redirect('admin/update_size/' . $id)->with("success_edit", "You have successfully edited");
     }
-    public function sizeManager(){
-        $size = DB::table('tb_size')->get();
-        return view("admin.create_size", ["size" => $size]);
-       }
 
-      public function sizeManager_insert_1(){
-        return view('admin/add_size');
+    public function update_page($id)
+    {
+        // $size = DB::table('tb_size')->where('size_id', $id)->first();
+        $size = DB::table('products')
+            ->join('tb_size', 'tb_size.product_id', '=', 'products.product_id')
+            ->select('products.*', 'tb_size.*')->where('size_id', $id)->first();
+        $product_list = Product::where("product_name", "!=", "$size->product_name")->get();
+        return view('admin/update_size', ["size" => $size, "product_list" => $product_list]);
+    }
+    public function sizeManager()
+    {
+        $size = DB::table('products')
+            ->join('tb_size', 'tb_size.product_id', '=', 'products.product_id')
+            ->select('products.*', 'tb_size.*')
+            ->paginate(5);
+        $count_size = DB::table("tb_size")->count();
+        return view("admin.list_size", ["size" => $size, "count_size" => $count_size]);
+    }
 
-      }
-       public function sizeManager_insert(Request $request)
-       {
-           $size = $request->all();
-           DB::table('tb_size')->insert([
-               'product_id' => $size['product_id'],
-               'size' => $size['size'],
-               'size_price' => $size['size_price'],
-           ]);
+    public function sizeManager_insert_1()
+    {
+        $list_product = Product::all("product_id", "product_name");
+        return view('admin/add_size', ["list_product" => $list_product]);
+    }
+    public function sizeManager_insert(Request $request)
+    {
+        $size = $request->all();
+        $request->validate([
+            "product_name" => ["required"],
+            "size" => ["required"],
+            "size_price" => ["required", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/", "max:10"]
 
-           return redirect('admin/size');
-       }
+        ]);
+        DB::table('tb_size')->insert([
+            'product_id' => $size['product_name'],
+            'size' => $size['size'],
+            'size_price' => $size['size_price'],
+        ]);
+
+        return redirect('admin/add_size')->with("status", "You have successfully added");;
+    }
     public function replyComment(Request $request)
     {
         $data = $request->all();
@@ -166,24 +189,34 @@ class ProductController extends Controller
         // $ds = DB::table('products')->find('product_type_id', $id)->first();
         return view("user.page-items.view-product", ["p" => $ds]);
     }
-    public function product()
+    public function product(Request $request)
     {
         $ds = DB::table('products')->paginate(6);
+        $request->session()->forget("Phtl");
+        $request->session()->forget("Plth");
+        $request->session()->put("Newest", "Newest");
         $category = DB::table('tb_category')->get();
         return view("user.page-items.product", ["product" => $ds, "category" => $category]);
     }
 
-    public function ascproducts()
+    public function ascproducts(Request $request)
     {
         $ds = DB::table('products')->orderBy('product_price', 'ASC')->paginate(6);
         $category = DB::table('tb_category')->get();
+        $request->session()->put("Plth", "Price low to high");
+        $request->session()->forget("Phtl");
+        $request->session()->forget("Newest");
 
         return view("user.page-items.product", ["product" => $ds, "category" => $category]);
     }
-    public function descproducts()
+    public function descproducts(Request $request)
     {
         $ds = DB::table('products')->orderBy('product_price', 'DESC')->paginate(6);
         $category = DB::table('tb_category')->get();
+        $request->session()->forget("Plth");
+        $request->session()->put("Phtl", "Price high to low");
+        $request->session()->forget("Newest");
+
 
         return view("user.page-items.product", ["product" => $ds, "category" => $category]);
     }
@@ -203,11 +236,10 @@ class ProductController extends Controller
         foreach ($detail_product as $d) {
             $category_id = $d->category_id;
         }
-
         $related_product = DB::table('products')
             ->join('tb_category', 'tb_category.category_id', '=', 'products.category_id')
             ->where('tb_category.category_id', $category_id)
-            ->select('products.*', 'tb_category.*')->whereNotIn('products.product_id',[$id])
+            ->select('products.*', 'tb_category.*')->whereNotIn('products.product_id', [$id])
             ->paginate(3);
 
 
@@ -221,60 +253,80 @@ class ProductController extends Controller
 
     public function adminproductmanage()
     {
-        $ds = DB::table('products')->get();
-        return view("admin.adminproductmanage", ["products" => $ds]);
+        $ds =  DB::table("products")->join("tb_category", "products.category_id", "=", "tb_category.category_id")
+            ->select("products.*", "tb_category.category_name")->paginate(8);
+
+        $count_product = DB::table("products")->count();
+
+
+        return view("admin.adminproductmanage", ["products" => $ds, "count_product" => $count_product]);
     }
 
     public function insert()
     {
-        return view("admin.productinsert");
+        $category = Category::all();
+        return view("admin.productinsert", ["category" => $category]);
     }
     public function insertPost(Request $request)
     {
-        //nhan tat ca cac du lieu nhap tren form vo bien mang product
-        $product = $request->all();
-        $imageName = null;
 
+        $request->validate([
+            'product_name' => ["required", "string", "max:100", "unique:products"],
+            'product_price' => ["required", "max:100000000"],
+            'product_description' => ["required", "max:500"],
+            'product_images' => ["required", "image"],
+            'select_category' => ["required"],
+            'product_quantity' => ["required", "integer", "max:999.99"],
 
-        //kiem tra trong cac phan tu du lieu duoc up len co pt kieu 'file' ten la 'fileImage' ?
-        if ($request->hasFile('fileImage')) {
-            //lay doi tuong file
-            $file = $request->file('fileImage');
-            $ext = strtolower($file->getClientOriginalExtension()); //lay ten mo rong cua file
-            if ($ext != 'png' && $ext != 'jpg' && $ext != 'jpeg' && $ext != 'gif') {
-                return redirect('admin/productinsert')->with('err_msg', 'chi duoc upload cac file JPEG,PNG,GIF');
-            }
-
-            // if ($file->getSize() > 1000000) {
-            //     return redirect('admin/productinsert')->with('err_msg', 'chi duoc upload file <= 1000k');
-            // }
-
-            $imageName = $file->getClientOriginalName();
-            $file->move("user/images", $imageName);
-        }
-
-        //luu du lieu vo DB
-        DB::table('products')->insert([
-            'product_name' => $product['product_name'],
-            'product_price' => $product['product_price'],
-            'product_images' => $imageName,
-            'product_description' => $product['product_description'],
-            'category_id' => $product['category_id'],
-            // 'product_quantity' => $product['product_quantity'],
-            'product_star' => $product['product_star']
         ]);
 
-        return redirect('admin/adminproduct');
+        //nhan tat ca cac du lieu nhap tren form vo bien mang product
+        $input = $request->all();
+        $imageName = null;
+        $input["category_id"] = $request->select_category;
+        $input["product_star"] = "0";
+
+        if ($request->hasfile("product_images")) {
+            $file = $request->file("product_images");
+            $file_name = $file->getClientOriginalName(); // tên file
+            $extension = $file->getClientOriginalExtension(); // duoi file
+
+            $array_image = Product::where("product_images", $file_name)->exists();
+
+            if ($array_image) {
+
+                return redirect('admin/productinsert')->with('error_upload', 'The product image field  has already been taken .');
+            } else {
+                $file->move("user/images", $file_name);
+                $input["product_images"] = $file_name;
+            }
+        };
+
+        Product::create($input);
+
+        return redirect('admin/productinsert')->with("status", "You have successfully added");
     }
 
     public function update($id)
     {
+
         $product = DB::table('products')->where('product_id', $id)->first();
-        return view('admin.productupdate', ['p' => $product]);
+
+        $category = Product::find($id)->category;
+        $category_list = Category::where("category_name", "!=", "$category->category_name")->get();
+        return view('admin.productupdate', ['p' => $product, "category" => $category, "category_list" => $category_list]);
     }
 
     public function updatePost(Request $request, $id)
     {
+        $request->validate([
+            'product_name' => ["required", "string", "max:100"],
+            'product_price' => ["required", "max:6", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/"],
+            'product_description' => ["required", "max:500"],
+            'product_image' => ["image", "max:500"],
+            'category_id' => ["required"],
+            'product_qty' => ["required", "integer"],
+        ]);
         $product = $request->all();
 
         //kiem tra trong so cac phan tu du lieu dc up len , co pt kieu 'file' te len 'fileImage'?
@@ -300,16 +352,15 @@ class ProductController extends Controller
             'product_images' => $imageName,
             'product_description' => $product['product_description'],
             'category_id' => $product['category_id'],
-            // 'product_quantity' => $product['product_quantity'],
-            'product_star' => $product['product_star']
+            'product_qty' => $product['product_qty'],
         ]);
-        return redirect('admin/adminproduct');
+        return redirect('admin/productupdate/' . $id)->with("success_edit", "You have successfully edited");
     }
 
     public function delete($id)
     {
         DB::table('products')->where('product_id', $id)->delete();
-        return redirect('admin/adminproduct');
+        return redirect('admin/adminproduct')->with('success_delete', 'You have successfully deleted');;
     }
 
     //ham tim kiem bang ajax
@@ -324,26 +375,30 @@ class ProductController extends Controller
         if ($request->ajax()) {
             $output = '';
             $product = DB::table('products')->where('product_name', 'LIKE', '%' . $request->search . '%')->get();
-            if ($product) {
+            if (!empty($product)) {
                 foreach ($product as $p) {
+                    $c = Product::find($p->product_id)->category;
                     $f1 = url("admin/productupdate/" . $p->product_id);
                     $f2 = url("admin/delete/" . $p->product_id);
                     $img = asset("user/images/" . $p->product_images);
-                    $price = number_format($p->product_price, 0, ',', '.');
                     $output .=
                         "<tr>
-                    <td> $p->product_id </td>
-                    <td> $p->product_name </td>
-                    <td> $price VNĐ</td>
                     <td> <img width='100px' src='$img'></td>
+                    <td> $p->product_name </td>
+                    <td> $p->product_price </td>
                     <td> $p->product_description </td>
-                    <td> $p->category_id </td>
+                    <td> $c->category_name </td>
+                    <td> $p->product_qty </td>
                     <td> $p->product_star </td>
-                    <td> <a class='btn btn-info btn-sm' href='$f1' onclick='return content('alert', 'Are you sure')'<i class='fas fa-pencil-alt'></i> Edit </a>
-                         <a class='btn btn-danger btn-sm' href='$f2' onclick='return xacnhan()'<i class='fas fa-trash'></i> Delete </a> </td> </tr>";
+
+                    <td><a href='$f1'><button  type='button' class='btn btn-primary'>Edit</button></a></td>
+                     <td><a href='$f2'><button type='button'  class='btn btn-danger delete_product'>Detele</button></a></td>
+                    </tr>";
                 }
+            } else {
+                $output .= "<td>No result</td>";
             }
-            return Response($output);
+            return response($output);
         }
     }
     public function search2(Request $request)
@@ -353,7 +408,4 @@ class ProductController extends Controller
         $search_product = DB::table('products')->where('product_name', 'LIKE', '%' . $keywords . '%')->get();
         return view('user.page-items.search', ['categories' => $category, 'search_product' => $search_product]);
     }
-
-
-
 }

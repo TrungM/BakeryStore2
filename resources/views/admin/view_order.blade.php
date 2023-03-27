@@ -1,16 +1,16 @@
-@extends('admin.layout.layout');
-@section('title', 'product');
+@extends('admin.layout.layout')
+@section('title', 'product')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Liet ke chi tiet don hang </h1>
+                    <h1>Detail order </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
+                        <li class="breadcrumb-item active">Detail order</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 {{-- customer-tb --}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Thông tin tài khoản mua hàng </h3>
+                        <h3 class="card-title">Account order</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -38,9 +38,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ $customer->customer_name }}</td>
-                                    <td>{{ $customer->customer_phone }}</td>
-                                    <td>{{ $customer->customer_email }}</td>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->phone }}</td>
+                                    <td>{{ $customer->email }}</td>
                                 </tr>
 
 
@@ -55,7 +55,7 @@
                 {{-- shipping-tb --}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Thông tin người nhận hàng </h3>
+                        <h3 class="card-title">Detail recevicer</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -83,8 +83,6 @@
 
                                 </tr>
 
-
-
                             </tbody>
                             <tfoot>
                             </tfoot>
@@ -94,9 +92,9 @@
                 </div>
                 {{-- order-detail-tb --}}
 
-                <div class="card">
+                <div class="card" style="margin-bottom: 2rem">
                     <div class="card-header">
-                        <h3 class="card-title">Thông tin chi sản phẩm trong đơn hàng </h3>
+                        <h3 class="card-title">Detail product of order</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -109,6 +107,7 @@
                                     <th> product_price</th>
                                     <th> product_quantity </th>
                                     <th> product_size </th>
+                                    <th> delivery </th>
                                     <th> product_total</th>
 
                                     {{-- <th> product_size </th>
@@ -117,65 +116,44 @@
                             </thead>
                             <tbody>
                                 @php
-                                $total = 0;
+                                    $total = 0;
                                 @endphp
                                 @foreach ($order_details as $p)
-                                @php
-
-                            $subtotal=$p->product_price * $p->product_quantity
-                            // $total+=$subtotal
-                                @endphp
+                                    @php
+                                        $subtotal = $p->product_price * $p->product_quantity + $p->product_size_price;
+                                    @endphp
                                     <tr>
                                         <td>{{ $p->order_code }}</td>
                                         <td>{{ $p->product_name }}</td>
-                                        <td>{{ number_format($p->product_price, 0, ',', '.') }}</td>
+                                        <td>${{ number_format($p->product_price, 2, ',', '.') }}</td>
                                         <td>{{ $p->product_quantity }}</td>
-                                        <td>{{ $p->product_size}}VNĐ</td>
-                                        <td>{{ number_format( $subtotal, 0, ',', '.') }}</td>
+                                        <td>{{ $p->product_size }}</td>
+                                        <td>$20.00</td>
+                                        <td>${{ number_format($subtotal, 2, ',', '.') }}</td>
 
                                     </tr>
                                     <tr>
 
                                     </tr>
-                                    {{-- <td>{{$order_by_id->shipping_time_hour}}</td>
-                                   <td>{{$order_by_id->shipping_payment}}</td> --}}
                                 @endforeach
 
 
                             </tbody>
-                            <tfoot>
-                            </tfoot>
+
                         </table>
                     </div>
                     <!-- /.card-body -->
+
                 </div>
 
                 <!-- /.card-body -->
             </div>
+
             <!-- /.card -->
         </div>
         <!-- /.col -->
         </div>
         <!-- /.row -->
     </section>
-@stop
-{{-- asset de bat link js --}}
-{{-- url bat link route --}}
-@section('script-section')
-    <script>
-        $(function() {
-            $('#product').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-            });
-        });
 
-        function confirm() {
-            return confirm(are u sure);
-        }
-    </script>
 @endsection

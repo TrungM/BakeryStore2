@@ -19,17 +19,17 @@ class Feedback extends Model
 
      public function product(){
         // 1 danh gia  se thuoc ve 1 san pham
-        return $this->belongsTo("App\Models\Product", 'product_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
     public function rating(){
-        return $this->belongsTo("App\Models\Rating", 'order_code');
+        return $this->belongsTo(Rating::class, 'order_code');
     }
     public function gallery_img(){
         // 1 feedback se co nhieu hinh
-        return $this->hasMany("App\Models\GalleryFeedback");
+        return $this->hasMany(GalleryFeedback::class);
     }
 
     public function customer(){
-        return $this->belongsTo("App\Models\Customer", 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }

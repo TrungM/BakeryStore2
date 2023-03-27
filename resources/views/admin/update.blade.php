@@ -1,16 +1,18 @@
-@extends('admin.layout.layout');
-@section('title', 'product');
+@extends('admin.layout.layout')
+@section('title', 'product')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Cập nhật trình trạng đơn hàng </h1>
+                    <h1> Order Status </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
+                        <li class="breadcrumb-item active"> List order </li>
+                        <li class="breadcrumb-item active"> Order Status </li>
+
                     </ol>
                 </div>
             </div>
@@ -26,43 +28,39 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         @foreach ($order as $p)
-                            @if ($p->order_status = 'Đang xử lý')
+                            @if ($p->order_status = 'Pending')
                                 <form action=""class="order_status">
                                     @csrf
                                     <select style="width:50rem">
-                                        <option value="">---Chon---</option>
-                                        <option id={{ $p->order_id }} value="Đang xử lý">Đang xử lý</option>
-                                        <option id={{ $p->order_id }} value="Đang giao">Đang giao </option>
-                                        <option id={{ $p->order_id }} value="Hoàn thành">Hoàn thành </option>
+                                        <option value="">---Choose---</option>
+                                        <option id={{ $p->order_id }} value="Pending">Pending</option>
+                                        <option id={{ $p->order_id }} value="Delivery">Delivery </option>
+                                        <option id={{ $p->order_id }} value="Success">Success</option>
                                     </select>
-                                    <a class="btn btn-success btn-sm"  onclick="return alert('Cap nhat thanh cong')">
-                                        Cập nhật
                                     </a>
                                 </form>
-                            @elseif ($p->order_status = 'Đang giao')
+                            @elseif ($p->order_status = 'Delivery')
                                 <form action="" class=" order_status">
                                     @csrf
                                     <select style="width:50rem">
-                                        <option value="">---Chon---</option>
-                                        <option id={{ $p->order_id }} value="Đang xử lý">Đang xử lý</option>
-                                        <option id={{ $p->order_id }} selected value="Đang giao">Đang giao </option>
-                                        <option id={{ $p->order_id }} value="Hoàn thành">Hoàn thành </option>
+                                        <option value="">---Choose---</option>
+                                        <option id={{ $p->order_id }} value="Pending">Pending</option>
+                                        <option id={{ $p->order_id }} selected value="Delivery">Delivery </option>
+                                        <option id={{ $p->order_id }} value="Success">Success</option>
                                     </select>
-                                    <a class="btn btn-success btn-sm"   onclick="return alert('Cap nhat thanh cong')">
-                                        Cập nhật
+
                                     </a>
                                 </form>
-                            @elseif ($p->order_status = 'Hoàn thành')
+                            @elseif ($p->order_status = 'Success')
                                 <form action="" class="order_status">
                                     @csrf
                                     <select style="width:50rem">
-                                        <option value="">---Chon---</option>
-                                        <option id={{ $p->order_id }} value="Đang xử lý">Đang xử lý</option>
-                                        <option id={{ $p->order_id }} value="Đang giao">Đang giao </option>
-                                        <option id={{ $p->order_id }} selected value="Hoàn thành">Hoàn thành </option>
+                                        <option value="">---Choose---</option>
+                                        <option id={{ $p->order_id }} value="Pending">Pending</option>
+                                        <option id={{ $p->order_id }} value="Delivery">Delivery </option>
+                                        <option id={{ $p->order_id }} selected value="Success">Success</option>
                                     </select>
-                                    <a class="btn btn-success btn-sm"  onclick="return alert('Cap nhat thanh cong')">
-                                        Cập nhật
+
                                     </a>
                                 </form>
                             @endif
@@ -91,27 +89,34 @@
         $(document).ready(function() {
             $('.order_status select').change(function() {
                 var order_status = $(this).val();
-                console.log(order_status);
                 var order_id = $(this).children(":selected").attr("id");
                 var _token = $('input[name="_token"]').val();
 
+                $choose = confirm("Are you sure edit status ");
+                if ($choose == true) {
+                    $.ajax({
 
-                $.ajax({
+                        url: '{{ url('update_status') }}',
+                        method: 'POST',
+                        data: {
+                            _token: _token,
+                            order_status: order_status,
+                            order_id: order_id
+                        },
 
-                    url: '{{ url('update_status') }}',
-                    method: 'POST',
-                    data: {
-                        _token: _token,
-                        order_status: order_status,
-                        order_id: order_id
-                    },
-
-                    success: function(data) {
-
-                    }
+                        success: function(data) {
+                            window.location.href =
+                                "http://localhost/BakeryStore/public/admin/manager_order";
+                        }
 
 
-                });
+                    });
+                } else {
+                    window.location.href =
+                                "http://localhost/BakeryStore/public/admin/manager_order";
+                }
+
+
             });
 
 

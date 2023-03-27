@@ -21,51 +21,73 @@
             <a href="#" class="fas fa-shopping-cart"></a>
 
 
-            {{-- dang lam viec voi phan checkout chu khong lam viec voi user chua phan quyen --}}
             <?php
-            // $customer_id= Session::get('id');
-            $customer_id= Session::get('id');
+            $login= Session::has('login_home');
+            $login_google= Session::has("login_google");
+            $customer_id=Session::get("customer_id");
 
-            if ($customer_id != null) {
+            if ($login | $login_google ) {
 
             ?>
             <i class="fa-solid fa-user" style="background: #be9c79;
               color: #fff;"></i>
-            <div class="hover-login-logout active-hover">
-
+            {{-- <div class="hover-login-logout active-hover">
                 <div class="hover-logout">
-                    <a href="{{ URL::to('user-infromation/' . $customer_id) }}" class="fa-solid fa-user"
+                    <a href="{{ URL::to('detail-customer/' . $id) }}" class="fa-solid fa-user"
                         style="font-size:1.6rem;"><span>Thông tin tài
                             khoản</span></a>
-                    <a href="{{ URL::to('user-infromation/' . $customer_id) }}"
-                        class="fa-solid fa-user-clock status_ord" style="font-size:1.6rem;"><span>Tình trạng đơn
+                    <a href="{{ URL::to('detail-customer/' . $id) }}" class="fa-solid fa-user-clock status_ord"
+                        style="font-size:1.6rem;"><span>Tình trạng đơn
                             hàng</span></a>
-                    <a href="{{ URL::to('logout_checkout') }}" class="fa-solid fa-arrow-right-from-bracket"
+                    <a href="{{ URL::to('logout_home') }}" class="fa-solid fa-arrow-right-from-bracket"
                         style="font-size:1.6rem; text-align: center;"><span>Đăng xuất</span></a>
                 </div>
+            </div> --}}
+            <div class="option-customer active-hover">
+                <div class="option">
+                    <div class="infor-customer">
+                        <a href="{{ URL::to('detail-profile/' . $customer_id) }}" class="fa-solid fa-user"
+                        style="font-size:1.6rem;"><span style="margin-left: 0.2rem " class="text-option">Profile</span></a>
+                    </div>
+                    <div class="Purchase">
+                        <a href="{{ URL::to('purchase/'.$customer_id) }}" class="fa-solid fa-user-clock status_ord"
+                        style="font-size:1.6rem;"><span style="margin-left: 0.2rem " class="text-option">Purchase</span></a>
+                    </div>
+
+                    <div class="logout-customer">
+                        <a href="{{ URL::to('logout_home') }}" class="fa-solid fa-arrow-right-from-bracket"
+                        style="font-size:1.6rem; text-align: center;"><span style="margin-left: 0.2rem " class="text-option">Logout</span></a>
+                    </div>
+                </div>
+
             </div>
 
 
             <?php
         }else{
             ?>
+
             <i class="fa-solid fa-user"></i>
-
-            {{-- <a href="{{ URL::to('login_checkout') }}"class="fa-solid fa-user"> </a> --}}
-            <div class="hover-login-logout active-hover">
-                <div class="hover-login">
-                    <a href="{{ URL::to('login_checkout') }}" class="fa-solid fa-arrow-right-to-bracket"
-                        style="font-size:1.6rem; "><span>Đăng nhập</span></a>
-
+           <div class="option-customer active-hover">
+                <div class="option">
+                    <div class="sign-up">
+                        <a href="{{ URL::to('login') }}" class="fa-solid fa-arrow-right-to-bracket"
+                        style="font-size:1.6rem; "><span  style="margin-left: 0.2rem " class="text-option">Sigin in </span></a>
+                    </div>
+                    <div class="sign-in">
+                        <a href="{{ URL::to('sign') }}" class="fa-solid fa-user-plus"
+                        style="font-size:1.6rem; "><span style="margin-left: 0.2rem " class="text-option">Sigin up </span></a>
+                    </div>
                 </div>
+
             </div>
-            <?php
+        <?php
         }
 
 ?>
 
 
-            <i class="fas fa-bars" id="menu-btn"></i>
+        <i class="fas fa-bars" id="menu-btn"></i>
 
         </div>
     </section>
@@ -80,7 +102,7 @@
     {{ csrf_field() }}
     <input type="search" name="keywords_submit" id="search-box" placeholder="Enter Product Name">
     <label for="search-box" name="search-items" class="fas fa-search"></label>
-    <i class="fas fa-times" id="close"></i>
+    <i class="fas fa-times" id="close" ></i>
 </form>
 <!-- shopping-cart section  -->
 
@@ -88,7 +110,7 @@
 
     <div class="products-container">
 
-        <h3 class="title">Sản phẩm của bạn </h3>
+        <h3 class="title">Your cart </h3>
 
         <div class="box-container">
             <?php
@@ -100,27 +122,29 @@
             @foreach ($content as $p)
                 <div class="box">
                     <a href=" {{ URL::to('delete-to-cart/' . $p->rowId) }}" style="color: #130f40"><i
-                            class="fas fa-times"></i></a>
+                            class="fas fa-times" onclick=" return confirm('Do you delete this items')"></i></a>
                     <img src={{ URL::to('user/images/' . $p->options->image) }} alt="">
                     <div class="content">
                         <h3>{{ $p->name }}</h3>
                         <form action="{{ URL::to('update_cart_quantity') }}" method="POST">
                             @csrf
-                            <span> Số lượng : </span>
+                            <span> Quantity : </span>
                             <input type="number" name="cart_quantity" value="{{ $p->qty }}" id=""
-                            min="1" max="10">
+                                min="1" max="10">
                             <input type="hidden" name="rowId_cart" value="{{ $p->rowId }}" id="">
                             <br>
-                            <button class="btn" type="submit" style="font-size: 1.2rem">Cập nhật</button>
+                            <button class="btn" type="submit" style="font-size: 1.2rem">Change</button>
                             <br>
                             <br>
                             <span>Size : </span>
-                                  <span class="size"> {{ $p->options->size }} </span>
-                                  <input type="hidden" name="cart_size"  value="{{ $p->options->size }}" id=""  >
+                            <span class="size"> {{ $p->options->size }}  </span>
+                            <span class="size"> ${{ $p->options->p_size }}  </span>
+
+                            {{-- <input type="hidden" name="cart_size" value="{{ $p->options->size }}" id=""> --}}
                             <br><br>
                         </form>
-                        <span> giá : </span>
-                        <span class="price"> {{ number_format($p->price) }}</span>
+                        <span> Price : </span>
+                        <span class="price">  ${{number_format( $p->price,2,'.',',')}}</span>
                     </div>
                 </div>
             @endforeach
@@ -132,33 +156,26 @@
 
     <div class="cart-total">
 
-        <h3 class="title"> Tổng tiền giỏ hàng </h3>
+        <h3 class="title"> Total </h3>
 
         <div class="box">
+            <h3 class="total"> Quantity Items : <span>{{ Cart::countItems() }}</span> </h3>
+            <h3 class="total"> Total : <span>${{ Cart::total()}}</span> </h3>
 
-            <h3 class="subtotal"> tổng phụ : <span>{{ Cart::subtotal() }}VNĐ</span> </h3>
-            <h3 class="total"> tổng tiền  : <span>{{ Cart::subtotal()}}VNĐ</span> </h3>
             <?php
-            $customer_id= Session::get('id');
+            $customer_id= Session::get('customer_id');
 
             if ($customer_id != null) {
 
             ?>
-            @if (Cart::count()==0)
-            <a href="{{ URL::to('product') }}" class="btn"  onclick="return alert('Giỏ hàng của bạn trống !!!! ')">Thanh toán giỏ hàng </a>
-
-            @else
-            <a href="{{ URL::to('checkout') }}" class="btn">Thanh toán giỏ hàng</a>
-            @endif
+                <a href="{{ URL::to('checkout') }}" class="btn">Checkout</a>
             <?php
         }else{
             ?>
-            <a href="{{ URL::to('login_checkout') }}" class="btn"
-            onclick="return confirm('Vui lòng đăng nhập để thanh toán ')">Thanh toán giỏ hàng</a>
+            <a href="{{ URL::to('login') }}" class="btn"  nclick="alert('Please login to add  new items')">Checkout</a>
 
             <?php
         }
-
                    ?>
         </div>
 

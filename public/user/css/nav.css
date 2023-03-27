@@ -164,18 +164,16 @@ section {
 }
 
 /* --login,logout-- */
-.hover-login-logout {
+.option-customer {
     position: fixed;
     /* top: -110%; */
     top: 9rem;
-    right: 2rem;
-    min-height: 40%;
-    width: 20%;
+    right: 1rem;
+    min-height: 20%;
+
     z-index: 1004;
     background: rgba(0, 0, 0, .8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
     padding: 0 1rem;
     background: #fff;
     border-radius: .5rem;
@@ -187,27 +185,24 @@ section {
 .active-hover {
     display: none;
 }
-
-.hover-login-logout>.hover-login {
-    width: 16rem;
-    padding: 1rem 0;
-    font-size: 3rem;
-    flex: 1 1 auto;
-}
- .hover-login-logout> .hover-logout {
-    width: 20rem;
-    font-size: 3rem;
-    flex: 1 1 auto;
+.option-customer .option {
+padding: 2rem 2rem ;
 }
 
-.hover-login-logout .hover-logout {
-    width: 16rem;
-    padding: 1rem 0;
-    font-size: 3rem;
-    flex: 1 1 auto;
+.option-customer .option .sign-up{
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    padding: 2rem 2rem;
+    margin-bottom:  2rem ;
 }
+.option-customer .option .sign-up a{
+    color: black;
 
-.hover-login-logout> .hover-login a {
+}
+.option-customer .option .sign-in{
     color: black;
     background: #fff;
     border-radius: .5rem;
@@ -215,35 +210,75 @@ section {
     box-shadow: var(--box-shadow);
     text-align: center;
     padding: 2rem 2rem;
-
+}
+.option-customer .option .sign-in a{
+    color: black;
 }
 
-.hover-login-logout >.hover-logout a {
+
+.option-customer .option .infor-customer{
     color: black;
     background: #fff;
-    margin-bottom: 1rem;
     border-radius: .5rem;
     border: .1rem solid rgba(0, 0, 0, .2);
     box-shadow: var(--box-shadow);
-    text-align: left;
-    width: 18rem;
-    /* padding: 1rem 1rem ; */
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-
-
+    text-align: center;
+    padding: 2rem 2rem;
 }
 
-.hover-login-logout> .hover-login:hover a {
-    background-color: #EA8025;
+.option-customer .option .Purchase{
+    color: black;
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    padding: 2rem 2rem;
+    margin: 1.5rem 0px;
+}
+.option-customer .option .logout-customer{
+    color: black;
+    background: #fff;
+    border-radius: .5rem;
+    border: .1rem solid rgba(0, 0, 0, .2);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    padding: 2rem 2rem;
+}
+.option-customer .option .logout-customer a{
+    color: black;
+}
+.option-customer .option .Purchase a{
+    color: black;
+}
+.option-customer .option .infor-customer a{
+    color: black;
+}
+.option-customer .option .logout-customer:hover{
+    background-color: #be9c79;
     transition: all 0.5s;
 
 }
+.option-customer .option .Purchase:hover{
+    background-color: #be9c79;
+    transition: all 0.5s;
 
-.hover-login-logout> .hover-logout a:hover {
-    background-color: #EA8025;
+}
+.option-customer .option .infor-customer:hover{
+    background-color: #be9c79;
+    transition: all 0.5s;
+
+}
+.option-customer .option .sign-in:hover{
+    background-color: #be9c79;
+    transition: all 0.5s;
+
+}
+.option-customer .option .sign-up:hover{
+    background-color: #be9c79;
     transition: all 0.5s;
 }
+
 
 /* END */
 /* Css form-search */
@@ -898,6 +933,13 @@ section {
 
     .about .content h3 {
         font-size: 3rem;
+    }
+
+    .text-option{
+
+        display: none;
+
+
     }
 
 }
