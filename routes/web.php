@@ -108,8 +108,7 @@ Route::get('post-bai-viet', [PostController::class, 'post_bai_viet']);
 Route::get('bai-viet/{post_title}', [PostController::class, 'bai_viet']);
 //end
 // admin product
-// Route::prefix('admin')->middleware('checkadmin')->group(function () {
-// });
+
 Route::get('admin/adminproduct', [ProductController::class, 'adminproductmanage']);
 Route::get('/product2', [ProductController::class, 'searchPost']);
 Route::get('admin/productinsert', [ProductController::class, 'insert']);
@@ -117,11 +116,13 @@ Route::post('admin/insertPost', [ProductController::class, 'insertPost']);
 Route::get('admin/productupdate/{product_id}', [ProductController::class, 'update']);
 Route::post('admin/updatePost/{id}',  [ProductController::class, 'updatePost']);
 Route::get('admin/delete/{id}', [ProductController::class, 'delete']);
+
+});
+
 // search2
 Route::POST('/tim-kiem', [ProductController::class, 'search2']);
 Route::get('/ascproducts_search', [ProductController::class, 'ascproducts_search']);
 Route::get('/desproducts_search', [ProductController::class, 'desproducts_search']);
-});
 
 // route cho tat ca cac trang nguoi dung
 // ----Start---

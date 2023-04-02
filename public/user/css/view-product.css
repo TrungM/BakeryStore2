@@ -432,6 +432,7 @@ html {
 .dishes .box-container .box .fa-eye:hover {
     background: var(--main-color);
     color: #fff;
+    cursor: pointer;
 }
 
 .dishes .box-container .box .fa-heart {

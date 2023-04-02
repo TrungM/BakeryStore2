@@ -84,12 +84,39 @@
                                                             Detail
                                                         </a>
                                                     </div>
-                                                    <div class="action-feedback">
-                                                        <i class="fa-solid fa-pencil"></i>
-                                                        <a href="{{ URL::to('feedback/' . $a->order_code.'/'.$a->product_id) }}">
-                                                            Feedback
-                                                        </a>
-                                                    </div>
+                                                    <?php
+                                                    $fb_exists = DB::table('tb_feedback')
+                                                        ->where('order_code', $a->order_code)
+                                                        ->where('customer_id', $item->customer_id)
+                                                        ->where("product_id",$a->product_id)
+                                                        ->exists();
+                                                    ?>
+
+                                                    @if ($item->order_status == 'Complete')
+
+                                                        @if (  $fb_exists== true)
+                                                        <div class="action-feedback">
+                                                            <a
+                                                                href="{{ url('view-product/' . $a->product_id) }}">
+                                                              View Feedback
+                                                            </a>
+                                                        </div>
+                                                        @else
+                                                        <div class="action-feedback">
+                                                            <i class="fa-solid fa-pencil"></i>
+                                                            <a
+                                                                href="{{ URL::to('feedback/' . $a->order_code . '/' . $a->product_id) }}">
+                                                                Feedback
+                                                            </a>
+                                                        </div>
+                                                        @endif
+
+                                                        @endif
+
+
+
+
+
                                                 </div>
 
                                             </div>

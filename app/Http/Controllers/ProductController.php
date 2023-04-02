@@ -8,7 +8,6 @@ use App\Models\Comment;
 use App\Models\Rating;
 use App\Models\Category;
 use App\Models\Product;
-
 class ProductController extends Controller
 {
 
@@ -109,6 +108,7 @@ class ProductController extends Controller
     public function sendComment(Request $request)
     {
         $product_id = $request->product_id;
+
         $comment_name = $request->comment_name;
         $comment_content = $request->comment_content;
         $comment_status = $request->comment_content;
@@ -135,14 +135,14 @@ class ProductController extends Controller
         $comment_rep_count = Comment::where('product_id', $product_id)->where("comment_status", 0)->count();
         foreach ($comment as $p) {
             $output .= '
-                <div class="user_comment" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem ">
+                <div class="user_comment" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem; ">
         <div class="header_name">
-            <img src="" alt="">
-            <i class="fa-solid fa-user"></i>            <span>' . $p->comment_name . '</span>
+
+            <i class="fa-solid fa-user" style="margin-right:1rem;"></i><span>' . $p->comment_name . '</span>
             <span style="font-size:1.2rem">' . $p->comment_date . '</span>
         </div>
 
-        <div class="user_comment_text">
+        <div class="user_comment_text" style="text-transform:none;">
          ' . $p->comment . '
         </div>
 

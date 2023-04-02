@@ -64,7 +64,7 @@
                     <img style="width: 100%; height:40rem;" src="{{ asset('user/images/products_bg.jpg') }}">
 
                     <div class="heading">
-                        <img src="images/heading-img.png" alt="">
+                        {{-- <img src="{{ asset('images/heading-img.png')}}" alt=""> --}}
                         <h3>our menu</h3>
                     </div>
 
@@ -80,8 +80,7 @@
                         </div> --}}
                             <div class="box">
                                 <div class="box-heart">
-                                    <a class="fas fa-heart heart" id="{{ $p->product_id }}"
-                                        onclick="add_wishlist(this.id)"></a>
+                                    <a class="fas fa-heart heart" id="{{ $p->product_id }}" ></a>
                                 </div>
                                 <a href="{{ URL::to('view-product/' . $p->product_id) }}" class="fas fa-eye"></a>
 
@@ -119,7 +118,7 @@
                                         <i class="fas fa-star" style="color:#be9c79"></i>
                                         <i class="fas fa-star" style="color:#be9c79"></i>
                                     @elseif ($rating == 0)
-                                        <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
+                                        <p style="font-size:1.5rem ; color:#be9c79">Unassessed </p>
                                     @endif
 
                                 </div>
@@ -129,13 +128,13 @@
                                 <input type="hidden" id="wishlist_productname{{ $p->product_id }}"
                                     value="{{ $p->product_name }}">
                                 <input type="hidden" id="wishlist_productprice{{ $p->product_id }}"
-                                    value=" {{ number_format($p->product_price) }}">
+                                    value=" ${{($p->product_price)}}">
                                 <input type="hidden" id="wishlist_productimage{{ $p->product_id }}"
                                     src="{{ asset('user/images/' . $p->product_images) }}">
                                 <input type="hidden" id="wishlist_producturl{{ $p->product_id }}"
                                     value="{{ $p->product_id }}" href="{{ URL::to('view-product/' . $p->product_id) }}">
                                 <input type="hidden" id="wishlist_productstar{{ $p->product_id }}"
-                                    value="{{ $p->product_star }}">
+                                    value="{{ $rating  }}">
 
                             </div>
                         @endforeach

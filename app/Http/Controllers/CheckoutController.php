@@ -16,6 +16,7 @@ use App\Models\wards;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Sendmail;
 use App\Mail\SendmailOrder;
+use App\Models\Feedback;
 
 class CheckoutController extends Controller
 {
@@ -184,6 +185,7 @@ class CheckoutController extends Controller
         // };
         $detail = DB::table('tb_order_detail')->get();
         // $detail= Order::find(1)->details->count();
+
         return view('user.page-items.purchase', ['ds' => $ds, "detail" => $detail]);
     }
 

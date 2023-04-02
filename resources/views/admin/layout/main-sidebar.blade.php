@@ -99,7 +99,7 @@
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Bình luận và Đáng giá
+                                    Comment và Feedback
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -107,13 +107,13 @@
                                 <li class="nav-item">
                                     <a href="{{ URL::to('admin/comment_admin') }}" class="nav-link">
                                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                                        <p>Bình luận</p>
+                                        <p>Comment</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ URL::to('admin/feedback_admin') }}" class="nav-link">
                                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                                        <p>Đánh Giá</p>
+                                        <p>Feedback</p>
                                     </a>
                                 </li>
                             </ul>

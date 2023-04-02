@@ -354,6 +354,7 @@ form .textarea-feedback textarea {
     border-radius: 4px 4px 0 0;
     box-sizing: border-box;
     line-height: 20px;
+    text-transform: none;
     resize: none;
 }
 

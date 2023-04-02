@@ -161,11 +161,12 @@
                 if (files.length > 1) {
                     $(this).val("");
                     error.html(
-                        "<span style='color:#fff'; font-size:4rem; >Vui lòng chon duoi 1 anh</span>");
+                        "<span style='color:#fff'; font-size:4rem; >Please enter your less than 1 image </span>"
+                        );
                 }
 
                 if (files.size > 2000000) {
-                    error += 'Vui lòng chon duoi 2000000 ';
+                    error += 'Please enter your less than  2000000 MB ';
                     $("#multiple_files").val("");
                     $("#error_img").html(
                         "<span style='color:#fff'; font-size:4rem; >" + error + "</span>");
@@ -226,28 +227,15 @@
                 $('#' + product_id + '-' + i).css("color", "black");
             }
         }
-        // hover chuột đánh giá sao
-        $(document).on("mouseenter", '.rating', function() {
+
+        // hover chuột khong  đánh giá sao
+        $(document).on("click", '.rating', function() {
             var index = $(this).data("index");
             var product_id = $(this).data("product_id");
-            // alert(index);
-            // alert(product_id);
             remove_background(product_id);
             for (var i = 1; i <= index; i++) {
                 $('#' + product_id + '-' + i).css("color", "#be9c79");
             }
-        });
-
-        // hover chuột khong  đánh giá sao
-        $(document).on("mouseleave", '.rating', function() {
-            var index = $(this).data("index");
-            var product_id = $(this).data("product_id");
-            remove_background(product_id);
-            for (var i = 1; i <= index; i++) {
-                $('#' + product_id + '-' + i).css("color", "black");
-
-            }
-
         });
 
 
@@ -257,57 +245,28 @@
             var index = $(this).data("index");
             var product_id = $(this).data("product_id");
             var order_code = $(".order_code_product").val();
-            if (index > 1) {
-                $choose = confirm("Do you want to  wirte content feedback ")
-                if ($choose == true) {
-                    $(".form-f-conent").attr("style", "display:block");
-                    $.ajax({
-                        url: '{{ url('insert-rating') }}',
-                        method: "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            index: index,
-                            product_id: product_id,
-                            order_code: order_code
-                        },
-                        success: function(data) {
+            $.ajax({
+                url: '{{ url('insert-rating') }}',
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    index: index,
+                    product_id: product_id,
+                    order_code: order_code
+                },
+                success: function(data) {
 
-                            if (data == 'done2') {
-                                alert("Product has sent feedback !!!")
-
-                            }
-                        }
-
-
-                    })
-                } else {
-                    $.ajax({
-                        url: '{{ url('insert-rating') }}',
-                        method: "POST",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: {
-                            index: index,
-                            product_id: product_id,
-                            order_code: order_code
-                        },
-                        success: function(data) {
-
-                            if (data == 'done') {
-                                alert("You has sent feedback successfully")
-                                history.back()
-                            } else if (data == 'done2') {
-                                alert("Product has sent feedback !!!")
-                            }
-                        }
-
-
-                    })
+                    if (data == 'done') {
+                        // alert("You has sent feedback successfully")
+                        $(".form-f-conent").attr("style", "display:block");
+                        // history.back()
+                    } else if (data == 'done2') {
+                        alert("Product has sent feedback !!!")
+                    }
                 }
-            }
+            });
 
 
         });

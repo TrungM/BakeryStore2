@@ -25,7 +25,6 @@ class ProfileController extends Controller
         $request->validate([
             "name"=>["required","string","max:100"],
             'phone'=>[ "required","regex:/[0-9]$/","max:13","min:8"],
-            'address'=>[ "required","max:225"]
 
         ]);
 
@@ -33,7 +32,6 @@ class ProfileController extends Controller
             "name"=>$request->name,
             "email"=>$request->email,
             "phone"=>$request->phone,
-            "address"=>$request->address,
         ]);
 
 

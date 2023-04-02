@@ -48,7 +48,7 @@
                             <i class="fas fa-star" style="color:#be9c79"></i>
                             <i class="fas fa-star" style="color:#be9c79"></i>
                         @elseif ($rating == 0)
-                            <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
+                            <p style="font-size:1.5rem ; color:#be9c79">Unassessed </p>
                         @endif
                     </div>
                     <form action="{{ URL::to('save_cart') }}" method="POST" class="form_viewproduct">
@@ -110,9 +110,18 @@
                 </div>
                 <div class="box-container">
                     @foreach ($c as $a)
+                    <?php
+
+                    $rating = DB::table('tb_rating')
+                        ->where('product_id_star', $a->product_id)
+                        ->avg('rating');
+                    $rating = round($rating);
+
+
+                    ?>
                         <div class="box">
                             <div class="box-heart">
-                                <a class="fas fa-heart heart" id="{{ $a->product_id }}" onclick="add_wishlist(this.id)"></a>
+                                <a class="fas fa-heart heart" id="{{ $a->product_id }}" ></a>
                             </div>
                             <a href="{{ URL::to('view-product/' . $a->product_id) }}" class="fas fa-eye"></a>
 
@@ -121,43 +130,44 @@
 
                             <h3>{{ $a->product_name }}</h3>
                             <div class="stars">
-                                @if ($a->product_star == 1)
+                                @if ($rating == 1)
                                     <i class="fas fa-star" style="color:#be9c79"></i>
-                                @elseif ($a->product_star == 2)
-                                    <i class="fas fa-star" style="color:#be9c79"></i>
-                                    <i class="fas fa-star" style="color:#be9c79"></i>
-                                @elseif ($a->product_star == 3)
+                                @elseif ($rating == 2)
                                     <i class="fas fa-star" style="color:#be9c79"></i>
                                     <i class="fas fa-star" style="color:#be9c79"></i>
-                                    <i class="fas fa-star" style="color:#be9c79"></i>
-                                @elseif ($a->product_star == 4)
+                                @elseif ($rating == 3)
                                     <i class="fas fa-star" style="color:#be9c79"></i>
                                     <i class="fas fa-star" style="color:#be9c79"></i>
                                     <i class="fas fa-star" style="color:#be9c79"></i>
-                                    <i class="fas fa-star" style="color:#be9c79"></i>
-                                @elseif ($a->product_star == 5)
+                                @elseif ($rating == 4)
                                     <i class="fas fa-star" style="color:#be9c79"></i>
                                     <i class="fas fa-star" style="color:#be9c79"></i>
                                     <i class="fas fa-star" style="color:#be9c79"></i>
                                     <i class="fas fa-star" style="color:#be9c79"></i>
+                                @elseif ($rating == 5)
                                     <i class="fas fa-star" style="color:#be9c79"></i>
-                                @elseif ($a->product_star == 0)
-                                    <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                @elseif ($rating == 0)
+                                    <p style="font-size:1.5rem ; color:#be9c79">Unassessed</p>
                                 @endif
 
                             </div>
                             <span>${{ $a->product_price }}</span>
 
 
-                            <input type="hidden" id="wishlist_productname{{ $p->product_id }}"
-                                value="{{ $p->product_name }}">
-                            <input type="hidden" id="wishlist_productprice{{ $p->product_id }}"
-                                value=" {{ number_format($p->product_price) }}">
-                            <input type="hidden" id="wishlist_productimage{{ $p->product_id }}"
-                                src="{{ asset('user/images/' . $p->product_images) }}">
-                            <input type="hidden" id="wishlist_producturl{{ $p->product_id }}"
-                                value="{{ $p->product_id }}" href="{{ URL::to('view-product/' . $p->product_id) }}">
-
+                            <input type="hidden" id="wishlist_productname{{ $a->product_id }}"
+                                value="{{ $a->product_name }}">
+                                <input type="hidden" id="wishlist_productprice{{ $a->product_id }}"
+                                    value=" ${{($a->product_price)}}">
+                            <input type="hidden" id="wishlist_productimage{{ $a->product_id }}"
+                                src="{{ asset('user/images/' . $a->product_images) }}">
+                            <input type="hidden" id="wishlist_producturl{{ $a->product_id }}"
+                                value="{{ $a->product_id }}" href="{{ URL::to('view-product/' . $a->product_id) }}">
+                                <input type="hidden" id="wishlist_productstar{{ $a->product_id }}"
+                                value="{{ $rating  }}">
                         </div>
                     @endforeach
                 </div>
@@ -167,7 +177,7 @@
 
         <div id="comment">
             <div class="comment_header">
-                <h4>Bình luận</h4>
+                <h4>Comment</h4>
 
             </div>
 
@@ -184,7 +194,7 @@
                 @if ($customer_id != null)
                     <div style="display:inline">
                         <label for="" style="
-                    font-size:1.7rem;"> tên bình luận </label><br>
+                    font-size:1.7rem;"> Comment name  </label><br>
                         <input type="text" class="comment_name" value="{{ $customer_name }}"
                             style="border: none;
                     border: 2px solid #dadada; width:40%; height:40px ; margin-bottom:2rem; margin-top:1rem">
@@ -192,7 +202,7 @@
                 @else
                     <div style="display:inline">
                         <label for="" style="
-                        font-size:1.7rem;"> tên bình luận
+                        font-size:1.7rem;"> Comment name
                         </label><br>
                         <input type="text" class="comment_name"
                             style="border: none;
@@ -200,15 +210,15 @@
                     </div>
                 @endif
 
-                <textarea name="" id="" cols="60" rows="8" class="comment_content">
+                <textarea name="" id="" cols="60" rows="8" class="comment_content" style="text-transform: none;">
                   </textarea>
                 <div style=" margin-top:1rem;">
 
-                    <input type="submit" class="btn-comment send_comment" value="Gửi bình luận"
+                    <input type="submit" class="btn-comment send_comment" value="Send"
                         style="cursor: pointer;">
 
                 </div>
-                <div class="notify_comment" style="font-size: 1.5rem; margin-top:1rem;color: red;"></div>
+                <div class="notify_comment" style="font-size: 1.5rem; margin-top:1rem;color: green;"></div>
                 <div id="error_comment" style="font-size: 1.5rem; margin-top:1rem;color: red;"></div>
             </form>
 
@@ -297,7 +307,7 @@
                 if (comment_content.length == 18 || comment_name == "") {
                     e.preventDefault();
                     $("#error_comment").html(
-                        "<span style='color:red;'>*Vui lòng không để trống * </span>");
+                        "<span style='color:red;'>*Please no empty * </span>");
 
                 }
                 $.ajax({
@@ -313,7 +323,7 @@
                         load_comment();
 
                         $(".notify_comment").html(
-                            "<span>Thêm bình luận thành công,Bình luận đang chờ duyệt </span> "
+                            "<span>Send successfully ,Comment waits to accept</span> "
                         );
                         $(".notify_comment").fadeOut(5000);
                         $(".comment_content").val("");

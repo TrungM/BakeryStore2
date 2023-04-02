@@ -29,9 +29,6 @@
                     <div class="email-infor">
                         <span>{{ $profile->email }}</span>
                     </div>
-                    <div class="address-infor">
-                        <span>{{ $profile->address }} </span>
-                    </div>
 
                 </div>
 
@@ -94,16 +91,6 @@
                         @enderror
                         <br>
                         <input type="text" name="phone" id="phone" value="{{ $profile->phone }}"
-                            class="user-form-items">
-
-                    </div>
-                    <div>
-                        <label for="">Address </label>
-                        @error('address')
-                            <small class="form-text text-danger-error">{{ $message }}</small>
-                        @enderror
-                        <br>
-                        <input type="text" name="address" id="address" value="{{ $profile->address }}"
                             class="user-form-items">
 
                     </div>

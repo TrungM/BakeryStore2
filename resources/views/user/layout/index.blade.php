@@ -33,6 +33,7 @@
 </body>
 <script>
     $(document).ready(function() {
+        let id_array = [];
 
         function load_feedback() {
             var product_id = $(".feedback_product_id").val();
@@ -50,6 +51,15 @@
             });
         };
         load_feedback();
+
+        $(".heart").click(function(e) {
+
+            var id = $(this).attr("id");
+            add_wishlist(id);
+        })
+
+
+
 
 
 
@@ -91,64 +101,120 @@
 
             // kiem tra san trung
             //grep giong fillter trong js
+
             var matches = $.grep(old_data, function(obj) {
                 return obj.id === id;
             });
             if (matches.length) {
-                alert("San pham da them , nen khong the them dc nua ")
+                alert("Product has existed");
             } else {
                 old_data.push(newItem);
             }
-
             localStorage.setItem('data', JSON.stringify(old_data));
-
         }
 
 
 
-        view();
+        if (localStorage.getItem('data') != null) {
+            // co du lieu khong rong
+            var data = JSON.parse(localStorage.getItem('data'));
+            // dao nguoc len trang dau
+            for (var i = 0; i < data.length; i++) {
+                var id = data[i].id;
+                id_array.push(id);
 
-        function view() {
-            if (localStorage.getItem('data') != null) {
-                // co du lieu khong rong
-                var data = JSON.parse(localStorage.getItem('data'));
-                // dao nguoc len trang dau
-                data.reverse();
-
-                for (let i = 0; i < data.length; i++) {
-                    var name = data[i].name;
-                    var id = data[i].id;
-                    var price = data[i].price;
-                    var image = data[i].image;
-                    var url = data[i].url;
-                    var star = data[i].star;
-                    $("#box-container").append(
-                        '<div class="box"><a href="#"  id=' + id +
-                        ' onclick="deleteItem(' + i +
-                        ')" " class="fas fa-times" style="font-size: 3rem;"></a> <a href="' +
-                        url + '" class="fas fa-eye"></a>   <img src="' + image + '"alt=""> <h3>' + name +
-                        '</h3>              <span>' +
-                        price + 'VNĐ</span>  </div>')
+                if (id_array.includes(id) == true) {
+                    id_array.forEach(i => {
+                        $('#' + i).css("background-color", "#be9c79").css("color", "#fff");
+                    });
                 }
             }
+            // console.log(id_array);
+
+
+
         }
 
 
-        function deleteItem(index) {
-            if (localStorage.getItem('data') != null) {
-                var old_data = JSON.parse(localStorage.getItem('data'))
-                // console.log(localStorage.setItem('old_data', 2))
-                old_data.reverse().splice(index, 1);
-                // day vao lai trong localStroge
-                localStorage.setItem('data', JSON.stringify(old_data));
-                // view();
 
+        if (localStorage.getItem('data') != null) {
+            // co du lieu khong rong
+            var data = JSON.parse(localStorage.getItem('data'));
+            // dao nguoc len trang dau
+
+            data.reverse();
+            for (var i = 0; i < data.length; i++) {
+                var name = data[i].name;
+                var id = data[i].id;
+                var price = data[i].price;
+                var image = data[i].image;
+                var url = data[i].url;
+                var star = data[i].star;
+
+
+                $("#box-container").append(
+                    '<div class="box"><a  id=' + id +
+                    '    class="fas fa-times deleteItemF"  style="font-size: 3rem;"></a> <span title=' + i +
+                    ' ></span><a href="' + url + '" class="fas fa-eye"></a>   <img src="' + image +
+                    '"alt=""> <h3>' + name +
+                    '</h3> <div class="stars ">' + load_star_f(star) + '</div> <span>' + price +
+                    '</span> </div>')
             }
 
 
 
+        }
+
+
+        function load_star_f(star) {
+
+            if (star == 1) {
+                return ' <i class="fas fa-star" style="color:#be9c79"></i>';
+            } else if (star == 2) {
+                return ' <i class="fas fa-star" style="color:#be9c79"></i><i class="fas fa-star" style="color:#be9c79"></i>';
+            } else if (star == 3) {
+                return ' <i class="fas fa-star" style="color:#be9c79"></i> <i class="fas fa-star" style="color:#be9c79"></i> <i class="fas fa-star" style="color:#be9c79"></i>';
+            } else if (star == 4) {
+                return ' <i class="fas fa-star" style="color:#be9c79"></i> <i class="fas fa-star" style="color:#be9c79"></i> <i class="fas fa-star" style="color:#be9c79"></i> <i class="fas fa-star" style="color:#be9c79"></i>';
+
+            } else if (star == 5) {
+                return ' <i class="fas fa-star" style="color:#be9c79"></i><i class="fas fa-star" style="color:#be9c79"></i><i class="fas fa-star" style="color:#be9c79"></i><i class="fas fa-star" style="color:#be9c79"></i><i class="fas fa-star" style="color:#be9c79"></i>';
+
+            } else {
+                return ' <p style="font-size:1.5rem ; color:#be9c79">Unassessed </p>';
+            }
+
+
 
         }
+
+
+
+        $(".deleteItemF").click(function(e) {
+            var id = $(this).next().attr("title");
+            // alert(id);
+            deleteItem(id)
+        })
+
+        function deleteItem(index) {
+
+            if (localStorage.getItem('data') != null) {
+                var old_data = JSON.parse(localStorage.getItem('data'));
+                old_data.reverse();
+                old_data.splice(index, 1);
+                old_data.reverse();
+                location.reload();
+                localStorage.setItem('data', JSON.stringify(old_data));
+
+            }
+
+        }
+
+
+
+
+
+
 
     })
 </script>

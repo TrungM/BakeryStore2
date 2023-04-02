@@ -37,12 +37,6 @@
                 @enderror
                 </div>
                 <div>
-                    <input type="text" name="sign_address" placeholder="Enter your address" id="" class="box">
-                    @error("sign_address")
-                    <small style="color:red; font-size:1rem" >{{$message}}</small>
-                @enderror
-                </div>
-                <div>
                     <div class="container_file">
                         <div class="button-wrap">
                           <label class="button_file" for="upload">Upload Image</label>

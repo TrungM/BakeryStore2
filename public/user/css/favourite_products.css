@@ -187,6 +187,9 @@ section {
    right: 3rem;
    font-size: 5rem;
 }
+.fa-times:hover{
+    cursor: pointer;
+}
 
 /* END */
 /* END */

@@ -35,7 +35,7 @@
                                         <option value="">---Choose---</option>
                                         <option id={{ $p->order_id }} value="Pending">Pending</option>
                                         <option id={{ $p->order_id }} value="Delivery">Delivery </option>
-                                        <option id={{ $p->order_id }} value="Success">Success</option>
+                                        <option id={{ $p->order_id }} value="Complete">Complete</option>
                                     </select>
                                     </a>
                                 </form>
@@ -46,19 +46,19 @@
                                         <option value="">---Choose---</option>
                                         <option id={{ $p->order_id }} value="Pending">Pending</option>
                                         <option id={{ $p->order_id }} selected value="Delivery">Delivery </option>
-                                        <option id={{ $p->order_id }} value="Success">Success</option>
+                                        <option id={{ $p->order_id }} value="Complete">Complete</option>
                                     </select>
 
                                     </a>
                                 </form>
-                            @elseif ($p->order_status = 'Success')
+                            @elseif ($p->order_status = 'Complete')
                                 <form action="" class="order_status">
                                     @csrf
                                     <select style="width:50rem">
                                         <option value="">---Choose---</option>
                                         <option id={{ $p->order_id }} value="Pending">Pending</option>
                                         <option id={{ $p->order_id }} value="Delivery">Delivery </option>
-                                        <option id={{ $p->order_id }} selected value="Success">Success</option>
+                                        <option id={{ $p->order_id }} selected value="Complete">Complete</option>
                                     </select>
 
                                     </a>

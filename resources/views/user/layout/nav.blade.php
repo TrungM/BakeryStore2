@@ -31,18 +31,6 @@
             ?>
             <i class="fa-solid fa-user" style="background: #be9c79;
               color: #fff;"></i>
-            {{-- <div class="hover-login-logout active-hover">
-                <div class="hover-logout">
-                    <a href="{{ URL::to('detail-customer/' . $id) }}" class="fa-solid fa-user"
-                        style="font-size:1.6rem;"><span>Thông tin tài
-                            khoản</span></a>
-                    <a href="{{ URL::to('detail-customer/' . $id) }}" class="fa-solid fa-user-clock status_ord"
-                        style="font-size:1.6rem;"><span>Tình trạng đơn
-                            hàng</span></a>
-                    <a href="{{ URL::to('logout_home') }}" class="fa-solid fa-arrow-right-from-bracket"
-                        style="font-size:1.6rem; text-align: center;"><span>Đăng xuất</span></a>
-                </div>
-            </div> --}}
             <div class="option-customer active-hover">
                 <div class="option">
                     <div class="infor-customer">

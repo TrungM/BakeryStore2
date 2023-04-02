@@ -36,7 +36,7 @@
                                     <th>Feedback_image</th>
                                     <th>Customer_id</th>
                                     <th>Date</th>
-                                    <th>Status</th>
+                                    <th>Star</th>
                                     <th>Product</th>
                                     <th>order_code</th>
                                     <th>Action</th>
@@ -59,28 +59,52 @@
                                         <td>{{ $a->feedback_image }}</td>
                                         <td>{{ $a->customer_id }}</td>
                                         <td>{{ $a->feedback_date }}</td>
-                                        <td>{{ $a->feedback_status }}</td>
 
+                                        <td>
+                                            <div class="stars">
+                                                @if ($a->rating_avg == 1)
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                @elseif ($a->rating_avg == 2)
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                @elseif ($a->rating_avg == 3)
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                @elseif ($a->rating_avg == 4)
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                @elseif ($a->rating_avg == 5)
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                    <i class="fas fa-star" style="color:#be9c79"></i>
+                                                @elseif ($a->rating_avg == 0)
+                                                    <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
+                                                @endif
+
+                                            </div>
+                                        </td>
                                         <td><a
                                                 href="{{ url('view-product/' . $a->product->product_id) }}">{{ $a->product->product_name }}</a>
                                         </td>
-                                        {{-- <td>{{ $a->rating->order_code }}</a> --}}
-                                        </td>
+
                                         <td>{{ $a->order_code }}</td>
 
                                         <td>
                                             @if ($a->feedback_status == 1)
                                                 <button class="btn-info feedback_btn"
                                                     style="padding: 0.1em; height:2rem; width:7rem" data-feedback-status="0"
-                                                    data-feedback-id="{{ $a->feedback_id }}"
-                                                    id="{{ $a->product_id }}">
-                                                    Chưa duyệt
+                                                    data-feedback-id="{{ $a->feedback_id }}" id="{{ $a->product_id }}">
+                                                    Unaccept
                                                 </button>
                                             @else
                                                 <button class="btn-danger btn-sm feedback_btn" data-feedback-status="1"
-                                                    data-feedback-id="{{ $a->feedback_id }}"
-                                                    id="{{ $a->product_id }}">
-                                                    Đã duyệt
+                                                    data-feedback-id="{{ $a->feedback_id }}" id="{{ $a->product_id }}">
+                                                    Accept
                                                 </button>
                                             @endif
 
@@ -89,15 +113,13 @@
                                         @if ($a->feedback_status == 1)
                                             <td style="width: 7rem">
                                                 <div style="padding: 1rem 1rem ;">
-                                                        <textarea name="" id="" cols="20" rows="8" placeholder="Trả lời bình luận"
-                                                        class="reply_feedback_{{ $a->feedback_id }}"  ></textarea><br>
+                                                    <textarea name="" id="" cols="20" rows="8" placeholder="Reply feedback"
+                                                        class="reply_feedback_{{ $a->feedback_id }}"></textarea><br>
 
                                                     <button class=" btn-success btn-sm btn-rely-feedback"
-                                                        style="margin-top:1.2rem "
-                                                        data-product_id="{{ $a->product_id }}"
-                                                        data-feedback-id="{{ $a->feedback_id }}"
-                                                        onclick="return alert('Duyet tra loi')"> <i
-                                                            class="fas fa-pencil-alt"></i> Trả lời </button>
+                                                        style="margin-top:1.2rem " data-product_id="{{ $a->product_id }}"
+                                                        data-feedback-id="{{ $a->feedback_id }}"> <i
+                                                            class="fas fa-pencil-alt"></i> Reply </button>
 
 
 
@@ -138,17 +160,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-
-
-
         $(".feedback_btn").click(function() {
             var feedback_status = $(this).data('feedback-status');
             var feedback_id = $(this).data('feedback-id');
             var product_id = $(this).attr('id');
             if (feedback_status == 0) {
-                alert("Duyet thanh cong ");
+                alert(" Accept Successfully ");
             } else {
-                alert("Bo duyet");
+                alert("UNACCEPT");
             }
 
 
@@ -174,33 +193,39 @@
         });
 
 
-        $(".btn-rely-feedback").click(function() {
+        $(".btn-rely-feedback").click(function(e) {
             var feedback_id = $(this).data('feedback-id');
             var feedback = $(".reply_feedback_" + feedback_id).val();
             var product_id = $(this).data('product_id');
+            $choose = confirm("Accept answer");
+            if ($choose == true) {
+                $.ajax({
 
-            $.ajax({
+                    url: '{{ url('reply_feedback') }}',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        feedback: feedback,
+                        feedback_id: feedback_id,
+                        product_id: product_id,
 
-                url: '{{ url('reply_feedback') }}',
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    feedback: feedback,
-                    feedback_id: feedback_id,
-                    product_id: product_id,
+                    },
 
-                },
-
-                success: function(data) {
-                    location.reload();
-
-
-                }
+                    success: function(data) {
+                        location.reload();
 
 
-            });
+                    }
+
+
+                });
+            } else {
+                e.preventDefault();
+
+            }
+
 
         })
     </script>

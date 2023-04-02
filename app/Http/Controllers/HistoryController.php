@@ -26,7 +26,7 @@ class HistoryController extends Controller
         $feedback->product_id = $data['product_id'];
         // de tra loi cho cai commnent co id la nhieu do
         $feedback->feedback_reply = $data['feedback_id'];
-        $feedback->customer_id = "admin";
+        $feedback->customer_id = 1;
         $feedback->feedback_status = 1;
         $feedback->feedback_code = 1;
         $feedback->order_code = 1;
@@ -51,6 +51,11 @@ class HistoryController extends Controller
 
         return view('admin.feedback_admin', ['feedback' => $feedback], ['feedback_rep' => $feedback_rep]);
     }
+
+
+
+
+
     public function sendFeedback(Request $request, $product_id)
     {
         $product_id = $request->product_id;
@@ -198,7 +203,7 @@ class HistoryController extends Controller
             ->join('tb_gallery_feedback', 'tb_gallery_feedback.feedback_code', '=', 'tb_feedback.feedback_code')
             ->select('tb_feedback.*', 'tb_rating.*', 'tb_user.*', 'tb_gallery_feedback.*')
             ->where('product_id', $product_id)
-            ->where("feedback_reply", 0)
+            ->where("feedback_status", 0)
             ->where("product_id_star", $product_id)
             ->get();
 
@@ -212,7 +217,7 @@ class HistoryController extends Controller
 
             $output .= '
 
-                <div class="user_feedback" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem ">
+                <div class="user_feedback" style="margin-bottom:1rem;margin-left:1rem;padding:2rem 2rem;text-transform:none ">
         <div class="header_name">
             <img src="" alt="">
             <i class="fa-solid fa-user"></i>               <span>' . $p->name . '</span>
@@ -252,12 +257,12 @@ class HistoryController extends Controller
 
             $output .= '
 
-  <div class="user_comment_text">
+  <div class="user_comment_text" style="text-transform: none;">
          ' . $p->feedback . '
         </div>
 <div>
 <div>
-<img style="width:15%" src="' . url("public/user/images-feedback/$p->feedback_image") . '">
+<img style="width:50px" src="' . url("public/user/images-feedback/$p->feedback_image") . '">
 </div>
 </div>
         </div>';
@@ -267,7 +272,7 @@ class HistoryController extends Controller
                 if ($a->feedback_reply == $p->feedback_id) {
                     $output .= ' <div class="reply">
                 <div class="header_admin">
-                <i class="fa-solid fa-user" style="color:#be9c79"></i>                     <span>' . $a->customer_id . '</span>
+                <i class="fa-solid fa-user" style="color:#be9c79"></i>                     <span>admin</span>
                     <span style="font-size:1.7rem"></span>
                     <span style="font-size:1.2rem">' . $a->feedback_date . '</span>
 
@@ -304,7 +309,7 @@ class HistoryController extends Controller
             <span title="star_rating" id=' . $p->product_id . '-' . $i . '
             data-index=' . $i . ' data-product_id=' . $p->product_id . '
             data-rating=' . $rating . ' class="rating"
-            style="cursor:pointer;font-size:30px; list-style: none; margin-left:2rem";  text-align:center;> <i
+            style="cursor:pointer;font-size:30px; list-style: none; margin-left:2rem;  text-align:center; "> <i
                 class="fas fa-star"></i>
         </span>
 

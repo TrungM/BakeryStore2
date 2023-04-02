@@ -104,7 +104,6 @@ class LoginController extends Controller
             "sign_pass" => ['required', Rules\Password::defaults()],
 
             'phone' => ["required", "regex:/[0-9]$/", "max:13", "min:8", "unique:tb_user"],
-            'sign_address' => ["required", "max:225"],
 
         ]);
         if ($request->hasFile('sign_image')) {
@@ -128,7 +127,6 @@ class LoginController extends Controller
             "email" => $request->email,
             "password" => md5($request->sign_pass),
             "phone" => $request->phone,
-            "address" => $request->sign_address,
             "role" => "customer",
             "image" => $imageName,
 
@@ -284,8 +282,7 @@ class LoginController extends Controller
             $request->session()->put("customer_id", $user_id->id);
             $request->session()->put("image_upload_profile_user",true);
 
-            // $request->session()->put("username", $user->getName());
-            // $request->session()->put("username", $user->getName());
+            $request->session()->put("username", $user_id->name);
 
             return  redirect("home");
         } else {
@@ -301,6 +298,7 @@ class LoginController extends Controller
             $request->session()->put("login_google", true);
             $google_id_check = User::where("google_id", $user->getId())->first();
             $request->session()->put("customer_id", $google_id_check->id);
+            $request->session()->put("username", $user->getName());
 
             return  redirect("home");
         }

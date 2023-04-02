@@ -79,54 +79,6 @@
 
        </section>
 
-       <!-- about section ends -->
-
-       {{-- <!-- facility section starts  -->
-
-    <section class="facility">
-
-        <div class="heading">
-            <img src={{asset('user/images/heading-img.png')}} alt="">
-            <h3>our facility</h3>
-        </div>
-
-        <div class="box-container">
-
-            <div class="box">
-                <img src={{asset('user/images/icon-1.png')}} alt="">
-                <h3>pastry</h3>
-            </div>
-
-            <div class="box">
-                <img src={{ asset('user/images/icon-2.png')}} alt="">
-                <h3>whole cake</h3>
-            </div>
-
-            <div class="box">
-                <img src={{asset('user/images/icon-3.png')}} alt="">
-                <h3>slices cake</h3>
-            </div>
-
-
-            <div class="box">
-                <img src={{asset('user/images/icon-4.png')}} alt="">
-                <h3>Seasonal</h3>
-            </div>
-            <div class="box">
-                <img src={{asset('user/images/icon-4.png')}} alt="">
-                <h3>Breakfast</h3>
-            </div>
-            <div class="box">
-                <img src={{asset('user/images/icon-4.png')}} alt="">
-                <h3>other</h3>
-            </div>
-        </div>
-
-    </section>
-
-    <!-- facility section ends --> --}}
-
-       <!-- menu section starts  -->
 
        <section class="menu" id="menu">
            <div class="heading">
@@ -137,6 +89,15 @@
 
            <div class="box-container">
                @foreach ($product_home as $a)
+               <?php
+
+               $rating = DB::table('tb_rating')
+                   ->where('product_id_star', $a->product_id)
+                   ->avg('rating');
+               $rating = round($rating);
+
+
+               ?>
                    <div class="box">
                        <div class="image">
                         <img src={{ url('user/images/' . $a->product_images) }} alt="">
@@ -146,33 +107,33 @@
                        </div>
                        <div class="content">
                            <div class="stars">
-                            @if ($a->product_star == 1)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                        @elseif ($a->product_star == 2)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                        @elseif ($a->product_star == 3)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                        @elseif ($a->product_star == 4)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                        @elseif ($a->product_star == 5)
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                            <i class="fas fa-star" style="color:be9c79"></i>
-                        @elseif ($a->product_star == 0)
+                            @if ($rating == 1)
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                        @elseif ($rating == 2)
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                        @elseif ($rating == 3)
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                        @elseif ($rating == 4)
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                        @elseif ($rating == 5)
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                            <i class="fas fa-star" style="color:#be9c79"></i>
+                        @elseif ($rating == 0)
                             <p style="font-size:1.5rem ; color:#be9c79">Chưa có đánh giá </p>
                         @endif
                            </div>
                            <h3> {{$a->product_name}}</h3>
                            <p>{{ $a->product_description }}</p>
-                           <span class="price">{{number_format($a->product_price)}}VNĐ
+                           <span class="price">${{ $a->product_price }}
                         </span>
                        </div>
                    </div>

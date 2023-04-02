@@ -6,7 +6,6 @@ const value1=document.querySelector(".value1 input");
 const value2=document.querySelector(".value2 input");
 const value3=document.querySelector(".value3 input");
 const heartItem = document.querySelectorAll(".box-heart");
-// const  sortbyitem= document.querySelectorAll(".arrange-items a option");
 
 [...heartItem].forEach((item) => item.addEventListener("click", function (e) {
    e.preventDefault();
@@ -16,9 +15,6 @@ const heartItem = document.querySelectorAll(".box-heart");
 
 }));
 
-// [...sortbyitem].forEach((item) => item.addEventListener("click", function (e) {
-//     arrangDivText.textContent=`${item.value}`;
-// }))
 
 angleDownArrange.addEventListener("click", function(e){
 
@@ -28,13 +24,6 @@ angleDownArrange.addEventListener("click", function(e){
  arrangDivText.addEventListener("click", function(e){
     arrangeItems.classList.toggle("arrange-items-active");
  })
-//  value1.addEventListener("click", function(e){
-//     e.preventDefault();
-//     console.log(value1.value);
-//     arrangDivText.textContent=`${value1.value}`;
-//     arrangeItems.classList.add("arrange-items-active");
-//  })
-
 
 
 
