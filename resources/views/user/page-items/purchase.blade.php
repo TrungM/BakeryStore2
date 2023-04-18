@@ -75,7 +75,7 @@
                                                 </p>
 
                                                 <p style="margin-bottom: 1rem;">Size : {{ $a->product_size }}</p>
-                                                <p style="margin-bottom: 1rem;">Quality : {{ $a->product_quantity }}</p>
+                                                <p style="margin-bottom: 1rem;">Quantity : {{ $a->product_quantity }}</p>
 
                                                 <div class="order-detail-product-content-action">
                                                     <div class="action-detail">
@@ -138,7 +138,7 @@
                                                         </p>
 
                                                         <p>Size item:<span>+${{ $a->product_size_price }}</span></p>
-                                                        <p>Quality items:<span>{{ $a->product_quantity }}</span></p>
+                                                        <p>Quantity items:<span>{{ $a->product_quantity }}</span></p>
                                                         <div
                                                             style="border: rgb(229, 231, 235) solid 1px;
                                                                      ">
@@ -174,7 +174,7 @@
                             </div>
                             <div class="order-date">
                                 <span style="font-size: medium;">$20.00</span>
-                                <span>${{ number_format($item->order_total, 2, '.', ',') }}</span>
+                                <span>${{ $item->order_total}}</span>
                             </div>
                         </div>
 

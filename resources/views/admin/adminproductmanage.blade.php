@@ -43,7 +43,7 @@
                             <form action="">
                                 @csrf
                                 <input type="text" class="form-control" id="search" name="search"
-                                placeholder="Enter Product Name">
+                                    placeholder="Enter Product Name">
                             </form>
 
                         </div>
@@ -58,6 +58,7 @@
                                     <th>Quantity </th>
                                     <th>Star</th>
                                     <th> Edit </th>
+                                    <th> Status </th>
                                     <th> Delete </th>
                                 </tr>
                             </thead>
@@ -72,11 +73,24 @@
 
                                         <td>{{ $p->product_description }}</td>
                                         <td>{{ $p->category_name }}</td>
-                                        <td>{{ $p->product_qty }}</td>
+
+                                        @if ($p->product_qty == 0)
+                                            <td style="color:red">Out of stock</td>
+                                        @else
+                                            <td style="font-weight:bold">{{ $p->product_qty }}</td>
+                                        @endif
+                                        {{-- <td>{{  $p->product_qty_sold  }}</td> --}}
+                                        {{-- @if ($p->product_qty - $p->product_qty_sold <= 0)
+                                        <td style="color:red">Sold out</td>
+                                        @else
+                                        <td style="font-weight:bold">{{$p->product_qty-$p->product_qty_sold   }}</td>
+                                        @endif --}}
                                         <td>{{ $p->product_star }}</td>
 
                                         <td><a href="{{ url('admin/productupdate/' . $p->product_id) }}"><button
                                                     type="button" class="btn btn-primary ">Edit</button></a></td>
+                                        <td><a href="{{ url('admin/productstatus/'.$p->product_id )}}"><button
+                                                    type="button" class="btn btn-warning">Status</button></a></td>
                                         <td><a href="{{ url('admin/delete/' . $p->product_id) }}"><button type="button"
                                                     class="btn btn-danger delete_product">Detele</button></a></td>
                                     </tr>
@@ -119,28 +133,28 @@
     <script>
         $(document).ready(function() {
             $('#search').on('keyup', function() {
-              var  value = $(this).val();
-              var _token = $('input[name="_token"]').val();
+                var value = $(this).val();
+                var _token = $('input[name="_token"]').val();
 
                 if (value.trim().length >= 1) {
 
                     $(".paging").hide();
 
 
-                $.ajax({
-                    type: 'get',
-                    url: "{{ URL::to('product2') }}",
-                    data: {
-                        search : value,
-                        _token: _token,
+                    $.ajax({
+                        type: 'get',
+                        url: "{{ URL::to('product2') }}",
+                        data: {
+                            search: value,
+                            _token: _token,
 
-                    },
-                    success: function(data) {
-                        $('tbody').html(data);
-                        delete_product();
+                        },
+                        success: function(data) {
+                            $('tbody').html(data);
+                            delete_product();
 
-                    }
-                });
+                        }
+                    });
                 } else {
                     $(".paging").show();
 

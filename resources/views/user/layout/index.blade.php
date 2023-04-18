@@ -33,6 +33,43 @@
 </body>
 <script>
     $(document).ready(function() {
+
+        $(".cart_quantity_class").click(function(e) {
+
+
+            var rowId_cart = $(this).next().val();
+            var _token = $('input[name="_token"]').val();
+            var cart_quantity = $(this).val();
+            var product_id = $(this).next().next().val();
+            var size_id = $(this).next().next().next().val();
+
+            $.ajax({
+                url: '{{ url('update_quantity_user') }}',
+                method: "POST",
+                data: {
+                    rowId_cart: rowId_cart,
+                    cart_quantity:cart_quantity,
+                    _token: _token,
+                    product_id:product_id,
+                    size_id:size_id,
+
+                },
+                success: function(data) {
+                    // location.reload();
+                    $(".total-cart-span").html(data.total);
+
+
+                }
+            });
+        });
+
+
+
+
+
+
+
+
         let id_array = [];
 
         function load_feedback() {

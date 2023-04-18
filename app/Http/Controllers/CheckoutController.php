@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\Sendmail;
 use App\Mail\SendmailOrder;
 use App\Models\Feedback;
+use App\Models\Product;
 
 class CheckoutController extends Controller
 {
@@ -83,7 +84,7 @@ class CheckoutController extends Controller
         $order_data = array();
         $order_data['customer_id'] = Session::get('customer_id');
         $order_data['shipping_id'] = Session::get('shipping_id');
-        $order_data['order_total'] = Cart::total() + 20.0;
+        $order_data['order_total'] = Cart::total();
         $order_data['order_status'] = 'Pending';
         $order_data['order_code'] = substr(md5(microtime()), rand(0, 26), 5);;
         $order_data['order_items']   = Cart::countItems();
@@ -100,7 +101,31 @@ class CheckoutController extends Controller
             $order_d_data['product_quantity'] = $p->qty;
             $order_d_data['product_size'] = $p->options->size;
             $order_d_data['product_size_price'] = $p->options->p_size;
+            $order_d_data['created_at'] = date("Y/m/d");
             DB::table('tb_order_detail')->insertGetId($order_d_data);
+
+            $old_qty = Product::where("product_id", $p->id)->first();
+            $old_size = DB::table('tb_size')->where("product_id", $p->id)->where("size", $p->options->size)->first();
+
+            if ($old_qty->product_qty_sold == null) {
+                Product::where("product_id", $p->id)->update([
+                    "product_qty_sold" => $p->qty,
+                ]);
+            } else {
+                Product::where("product_id", $p->id)->update([
+                    "product_qty_sold" => $old_qty->product_qty_sold + $p->qty,
+                ]);
+            }
+
+            if ($old_size->Quantity_sold_size == null) {
+                DB::table('tb_size')->where("product_id", $p->id)->where("size", $p->options->size)->update([
+                    "Quantity_sold_size" => $p->qty,
+                ]);
+            } else {
+                DB::table('tb_size')->where("product_id", $p->id)->where("size", $p->options->size)->update([
+                    "Quantity_sold_size" => $old_size->Quantity_sold_size + $p->qty,
+                ]);
+            }
         }
         //send email
 
@@ -113,10 +138,10 @@ class CheckoutController extends Controller
             "order_total" => $order_data['order_total'],
             "order_s_total" =>  Cart::total(),
             "time_order" => date("Y/m/d"),
-            "payment" =>$data['shipping_payment'],
-            "shipping_name" =>$data['shipping_name'],
+            "payment" => $data['shipping_payment'],
+            "shipping_name" => $data['shipping_name'],
             "shipping_address" => $data['shipping_address'],
-            "shipping_time" => $data['shipping_time_day'].' '.$data['shipping_time_hour'],
+            "shipping_time" => $data['shipping_time_day'] . ' ' . $data['shipping_time_hour'],
             "shipping_phone" => $data['shipping_phone'],
         ];
 
@@ -190,12 +215,13 @@ class CheckoutController extends Controller
     }
 
 
-    public function feebackLoadView($order_code,$id){
+    public function feebackLoadView($order_code, $id)
+    {
 
-        $a=OrderDetails::where("order_code",$order_code)->where("product_id",$id)->first();
+        $a = OrderDetails::where("order_code", $order_code)->where("product_id", $id)->first();
         $ds =   DB::table('tb_order')->orderBy("order_id", "DESC")->get();
 
 
-        return view('user.page-items.feedback',["a"=>$a,"ds"=>$ds]);
+        return view('user.page-items.feedback', ["a" => $a, "ds" => $ds]);
     }
 }

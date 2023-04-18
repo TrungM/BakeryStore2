@@ -16,7 +16,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6"  >
-                <h1>Detail or Edit Product</h1>
+                <h1>Detail and Edit Product</h1>
                 <h3    style="color: green; font-size:1rem ">
                     @if(session('success_edit') )
                     {{session('success_edit')}}
@@ -28,7 +28,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Detail or Edit Product</li>
+                    <li class="breadcrumb-item active">Detail and Edit Product</li>
                 </ol>
             </div>
         </div>
@@ -60,8 +60,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Description</label>
-                            <input type="text" class="form-control" name="product_description" id="product_description"
-                            value="{{$p->product_description}}" >
+                            <textarea class="form-control" name="product_description" id="product_description" cols="30" rows="5">{{$p->product_description}}</textarea>
                             @error('product_description')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -113,7 +112,7 @@
                                 </div>
                                 @error('fileImage')
                                 <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
+                               @enderror
                             </div>
                         </div>
                     </div>
@@ -143,7 +142,6 @@
 
 
 @section('script-section')
-    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
     <script>
         $(".update_product").click(function(e) {
                 $choose = confirm("Are you sure update product");

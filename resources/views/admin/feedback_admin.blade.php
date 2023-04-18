@@ -1,5 +1,5 @@
 @extends('admin.layout.layout')
-@section('title', 'product')
+@section('title', 'feedback')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
@@ -34,7 +34,7 @@
                                 <tr>
                                     <th>Feedback</th>
                                     <th>Feedback_image</th>
-                                    <th>Customer_id</th>
+                                    <th>Customer Name</th>
                                     <th>Date</th>
                                     <th>Star</th>
                                     <th>Product</th>
@@ -56,8 +56,8 @@
 
 
                                         </td>
-                                        <td>{{ $a->feedback_image }}</td>
-                                        <td>{{ $a->customer_id }}</td>
+                                        <td> <img src=" {{asset("public/user/images-feedback/".$a->feedback_image)}} " alt="" width="40px"> </td>
+                                        <td> {{ $a->customer->name }}</td>
                                         <td>{{ $a->feedback_date }}</td>
 
                                         <td>

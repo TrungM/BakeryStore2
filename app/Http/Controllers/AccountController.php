@@ -25,15 +25,4 @@ class AccountController extends Controller
 
 
 
-    public function checkoutLogin()
-    {
-        return view("user.page-items.login-checkout");
-    }
-
-    public function successOrder()
-    {
-        return view("user.page-items.success_order");
-    }
-
-
 }

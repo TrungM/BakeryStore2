@@ -1,5 +1,5 @@
 @extends('admin.layout.layout')
-@section('title', 'product')
+@section('title', 'comment')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
@@ -64,12 +64,12 @@
                                                 <button class="btn-info comment_btn"
                                                     style="padding: 0.1em; height:2rem; width:7rem" data-comment-status="0"
                                                     data-comment-id="{{ $a->comment_id }}" id="{{ $a->product_id }}">
-                                                    Chưa duyệt
+                                                    Accept
                                                 </button>
                                             @else
                                                 <button class="btn-danger btn-sm comment_btn" data-comment-status="1"
                                                     data-comment-id="{{ $a->comment_id }}" id="{{ $a->product_id }}">
-                                                    Đã duyệt
+                                                    UnAccept
                                                 </button>
                                             @endif
 
@@ -85,7 +85,7 @@
                                                         style="margin-top:1.2rem " data-product_id="{{ $a->product_id }}"
                                                         data-comment-id="{{ $a->comment_id }}"
                                                         onclick="return alert('Duyet tra loi')"> <i
-                                                            class="fas fa-pencil-alt"></i> Trả lời </button>
+                                                            class="fas fa-pencil-alt"></i> Reply </button>
 
 
                                                 </div>
@@ -142,9 +142,9 @@
             var comment_id = $(this).data('comment-id');
             var product_id = $(this).attr('id');
             if (comment_status == 0) {
-                alert("Duyet thanh cong ");
+                alert("Success ");
             } else {
-                alert("Bo duyet");
+                alert("Unaccept");
             }
 
 

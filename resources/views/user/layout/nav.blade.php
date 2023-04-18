@@ -35,16 +35,19 @@
                 <div class="option">
                     <div class="infor-customer">
                         <a href="{{ URL::to('detail-profile/' . $customer_id) }}" class="fa-solid fa-user"
-                        style="font-size:1.6rem;"><span style="margin-left: 0.2rem " class="text-option">Profile</span></a>
+                            style="font-size:1.6rem;"><span style="margin-left: 0.2rem "
+                                class="text-option">Profile</span></a>
                     </div>
                     <div class="Purchase">
-                        <a href="{{ URL::to('purchase/'.$customer_id) }}" class="fa-solid fa-user-clock status_ord"
-                        style="font-size:1.6rem;"><span style="margin-left: 0.2rem " class="text-option">Purchase</span></a>
+                        <a href="{{ URL::to('purchase/' . $customer_id) }}" class="fa-solid fa-user-clock status_ord"
+                            style="font-size:1.6rem;"><span style="margin-left: 0.2rem "
+                                class="text-option">Purchase</span></a>
                     </div>
 
                     <div class="logout-customer">
                         <a href="{{ URL::to('logout_home') }}" class="fa-solid fa-arrow-right-from-bracket"
-                        style="font-size:1.6rem; text-align: center;"><span style="margin-left: 0.2rem " class="text-option">Logout</span></a>
+                            style="font-size:1.6rem; text-align: center;"><span style="margin-left: 0.2rem "
+                                class="text-option">Logout</span></a>
                     </div>
                 </div>
 
@@ -56,26 +59,27 @@
             ?>
 
             <i class="fa-solid fa-user"></i>
-           <div class="option-customer active-hover">
+            <div class="option-customer active-hover">
                 <div class="option">
                     <div class="sign-up">
                         <a href="{{ URL::to('login') }}" class="fa-solid fa-arrow-right-to-bracket"
-                        style="font-size:1.6rem; "><span  style="margin-left: 0.2rem " class="text-option">Sigin in </span></a>
+                            style="font-size:1.6rem; "><span style="margin-left: 0.2rem " class="text-option">Sigin in
+                            </span></a>
                     </div>
                     <div class="sign-in">
-                        <a href="{{ URL::to('sign') }}" class="fa-solid fa-user-plus"
-                        style="font-size:1.6rem; "><span style="margin-left: 0.2rem " class="text-option">Sigin up </span></a>
+                        <a href="{{ URL::to('sign') }}" class="fa-solid fa-user-plus" style="font-size:1.6rem; "><span
+                                style="margin-left: 0.2rem " class="text-option">Sigin up </span></a>
                     </div>
                 </div>
 
             </div>
-        <?php
+            <?php
         }
 
 ?>
 
 
-        <i class="fas fa-bars" id="menu-btn"></i>
+            <i class="fas fa-bars" id="menu-btn"></i>
 
         </div>
     </section>
@@ -90,7 +94,7 @@
     {{ csrf_field() }}
     <input type="search" name="keywords_submit" id="search-box" placeholder="Enter Product Name">
     <label for="search-box" name="search-items" class="fas fa-search"></label>
-    <i class="fas fa-times" id="close" ></i>
+    <i class="fas fa-times" id="close"></i>
 </form>
 <!-- shopping-cart section  -->
 
@@ -114,25 +118,26 @@
                     <img src={{ URL::to('user/images/' . $p->options->image) }} alt="">
                     <div class="content">
                         <h3>{{ $p->name }}</h3>
-                        <form action="{{ URL::to('update_cart_quantity') }}" method="POST">
+                        <form method="POST">
                             @csrf
                             <span> Quantity : </span>
-                            <input type="number" name="cart_quantity" value="{{ $p->qty }}" id=""
-                                min="1" max="10">
-                            <input type="hidden" name="rowId_cart" value="{{ $p->rowId }}" id="">
+                            <input type="number" name="cart_quantity" value="{{ $p->qty }}" min="1"
+                              max="{{$p->options->old_qty}}"   class="cart_quantity_class">
+                            <input type="hidden" name="rowId_cart" value="{{ $p->rowId }}" id="rowId_cart">
+                            <input type="hidden" name="product_id" value="{{ $p->id }}" id="product_id">
+                            <input type="hidden" name="size_id" value="{{ $p->options->size_id }}" id="size_id">
+
                             <br>
-                            <button class="btn" type="submit" style="font-size: 1.2rem">Change</button>
-                            <br>
-                            <br>
+                            {{-- <button class="btn" type="submit" style="font-size: 1.2rem">Change</button> --}}
                             <span>Size : </span>
-                            <span class="size"> {{ $p->options->size }}  </span>
-                            <span class="size"> ${{ $p->options->p_size }}  </span>
+                            <span class="size"> {{ $p->options->size }} </span>
+                            <span class="size"> ${{ $p->options->p_size }} </span>
 
                             {{-- <input type="hidden" name="cart_size" value="{{ $p->options->size }}" id=""> --}}
                             <br><br>
                         </form>
                         <span> Price : </span>
-                        <span class="price">  ${{number_format( $p->price,2,'.',',')}}</span>
+                        <span class="price"> ${{ number_format($p->price, 2, '.', ',') }}</span>
                     </div>
                 </div>
             @endforeach
@@ -148,7 +153,9 @@
 
         <div class="box">
             <h3 class="total"> Quantity Items : <span>{{ Cart::countItems() }}</span> </h3>
-            <h3 class="total"> Total : <span>${{ Cart::total()}}</span> </h3>
+            {{-- <h3 class="total-cart"> Total : <span>${{ Cart::subtotal()}}</span> </h3> --}}
+            <h3 class="total"> Total : <span>$</span><span class="total-cart-span">{{ Cart::subtotal() }}</span>
+            </h3>
 
             <?php
             $customer_id= Session::get('customer_id');
@@ -156,11 +163,12 @@
             if ($customer_id != null) {
 
             ?>
-                <a href="{{ URL::to('checkout') }}" class="btn">Checkout</a>
+            <a href="{{ URL::to('checkout') }}" class="btn">Checkout</a>
             <?php
         }else{
             ?>
-            <a href="{{ URL::to('login') }}" class="btn"  nclick="alert('Please login to add  new items')">Checkout</a>
+            <a href="{{ URL::to('login') }}" class="btn"
+                nclick="alert('Please login to add  new items')">Checkout</a>
 
             <?php
         }

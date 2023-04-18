@@ -18,7 +18,7 @@ class Comment extends Model
 
     public function product(){
         // 1 binh luan se thuoc ve 1 san pham
-        return $this->belongsTo("App\Models\Product", 'product_id');
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
 }

@@ -8,8 +8,111 @@ use App\Models\Comment;
 use App\Models\Rating;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Carbon;
+use App\Models\OrderDetails;
+
 class ProductController extends Controller
 {
+
+    public function sizeSelectQuantityAction(Request $request)
+    {
+        $data = $request->all();
+
+        $get = DB::table("tb_size")->where("size_id", $data["size"])->first();
+        $output = '';
+
+        $qty_get= $get->Quantity_size-$get->Quantity_sold_size;
+        if($qty_get==0){
+            $output .= '<option  data-color="1">Sold out</option>';
+
+        }else{
+            for($i=1; $i<=$qty_get;$i++){
+
+                  $output .= '<option value="' . $i . '">' . $i . '</option>';
+
+            }
+
+        }
+
+        echo $output;
+
+    }
+    public function productSizeChartAction(Request $request)
+    {
+        $data = $request->all();
+        $get = DB::table("tb_size")->where("product_id", $data["product_id"])->get();
+        foreach ($get as $v) {
+            $chart_data[] = array(
+                'size' => $v->size,
+                'quantity' => $v->Quantity_size,
+                'sold' => $v->Quantity_sold_size,
+                'avaliable' => $v->Quantity_size - $v->Quantity_sold_size,
+
+
+
+            );
+        }
+        $data = json_encode($chart_data);
+        echo $data;
+    }
+
+    public function filterproductAction(Request $request)
+    {
+        $data = $request->all();
+        $today = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+        $sub7Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(7)->toDateString();
+        $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$sub7Days, $today])->orderBy("created_at", 'ASC')->get();
+
+        foreach ($get as $v) {
+            $chart_data[] = array(
+                'period' => $v->created_at,
+                'quantity' => $v->product_quantity,
+            );
+        }
+        $data = json_encode($chart_data);
+        echo $data;
+    }
+    public function filterselectionproductAction(Request $request)
+    {
+        $data = $request->all();
+        $today = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+
+        $startofcurrentmonth = Carbon::now("Asia/Ho_Chi_Minh")->startOfMonth()->toDateString(); // đầu tháng hiện tại
+        $startofprevmonth = Carbon::now("Asia/Ho_Chi_Minh")->subMonth()->startOfMonth()->toDateString(); // đầu tháng TRƯỚC
+        $endofprevmonth = Carbon::now("Asia/Ho_Chi_Minh")->subMonth()->endOfMonth()->toDateString(); // cuối tháng TRƯỚC
+
+        $sub7Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(7)->toDateString();
+        $sub365Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(365)->toDateString();
+
+        if ($data["product_v"] == 'apremonth') {
+
+            $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$startofprevmonth, $endofprevmonth])->orderBy("created_at", 'ASC')->get();
+        } else if ($data["product_v"] == 'acurrentmonth') {
+            $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$startofcurrentmonth, $today])->orderBy("created_at", 'ASC')->get();
+        } else if ($data["product_v"] == 'ayear') {
+            $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$sub365Days, $today])->orderBy("created_at", 'ASC')->get();
+        }
+
+
+        foreach ($get as $v) {
+            $chart_data[] = array(
+                'period' => $v->created_at,
+                'quantity' => $v->product_quantity,
+            );
+        }
+        $data = json_encode($chart_data);
+        echo $data;
+    }
+
+
+
+
+    public function productStatus($id)
+    {
+        $product_id = Product::where("product_id", $id)->first();
+
+        return view('admin/productstatus', ["product_id" => $product_id]);
+    }
 
 
     public function delete_size($id)
@@ -23,15 +126,26 @@ class ProductController extends Controller
         $request->validate([
             "product_id" => ["required"],
             "size" => ["required"],
-            "size_price" => ["required", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/", "max:10"]
+            "size_price" => ["required", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/", "max:10"],
+            "quantity" => ["required", "integer", "min:1"],
+
 
         ]);
-        DB::table('tb_size')->where('size_id', $id)->update([
-            'product_id' => $size['product_id'],
-            'size' => $size['size'],
-            'size_price' => $size['size_price'],
-        ]);
-        return redirect('admin/update_size/' . $id)->with("success_edit", "You have successfully edited");
+        $p = Product::where("product_id",  $size['product_id'])->first();
+        $c =   DB::table('tb_size')->where("product_id", $size['product_id'])->whereNot("size_id", $id)->sum("Quantity_size");
+        if ($c + $size["quantity"] > $p->product_qty) {
+            return redirect('admin/update_size/' . $id)->with("status_error", "The quantity must not be greater than total quantity .");
+        } else {
+
+            DB::table('tb_size')->where('size_id', $id)->update([
+                'product_id' => $size['product_id'],
+                'size' => $size['size'],
+                'size_price' => $size['size_price'],
+                'Quantity_size' => $size["quantity"],
+
+            ]);
+            return redirect('admin/update_size/' . $id)->with("success_edit", "You have successfully edited");
+        }
     }
 
     public function update_page($id)
@@ -40,8 +154,36 @@ class ProductController extends Controller
         $size = DB::table('products')
             ->join('tb_size', 'tb_size.product_id', '=', 'products.product_id')
             ->select('products.*', 'tb_size.*')->where('size_id', $id)->first();
+        // $c =   DB::table('tb_size')->where("product_id", $size['product_id'])->sum("Quantity_size");
         $product_list = Product::where("product_name", "!=", "$size->product_name")->get();
         return view('admin/update_size', ["size" => $size, "product_list" => $product_list]);
+    }
+
+
+    public function displayAvaliable(Request $request)
+    {
+
+        $value = $request->select_value;
+
+        $p = Product::where("product_id", $value)->first();
+        $a =   DB::table('tb_size')->where("product_id", $value)->exists();
+        $c =   DB::table('tb_size')->where("product_id", $value)->sum("Quantity_size");
+
+        if ($a == true) {
+            if ($c > $p->product_qty) {
+                return response([
+                    "avaliable" => 0,
+                ]);
+            } else {
+                return response([
+                    "avaliable" => $p->product_qty - $c,
+                ]);
+            }
+        } else {
+            return response([
+                "avaliable" => $p->product_qty,
+            ]);
+        }
     }
     public function sizeManager()
     {
@@ -61,19 +203,29 @@ class ProductController extends Controller
     public function sizeManager_insert(Request $request)
     {
         $size = $request->all();
+
         $request->validate([
             "product_name" => ["required"],
             "size" => ["required"],
-            "size_price" => ["required", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/", "max:10"]
+            "size_price" => ["required", "regex:/^[+-]?((\d+(\.\d*)?)|(\.\d+))$/", "max:10"],
+            "quantity" => ["required", "integer", "min:1"],
 
         ]);
-        DB::table('tb_size')->insert([
-            'product_id' => $size['product_name'],
-            'size' => $size['size'],
-            'size_price' => $size['size_price'],
-        ]);
 
-        return redirect('admin/add_size')->with("status", "You have successfully added");;
+        $p = Product::where("product_id",  $size['product_name'])->first();
+        $c =   DB::table('tb_size')->where("product_id", $size['product_name'])->sum("Quantity_size");
+        if ($size["quantity"] > $p->product_qty - $c) {
+            return redirect('admin/add_size')->with("status_error", "The quantity must not be greater than product avaliable.");
+        } else {
+            DB::table('tb_size')->insert([
+                'product_id' => $size['product_name'],
+                'size' => $size['size'],
+                'size_price' => $size['size_price'],
+                'Quantity_size' => $size["quantity"],
+            ]);
+
+            return redirect('admin/add_size')->with("status", "You have successfully added");
+        }
     }
     public function replyComment(Request $request)
     {
@@ -285,7 +437,7 @@ class ProductController extends Controller
         $imageName = null;
         $input["category_id"] = $request->select_category;
         $input["product_star"] = "0";
-
+        $input["product_qty"] = $request->product_quantity;
         if ($request->hasfile("product_images")) {
             $file = $request->file("product_images");
             $file_name = $file->getClientOriginalName(); // tên file
@@ -387,9 +539,14 @@ class ProductController extends Controller
                     <td> $p->product_name </td>
                     <td> $p->product_price </td>
                     <td> $p->product_description </td>
-                    <td> $c->category_name </td>
-                    <td> $p->product_qty </td>
-                    <td> $p->product_star </td>
+                    <td> $c->category_name </td>";
+
+                    if ($p->product_qty == 0) {
+                        $output .= "<td style='color:red'> Out of stock </td>";
+                    } else {
+                        $output .= "<td style='font-weight:bold'> $p->product_qty </td>";
+                    }
+                    $output .=    "  <td> $p->product_star </td>
 
                     <td><a href='$f1'><button  type='button' class='btn btn-primary'>Edit</button></a></td>
                      <td><a href='$f2'><button type='button'  class='btn btn-danger delete_product'>Detele</button></a></td>

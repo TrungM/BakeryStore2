@@ -1,5 +1,5 @@
 @extends('admin.layout.layout')
-@section('title', 'product')
+@section('title', 'order')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
@@ -49,7 +49,7 @@
                                         {{$i++}}
                                         </td>
                                         <td>{{ $p->order_code }}</td>
-                                        <td>${{ number_format($p->order_total, 2, ',', '.') }}</td>
+                                        <td>${{ $p->order_total }}</td>
                                         <td>{{$p->order_status}}
                                             <a class="btn btn-info btn-sm"
                                             href="{{ URL::to('admin/update/' . $p->order_code) }}">
@@ -93,7 +93,7 @@
 @section('script-section')
     <script>
         function confirm() {
-            return confirm(are u sure);
+            return confirm('are u sure');
         }
     </script>
 @endsection

@@ -304,8 +304,8 @@
                                                         <span class="name-product">{{ $p->name }}</span><i>x</i>
                                                         <input type="text" name="quantity" id=""
                                                             value="{{ $p->qty }}" class="amount-product"
-                                                            style="width: 2rem" readonly>
-                                                        +<small>{{ $p->options->size }}</small>
+                                                            style="width: 2rem"
+                                                            readonly>+<small>{{ $p->options->size }}</small>
                                                     </p>
                                                 </td>
                                                 <td style="font-size: 1.6rem;">
@@ -353,7 +353,7 @@
                                 <div class="footer-header ">
                                     <div class="price-footer">
                                         <h3 style="padding-left: 2rem;">Subtotal </h3>
-                                        <p> ${{ number_format(Cart::total(), 2, '.', ',') }}</p>
+                                        <p> ${{ Cart::subtotal() }}</p>
 
                                     </div>
                                     <div class="price-delivery">
@@ -368,7 +368,7 @@
                                             <h4 style="margin-left:2rem;">Total bill </h4>
                                             <div class="price-bill">
                                                 <p style="margin-left:2rem;">
-                                                    ${{ number_format(Cart::total() + 20.0, 2, '.', ',') }}
+                                                    ${{ Cart::total() }}
                                                 </p>
                                             </div>
                                         </div>
@@ -378,9 +378,6 @@
                                         </button>
                                     </div>
                                 </div>
-
-
-
                             @endif
 
                             <div>

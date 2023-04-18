@@ -14,7 +14,7 @@
                         <img src="{{ url('admin/img/' . $post->post_images) }}">
                     </div>
                     <div class="content">
-                        <p>{{ $post->post_desc }}</p>
+                        <p style="text-transform: none">{{ $post->post_desc }}</p>
                         <a href="{{ url('bai-viet/' . $post->post_title) }}" class="btn-blog">read more</a>
                     </div>
                 </div>

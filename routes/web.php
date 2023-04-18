@@ -24,6 +24,11 @@ use App\Http\Controllers\ProfileController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// file manager
+Route::group(['prefix' => 'laravel-filemanager'], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 // Start//---Category ---///
 
 Route::get('home', [HomeController::class, 'home']);
@@ -43,7 +48,7 @@ Route::get('logout_home', [LoginController::class, 'logout_home']);
 
 Route::get('sign', [LoginController::class, 'sign_up']);
 
-Route::post("active_sign",[LoginController::class,"active_sign_up"]);
+Route::post("active_sign", [LoginController::class, "active_sign_up"]);
 
 //forgetPassword
 
@@ -53,7 +58,7 @@ Route::post('active_forgetPassword', [LoginController::class, 'liveforgetPasswor
 // create new pass
 Route::middleware('checkpass')->group(function () {
     Route::get('create-new-pass', [LoginController::class, 'loadViewCreateNewPass']);
-Route::post('active_new_pass', [LoginController::class, 'active_new_pass']);
+    Route::post('active_new_pass', [LoginController::class, 'active_new_pass']);
 });
 // login google
 //composer require laravel/socialite
@@ -62,26 +67,28 @@ Route::get('google/callback', [LoginController::class, 'callback_google']);
 
 Route::middleware('checkcustomer')->group(function () {
 });
+// ----Update quantity---
+Route::post('update_quantity_user', [CartController::class, 'update_cart_quantity']);
 
 
 // ----Start---admin
 Route::prefix('admin')->middleware('checkadmin')->group(function () {
 
     /////////------------------------------Manager---------Start------/////////////////
-    Route::get('index', [AdminController::class, 'adminindex']);
     Route::get('dashboard', [AdminController::class, 'showdashboard']);
     Route::post('admin-dashboard', [AdminController::class, 'dashboard']);
-    Route::get('manager_order', [AdminController::class, 'managerOder']);
     Route::get('index', [AdminController::class, 'adminindex']);
-    Route::get('customer', [AdminController::class, 'users']);
-    Route::get('staff', [AdminController::class, 'staff']);
-    Route::get('displayAddUser', [AdminController::class, 'displayAddUser']);
-    Route::post('addUser', [AdminController::class, 'addUser']);
-    Route::get('resetPassword/{id}', [AdminController::class, 'resetPassword']);
-    Route::get('details/{id}', [AdminController::class, 'details'])->name('profile');
+    Route::get("profile/{id}", [AdminController::class, "loadViewProfile"]);
+    Route::post("profile/edit/{id}", [AdminController::class, "editDetailProfile"]);
 
-    Route::post('updateInfoPost/{id}', [AdminController::class, 'updateInfoPost']);
-    Route::get('updateInfo/{id}', [AdminController::class, 'updateInfo']);
+    ///---------------------------------------------Admin Change Password--------------------------------///
+
+    Route::get("change_password/{id}", [AdminController::class, "loadViewChangePassword"]);
+    Route::post("change_password/update/{id}", [AdminController::class, "UpdateChangePassword"]);
+    Route::post("change_password/manager_store/update/{id}", [AdminController::class, "UpdateChangePasswordManagerStore"]);
+
+    // Route::post('updateInfoPost/{id}', [AdminController::class, 'updateInfoPost']);
+    // Route::get('updateInfo/{id}', [AdminController::class, 'updateInfo']);
     Route::get('customer_order/{id}', [AdminController::class, 'customerOrder']);
     Route::get('customer_orderdetail/{code}', [AdminController::class, 'customerOrderdetail']);
 
@@ -89,8 +96,18 @@ Route::prefix('admin')->middleware('checkadmin')->group(function () {
     Route::get('view_order/{order_code}', [OrderController::class, 'viewOrder']);
     Route::get('update/{order_code}', [OrderController::class, 'Update']);
 
-        /////////------------------------------Manager---------END------/////////////////
+    Route::get('customer', [AdminController::class, 'customerList']);
 
+    Route::post("activeaccount", [AdminController::class, 'accountTest']);
+
+    /////////------------------------------Manager---------END------/////////////////
+
+
+    ///---------------------------------------------Admin Chart--------------------------------///
+
+    Route::get('chart', [AdminController::class, 'loadChart']);
+
+    Route::get('statistics', [AdminController::class, 'loadStatistics']);
 });
 
 
@@ -98,26 +115,48 @@ Route::prefix('admin')->middleware('checkadmin')->group(function () {
 Route::middleware('checkadmin')->group(function () {
 
 
-// quan ly bai viet
+    // quan ly bai viet
 
-Route::get('admin/post', [PostController::class, 'add_post']);
-Route::get('admin/list-post', [PostController::class, 'all_post']);
-Route::post('/save-post', [PostController::class, 'save_post']);
-Route::get('/delete-post/{post_id}', [PostController::class, 'delete_post']);
-Route::get('post-bai-viet', [PostController::class, 'post_bai_viet']);
-Route::get('bai-viet/{post_title}', [PostController::class, 'bai_viet']);
-//end
-// admin product
+    Route::get('admin/post', [PostController::class, 'add_post']);
+    Route::get('admin/list-post', [PostController::class, 'all_post']);
+    Route::get('admin/updatePost/{id}', [PostController::class, 'update']);
+    Route::post('admin/updatePostAction/{id}',  [PostController::class, 'updatePost']);
+    Route::post('/save-post', [PostController::class, 'save_post']);
+    Route::get('/delete-post/{post_id}', [PostController::class, 'delete_post']);
 
-Route::get('admin/adminproduct', [ProductController::class, 'adminproductmanage']);
-Route::get('/product2', [ProductController::class, 'searchPost']);
-Route::get('admin/productinsert', [ProductController::class, 'insert']);
-Route::post('admin/insertPost', [ProductController::class, 'insertPost']);
-Route::get('admin/productupdate/{product_id}', [ProductController::class, 'update']);
-Route::post('admin/updatePost/{id}',  [ProductController::class, 'updatePost']);
-Route::get('admin/delete/{id}', [ProductController::class, 'delete']);
+    //end
+    // admin product
+    Route::get('admin/adminproduct', [ProductController::class, 'adminproductmanage']);
+    Route::get('/product2', [ProductController::class, 'searchPost']);
+    Route::get('admin/productinsert', [ProductController::class, 'insert']);
+    Route::post('admin/insertPost', [ProductController::class, 'insertPost']);
+    Route::get('admin/productupdate/{product_id}', [ProductController::class, 'update']);
+    Route::post('admin/updatePost/{id}',  [ProductController::class, 'updatePost']);
+    Route::get('admin/delete/{id}', [ProductController::class, 'delete']);
+    Route::get('admin/size', [ProductController::class, 'sizeManager']);
+    Route::post('sizeManager_insert', [ProductController::class, 'sizeManager_insert']);
+    Route::get('admin/add_size', [ProductController::class, 'sizeManager_insert_1']);
+    Route::get('admin/update_size/{size_id}', [ProductController::class, 'update_page']);
+    Route::post('admin/updateSize/{size_id}',  [ProductController::class, 'updateSize']);
+    Route::get('delete_size/{size_id}', [ProductController::class, 'delete_size']);
+    // size
+    Route::post('display_avaliable', [ProductController::class, 'displayAvaliable']);
+    // satistics product
+    Route::get('admin/productstatus/{id}', [ProductController::class, 'productStatus']);
+
+    Route::post("filter_date_statistic", [AdminController::class, "filterdatetatisticAction"]);
+    Route::post("dasboard_filter", [AdminController::class, "dasboardfilterAction"]);
+    Route::post("dasboard_filter30date", [AdminController::class, "dasboard_filter30dateAction"]);
+
+    Route::post("filterselectionproduct", [ProductController::class, "filterselectionproductAction"]);
+    Route::post("filterproduct", [ProductController::class, "filterproductAction"]);
+    Route::post("productSizeChart", [ProductController::class, "productSizeChartAction"]);
+    Route::post("sizeSelectQuantity", [ProductController::class, "sizeSelectQuantityAction"]);
 
 });
+//phan cua admin
+
+
 
 // search2
 Route::POST('/tim-kiem', [ProductController::class, 'search2']);
@@ -125,6 +164,8 @@ Route::get('/ascproducts_search', [ProductController::class, 'ascproducts_search
 Route::get('/desproducts_search', [ProductController::class, 'desproducts_search']);
 
 // route cho tat ca cac trang nguoi dung
+Route::get('post-bai-viet', [PostController::class, 'post_bai_viet']);
+Route::get('bai-viet/{post_title}', [PostController::class, 'bai_viet']);
 // ----Start---
 
 Route::get('store', [AccountController::class, 'store']);
@@ -139,12 +180,10 @@ Route::get('store', [AccountController::class, 'store']);
 // check out
 Route::middleware('checkcustomer')->group(function () {
 
-Route::get('checkout', [CheckoutController::class, 'checkout']);
-Route::post('district', [CheckoutController::class, 'district']);
-Route::post('wards', [CheckoutController::class, 'wards']);
-Route::get('purchase/{customer_id}', [CheckoutController::class, 'purchase']);
-
-
+    Route::get('checkout', [CheckoutController::class, 'checkout']);
+    Route::post('district', [CheckoutController::class, 'district']);
+    Route::post('wards', [CheckoutController::class, 'wards']);
+    Route::get('purchase/{customer_id}', [CheckoutController::class, 'purchase']);
 });
 // Route::post('add_customer', [CheckoutController::class, 'addCustomer']);
 Route::post('customer_information', [CheckoutController::class, 'customerInformation']);
@@ -172,20 +211,7 @@ Route::post('reply_comment', [ProductController::class, 'replyComment']);
 
 
 
-//phan cua admin
-Route::get('index', [ProductController::class, 'index']);
-Route::get('adminproductmanage', [ProductController::class, 'adminproductmanage']);
-Route::get('productinsert', [ProductController::class, 'insert']);
-Route::post('insertPost', [ProductController::class, 'insertPost']);
-Route::get('productupdate/{product_id}', [ProductController::class, 'update']);
-Route::post('updatePost/{id}',  [ProductController::class, 'updatePost']);
-Route::get('delete/{id}', [ProductController::class, 'delete']);
-Route::get('admin/size', [ProductController::class, 'sizeManager']);
-Route::post('sizeManager_insert', [ProductController::class, 'sizeManager_insert']);
-Route::get('admin/add_size', [ProductController::class, 'sizeManager_insert_1']);
-Route::get('admin/update_size/{size_id}', [ProductController::class, 'update_page']);
-Route::post('admin/updateSize/{size_id}',  [ProductController::class, 'updateSize']);
-Route::get('delete_size/{size_id}', [ProductController::class, 'delete_size']);
+
 
 // END
 
@@ -221,7 +247,7 @@ Route::get('delete_order/{order_code}', [HistoryController::class, 'DeleteOrder'
 
 Route::get('order_detail_user/{order_code}', [HistoryController::class, 'OrderDetailUser']);
 Route::get('admin/feedback_admin', [HistoryController::class, 'admin_feedback_save']);
-Route::get("feedback/{order_code}/{id}",[CheckoutController::class,'feebackLoadView']);
+Route::get("feedback/{order_code}/{id}", [CheckoutController::class, 'feebackLoadView']);
 Route::post('load_feedback', [HistoryController::class, 'loadfeedback']);
 Route::post('send-feedback', [HistoryController::class, 'sendfeedback']);
 Route::post('allow_feedback', [HistoryController::class, 'allowfeedback']);
@@ -238,10 +264,9 @@ Route::get('history_order/{customer_id}', [HistoryController::class, 'history_or
 // Start//---User-information ---///
 Route::middleware('checkcustomer')->group(function () {
 
-Route::get('detail-profile/{customer_id}', [ProfileController::class, 'loadViewProfile']);
-Route::post('detail-profile/edit/{customer_id}', [ProfileController::class, 'editDetailProfile']);
-Route::post('detail-profile/change-password/{customer_id}', [ProfileController::class, 'ChangePassword']);
-Route::post('detail-profile/uploadimg/{customer_id}', [ProfileController::class, 'uploadImageProfile']);
-
+    Route::get('detail-profile/{customer_id}', [ProfileController::class, 'loadViewProfile']);
+    Route::post('detail-profile/edit/{customer_id}', [ProfileController::class, 'editDetailProfile']);
+    Route::post('detail-profile/change-password/{customer_id}', [ProfileController::class, 'ChangePassword']);
+    Route::post('detail-profile/uploadimg/{customer_id}', [ProfileController::class, 'uploadImageProfile']);
 });
 // END

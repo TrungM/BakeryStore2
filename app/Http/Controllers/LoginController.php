@@ -44,18 +44,22 @@ class LoginController extends Controller
             if ($user->role == "admin") {
                 $request->session()->put("login", true);
                 $request->session()->put("username_admin", $user->name);
-                // $request->session()->put("profile_login_img", $username->image);
-
+                $request->session()->put("profile_admin_img", $user->image);
                 // $request->session()->forget("login_fail");
 
-                return   redirect("admin/index");
+                return   redirect("admin/statistics");
             } else if ($user->role == "customer") {
-                $request->session()->put("login_home", true);
-                $request->session()->put("customer_id", $user->id);
-                $request->session()->put("username", $user->name);
-                $request->session()->put("Newest", "Newest");
+                if($user->active=="0"){
+                    $request->session()->put("login_home", true);
+                    $request->session()->put("customer_id", $user->id);
+                    $request->session()->put("username", $user->name);
+                    $request->session()->put("Newest", "Newest");
 
-                return   redirect("home");
+                    return   redirect("home");
+                }else{
+                    return  redirect("login")->with("login_fail", "Account doesn't allow to active");
+                }
+
             }
         } else {
             return  redirect("login")->with("login_fail", "Email or Password doesn't exists");
@@ -66,7 +70,7 @@ class LoginController extends Controller
     {
         $request->session()->forget("login", true);
         $request->session()->forget("username_admin");
-
+        $request->session()->forget("profile_admin_img");
         return  redirect("login");
     }
 
@@ -278,13 +282,20 @@ class LoginController extends Controller
         $user_id = User::where("google_id", $user->getId())->first();
         // https://lh3.googleusercontent.com/a/AGNmyxbLxzPplnanPJCTMOT7IqoLdm1dN5BjKZowul41=s96-c
         if ($google_id == true) {
+
+          if($user_id->active=="0"){
             $request->session()->put("login_google", true);
             $request->session()->put("customer_id", $user_id->id);
-            $request->session()->put("image_upload_profile_user",true);
+            $request->session()->put("image_upload_profile_user", true);
 
             $request->session()->put("username", $user_id->name);
 
             return  redirect("home");
+          }else{
+            return  redirect("login")->with("login_fail", "Account doesn't allow to active");
+
+          }
+
         } else {
             User::create([
                 "google_id" => $user->getId(),
@@ -303,9 +314,4 @@ class LoginController extends Controller
             return  redirect("home");
         }
     }
-
-
-
-
-
 }

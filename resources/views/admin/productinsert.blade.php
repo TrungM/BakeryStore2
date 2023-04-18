@@ -97,7 +97,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="quality">Product quality</label>
+                                    <label for="quality">Product quantity</label>
                                     <input type="text" class="form-control" id="productqty" name="product_quantity"
                                         placeholder="Enter your product quality">
 

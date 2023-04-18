@@ -1,121 +1,125 @@
 @extends('admin.layout.layout')
-@section('title','product')
+@section('title', 'customer')
 @section('content')
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>CUSTOMER</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" style="color: red">Users List</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>List Customer</h1>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-
-        <table class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Email</th>
-                    <th>Full name</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                    <th>Order</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($ds as $u)
-                <tr>
-                    <td>{{ $u->customer_id }}</td>
-                    <td>{{ $u->customer_email }}</td>
-                    <td>{{ $u->customer_name }}</td>
-                    <td>{{ $u->role == 1 ? 'Admin' : 'User' }}</td>
-                    <td><a href="{{url("admin/resetPassword/{$u->customer_id}")}}">Reset Password</a> |
-                        <a href="{{url("admin/details/{$u->customer_id}")}}">View Profile</a>|
-                        <a href="{{ url("admin/customer_order/{$u->customer_id}") }}">View Order</a>
-                    </td>
-
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">List Customer</li>
+                    </ol>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <table class="table table-bordered table-hover">
+                            <thead style="text-align: center">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Images</th>
+                                    <th>Google Id </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ds as $u)
+                                    <tr>
+                                        <td>{{ $u->name }}</td>
+                                        <td>{{ $u->email }}</td>
+                                        <td>{{ $u->phone }}</td>
+                                        <td><img src="{{ asset('user/images/' . $u->image) }}" alt=""
+                                                width="50px">
+                                        </td>
+                                        <td>{{ $u->google_id }}</td>
+                                        @if ($u->active == 0)
+                                            <td><button type="button" class="btn btn-primary btn_customer "
+                                                    data-customer-status="1" id="{{ $u->id }}">Active</button></td>
+                                        @else
+                                            <td><button type="button" class="btn btn-danger  btn_customer"
+                                                    data-customer-status="0" id="{{ $u->id }}">UnActive</button>
+                                            </td>
+                                        @endif
+
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- /.card-body -->
+                </div>
+                <div class="row paging">
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                            Showing {{ $ds->count() }} of {{ $count_customer }} customers
+                        </div>
+                    </div>
+                    {{ $ds->links() }}
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
         </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-</section>
+        <!-- /.row -->
+    </section>
 @stop
 @section('script-section')
+
     <script>
-        $(function () {
-            $('#product').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-            });
+        $(".btn_customer").click(function(e) {
+            var account_status = $(this).data('customer-status');
+            var customer_id = $(this).attr("id");
+
+            $choose = confirm("Do you change acitve customer account");
+
+            if ($choose == true) {
+                $.ajax({
+
+                    url: '{{ url('admin/activeaccount') }}',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        account_status: account_status,
+                        customer_id: customer_id
+                    },
+
+                    success: function(data) {
+                        location.reload();
+                    }
+
+
+                });
+            } else {
+                e.preventDefault();
+
+            }
+
+
+
+
+
+
         });
-        function xacnhan(){
-            return confirm('are u sure ?');
-        }
     </script>
+
 @endsection
-
-
-
-    {{-- <div class="container">
-        <h2 style="color: red">Users List</h2>
-        <hr>
-        <h5><a href="{{ url('admin/displayAddUser') }}">Create New User </a></h5>
-        <table class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>AccountId</th>
-                    <th>Email</th>
-                    <th>Full name</th>
-                    <th>Role</th>
-                    <th>Active</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($ds as $u)
-                <tr>
-                    <td>{{ $u->id }}</td>
-                    <td>{{ $u->email }}</td>
-                    <td>{{ $u->fullname }}</td>
-                    <td>{{ $u->is_staff == 1 ? 'Admin' : 'User' }}</td>
-                    <td>{{ $u->is_active == 1 ? 'Active' : 'Disable' }}</td>
-                    <td><a href="{{url("admin/resetPassword/{$u->id}")}}">Reset Password</a> |
-                        <a href="{{url("user/details/{$u->id}")}}">View Profile</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-</body>
-
-</html> --}}

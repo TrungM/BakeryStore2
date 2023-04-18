@@ -248,6 +248,7 @@ html {
 
 }
 
+
 /* Css cho main */
 #main {
     display: flex;
@@ -263,8 +264,35 @@ html {
     flex-basis: 40rem;
     min-height: 20rem;
     padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+#sidebar .fa-heart  {
+    position: absolute;
+    top: 3.5rem;
+    background: #eee;
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+    color: var(--black);
+    transition: all 0.5s;
+    right: 45px;
+
 
 }
+#sidebar .fa-heart:hover  {
+
+    background: var(--main-color);
+    color: #fff;
+    cursor: pointer;
+}
+
+
+
+
 
 #wrapper #main #sidebar img {
     width: 100%;
@@ -313,7 +341,7 @@ html {
     margin-top: 1.9rem;
 }
 
-.view-product-item .size-product .icon-products {
+ .icon-products {
     padding: 0.8rem 0.7rem;
     background: #fff;
     border-radius: .5rem;
@@ -322,6 +350,14 @@ html {
     text-align: justify;
     margin-right: 2rem;
     width:200px;
+}
+
+/* #quantitySelection option[data-color="1"]{
+    color:red;
+} */
+
+#quantitySelection::after{
+    color:red;
 }
 
 .view-product-item .description-product {
@@ -352,6 +388,13 @@ html {
     cursor: pointer;
 
 }
+.view-product-item .order_methods .order_delivery span .nobutton {
+
+    cursor:not-allowed;
+    padding: 0.5rem 2rem;
+
+}
+
 
 .view-product-item .order_methods .order_delivery span {
     color: black;

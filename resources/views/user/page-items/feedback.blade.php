@@ -27,7 +27,7 @@
                             </div>
                             <div class="order-date">
                                 <span style="font-size: medium;">$20.00</span>
-                                <span>${{ number_format($item->order_total, 2, '.', ',') }}</span>
+                                <span>${{ $item->order_total }}</span>
                             </div>
                         </div>
                     </div>

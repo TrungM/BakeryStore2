@@ -46,6 +46,7 @@
                                     <th>Product name</th>
                                     <th>Size</th>
                                     <th>Size Price</th>
+                                    <th>Quantity</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
 
@@ -58,6 +59,8 @@
                                         <td>{{ $p->size }}</td>
 
                                         <td>{{ $p->size_price }}</td>
+                                        <td>{{ $p->Quantity_size }}</td>
+
                                         <td class="text-left">
                                             <a class="btn btn-primary btn-sm"
                                                 href="{{ url('admin/update_size/' . $p->size_id) }}"> Edit

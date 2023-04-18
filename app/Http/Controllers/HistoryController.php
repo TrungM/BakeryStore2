@@ -45,7 +45,7 @@ class HistoryController extends Controller
     {
         // product trong model feedback
 
-        $feedback = Feedback::with("product")->where("feedback_reply", "=", 0)->orderBy("feedback_status", "DESC")->get();
+        $feedback = Feedback::with("product")->with("customer")->where("feedback_reply", "=", 0)->orderBy("feedback_status", "DESC")->get();
 
         $feedback_rep = Feedback::with("product")->where("feedback_reply", ">", 0)->get();
 

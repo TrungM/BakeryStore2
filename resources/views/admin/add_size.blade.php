@@ -1,5 +1,5 @@
 @extends('admin.layout.layout')
-@section('title', 'create-new-product')
+@section('title', 'create-new-size')
 
 @section('content')
     <style>
@@ -49,16 +49,14 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Product name</label>
-
-                            <select name="product_name" id="product_id" class="form-control">
+                            <select name="product_name" id="select_product_name" class="form-control">
                                 <option value="">Choose option product name</option>
                                 @foreach ($list_product as $p)
                                     <option value="{{ $p->product_id }}">{{ $p->product_name }}</option>
                                 @endforeach
                             </select>
-
-                            @error("product_name")
-                            <small class="form-text text-danger">{{ $message }}</small>
+                            @error('product_name')
+                                <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
 
@@ -66,18 +64,36 @@
                             <label for="">Size</label>
                             <input type="text" class="form-control" name="size" id="size"
                                 placeholder="Enter product size">
-                                @error("size")
+                            @error('size')
                                 <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="">Size Price</label>
                             <input type="text" class="form-control" name="size_price" id="size_price"
-                                placeholder="Enter product size price" >
-                                @error("size_price")
+                                placeholder="Enter product size price">
+                            @error('size_price')
                                 <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <div style="display: flex; justify-content: space-between">
+                                <label for="">Quantity</label>
+                                <label for="">Avaliable <span class="display_a"
+                                        style="color: #007bff"></span></label>
+                            </div>
+
+
+                            <input type="text" class="form-control" name="quantity" id="qty_size"
+                                placeholder="Enter quantity">
+                            @error('quantity')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                            @if (session('status_error'))
+                                <small class="form-text text-danger"> {{ session('status_error') }}
+                                </small>
+                            @endif
                         </div>
 
 
@@ -106,10 +122,38 @@
 
 
 @section('script-section')
-    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
     <script>
-        $(function() {
-            bsCustomFileInput.init();
+        $(document).ready(function() {
+            $('#select_product_name').change(function() {
+                var select_value = $(this).val();
+                // alert(value);
+                var _token = $('input[name="_token"]').val();
+
+                $.ajax({
+
+                    url: '{{ url('display_avaliable') }}',
+                    method: 'POST',
+                    data: {
+                        _token: _token,
+                        select_value: select_value,
+                    },
+
+                    success: function(data) {
+
+                        $(".display_a").html(data.avaliable);
+
+
+
+                    }
+
+
+                });
+
+
+
+            });
+
+
         });
     </script>
 
