@@ -77,7 +77,7 @@
 
                             <div style="margin-left: 1rem;;">
                                 <h5 style="font-weight: 200; padding: 0.5rem 0px;">
-                                    ${{ number_format($order_s_total, 2, '.', ',') }}</h5>
+                                    ${{ $order_s_total }}</h5>
                                 <h5 style="font-weight: 200; padding: 0.5rem 0px;">300000</h5>
                                 <h5 style="font-weight: 200; padding: 0.5rem 0px;">$20.00</h5>
                             </div>
@@ -91,7 +91,7 @@
 
                             <div style="margin-left: 4rem;">
                                 <h3 style="font-weight: 200; color: red;">
-                                    ${{ number_format($order_total, 2, '.', ',') }}</h3>
+                                    ${{ $order_total}}</h3>
 
                             </div>
 

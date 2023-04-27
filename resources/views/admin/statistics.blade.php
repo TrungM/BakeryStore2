@@ -44,7 +44,7 @@
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <h3>53<sup style="font-size: 20px">%</sup></h3>
-                                <p>Bounce Rate</p>
+                                <p>Turnover Rate/1month</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
@@ -58,13 +58,13 @@
 
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3>{{$user}}</h3>
                                 <p>User Registrations</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i
+                            <a href="{{ URL::to('admin/customer') }}" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -73,8 +73,8 @@
 
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65</h3>
-                                <p>Unique Visitors</p>
+                                <h3>{{$ip_count}}</h3>
+                                <p> Visitors</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
@@ -90,47 +90,60 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header" style=" display:flex; justify-content: space-between  ">
-
-                                <button class="btn btn-secondary" aria-controls="example1" type="button"><a
-                                        href="{{ URL::to('admin/productinsert') }}"><span
-                                            style="font-size: 1rem; color:#fff">Add
-                                            New Product</span></a>
-                                </button>
-
-
-                            </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form method="POST">
-                                    @csrf
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="datepicker" name="datefrom "
-                                            placeholder="Enter date from ">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="datepicker2" name="dateto"
-                                            placeholder="Enter date to ">
-                                    </div>
-                                    <div class="form-group">
-                                    <select  class="form-control"  id="filterselection">
-                                        <option value="">Select option </option>
+                                <table id="product" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Stt</th>
+                                            <th>Order Code</th>
+                                            <th>Order Total</th>
+                                            <th>Order Status</th>
+                                            <th>Create_at</th>
+                                            <th>Detail_order</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                        $i = 1;
+                                    @endphp
+                                        @foreach ($order_today as $p)
+                                            <tr>
+                                            <td>
 
-                                        <option value="aweek">a week </option>
-                                        <option value="apremonth">a prev month (31 date)</option>
-                                        <option value="acurrentmonth">a current month (31 date)</option>
-                                        <option value="ayear">a year</option>
-                                    </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-primary" name="btn-filter-statistic" id="btn-filter-statistic">Filter</button>
-                                    </div>
-                                </form>
+                                                {{$i++}}
+                                                </td>
+                                                <td>{{ $p->order_code }}</td>
+                                                <td>${{ $p->order_total }}</td>
+                                                <td>{{$p->order_status}}
+                                                    <a class="btn btn-info btn-sm"
+                                                    href="{{ URL::to('admin/update/' . $p->order_code) }}">
+                                                    Edit
+                                                </a>
+                                                </td>
+                                                <td>{{ $p->created_at }}</td>
 
+                                                <td >
+                                                    <a class="btn btn-primary btn-sm"
+                                                        href="{{ URL::to('admin/view_order/' . $p->order_code) }}">
+                                                        <i class="fas fa-folder"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
                             </div>
 
-                            <div id="myfirstchart" style="height: 250px;"></div>
-
+                            <div class="row paging">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
+                                    </div>
+                                </div>
+                                {{ $order_today->links() }}
+                            </div>
                             <!-- /.card-body -->
                         </div>
 

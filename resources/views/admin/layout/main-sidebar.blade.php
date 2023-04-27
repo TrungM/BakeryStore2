@@ -12,22 +12,19 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
             <div class="image">
-                <img src="{{ asset('admin/img/'.Session::get("profile_admin_img")) }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('admin/img/' . Session::get('profile_admin_img')) }}" class="img-circle elevation-2"
+                    alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">
-                    @if (Session::has("username_admin"))
-
-                    <p>{{   session ("username_admin")}}</p>
-
+                    @if (Session::has('username_admin'))
+                        <p>{{ session('username_admin') }}</p>
                     @endif
 
 
                 </a>
             </div>
         </div>
-
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -42,7 +39,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview" >
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-book"></i>
@@ -51,13 +48,7 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ URL::to('admin/chart') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Chart</p>
-                                    </a>
-                                </li>
+                            <ul class="nav nav-treeview" >
                                 <li class="nav-item">
                                     <a href="{{ URL::to('admin/statistics') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -148,15 +139,14 @@
                                 <li class="nav-item">
                                     <a href="{{ URL::to('admin/list-post') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>List News  </p>
+                                        <p>List News </p>
                                     </a>
                                 </li>
 
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ URL::to('admin/post') }}  "
-                                        class="nav-link">
+                                    <a href="{{ URL::to('admin/post') }}  " class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Post News</p>
                                     </a>

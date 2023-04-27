@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Statistic extends Model
+class Vistors extends Model
 {
     public $timestamps = false; //set time to false
     protected $fillable = [
-    'order_date','sales','quantity'
+    'ip_address	','date_vistor	',
     ];
     protected $primaryKey = 'id';
- 	protected $table = 'tb_statistic';
+ 	protected $table = 'tb_visitors';
+
+
 
 }

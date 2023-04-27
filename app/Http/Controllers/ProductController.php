@@ -16,18 +16,19 @@ class ProductController extends Controller
 
     public function sizeSelectQuantityAction(Request $request)
     {
+
         $data = $request->all();
 
         $get = DB::table("tb_size")->where("size_id", $data["size"])->first();
+
         $output = '';
 
         $qty_get= $get->Quantity_size-$get->Quantity_sold_size;
         if($qty_get==0){
-            $output .= '<option  data-color="1">Sold out</option>';
+            $output .= '<option value="" data-number="1" selected>Sold out</option>';
 
         }else{
             for($i=1; $i<=$qty_get;$i++){
-
                   $output .= '<option value="' . $i . '">' . $i . '</option>';
 
             }
@@ -60,8 +61,8 @@ class ProductController extends Controller
     {
         $data = $request->all();
         $today = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
-        $sub7Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(7)->toDateString();
-        $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$sub7Days, $today])->orderBy("created_at", 'ASC')->get();
+        $sub365Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(365)->toDateString();
+        $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$sub365Days, $today])->orderBy("created_at", 'ASC')->get();
 
         foreach ($get as $v) {
             $chart_data[] = array(
@@ -87,10 +88,27 @@ class ProductController extends Controller
         if ($data["product_v"] == 'apremonth') {
 
             $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$startofprevmonth, $endofprevmonth])->orderBy("created_at", 'ASC')->get();
+            $countqty = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$startofprevmonth, $endofprevmonth])->orderBy("created_at", 'ASC')->count();
         } else if ($data["product_v"] == 'acurrentmonth') {
             $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$startofcurrentmonth, $today])->orderBy("created_at", 'ASC')->get();
+            $countqty =  OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$startofcurrentmonth, $today])->orderBy("created_at", 'ASC')->count();
         } else if ($data["product_v"] == 'ayear') {
             $get = OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$sub365Days, $today])->orderBy("created_at", 'ASC')->get();
+            $countqty =  OrderDetails::where("product_id", $data["product_id"])->whereBetween("created_at", [$sub365Days, $today])->orderBy("created_at", 'ASC')->count();
+        }
+
+
+        if ($countqty == 0) {
+            $chart_data[] = array(
+                'period' =>  0,
+            );
+        } else {
+            foreach ($get as $v) {
+                $chart_data[] = array(
+                    'period' => $v->created_at,
+                    'quantity' => $v->product_quantity,
+                );
+            }
         }
 
 

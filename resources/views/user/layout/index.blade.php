@@ -34,6 +34,7 @@
 <script>
     $(document).ready(function() {
 
+
         $(".cart_quantity_class").click(function(e) {
 
 

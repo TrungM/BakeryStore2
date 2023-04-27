@@ -108,6 +108,8 @@ Route::prefix('admin')->middleware('checkadmin')->group(function () {
     Route::get('chart', [AdminController::class, 'loadChart']);
 
     Route::get('statistics', [AdminController::class, 'loadStatistics']);
+    Route::get('orderstatistics', [AdminController::class, 'loadorderSatistics']);
+
 });
 
 
@@ -146,12 +148,13 @@ Route::middleware('checkadmin')->group(function () {
 
     Route::post("filter_date_statistic", [AdminController::class, "filterdatetatisticAction"]);
     Route::post("dasboard_filter", [AdminController::class, "dasboardfilterAction"]);
-    Route::post("dasboard_filter30date", [AdminController::class, "dasboard_filter30dateAction"]);
+    Route::post("dasboard_filter7date", [AdminController::class, "dasboard_filter7dateAction"]);
 
     Route::post("filterselectionproduct", [ProductController::class, "filterselectionproductAction"]);
     Route::post("filterproduct", [ProductController::class, "filterproductAction"]);
     Route::post("productSizeChart", [ProductController::class, "productSizeChartAction"]);
-    Route::post("sizeSelectQuantity", [ProductController::class, "sizeSelectQuantityAction"]);
+    Route::post('dasboard_filter_order', [AdminController::class, 'loadOrderStatistic']);
+    Route::post('dasboard_filter_order_Year', [AdminController::class, 'loadOrderStatisticYear']);
 
 });
 //phan cua admin
@@ -202,6 +205,7 @@ Route::get('product/DESproduct', [ProductController::class, 'descproducts']);
 Route::get('view-favourite', [ProductController::class, 'viewfavourite']);
 Route::get('view-product/{id}', [ProductController::class, 'viewproduct']);
 Route::get('category', [ProductController::class, 'category']);
+Route::post("sizeSelectQuantity", [ProductController::class, "sizeSelectQuantityAction"]);
 
 Route::post('load-comment', [ProductController::class, 'loadComment']);
 Route::post('send-comment', [ProductController::class, 'sendComment']);

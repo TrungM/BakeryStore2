@@ -18,6 +18,9 @@ use App\Mail\Sendmail;
 use App\Mail\SendmailOrder;
 use App\Models\Feedback;
 use App\Models\Product;
+use App\Models\Statistic;
+use Illuminate\Support\Carbon;
+use NumberFormatter;
 
 class CheckoutController extends Controller
 {
@@ -56,8 +59,14 @@ class CheckoutController extends Controller
     {
         $province = Province::where("name", 'Thành phố Hồ Chí Minh ')->orwhere("name", 'Thành phố Hà Nội ')->get();
         $detail = DB::table("tb_user")->where("id", $request->session()->get("customer_id"))->first();
+        $dates = [];
+        for ($i = 0; $i <= 7; $i++) {
+            $date = Carbon::now(("Asia/Ho_Chi_Minh"))->addDay($i);
+            $dates[] = $date->format('Y-m-d');
+        }
 
-        return view('user.page-items.checkout', ["province" => $province, "detail" => $detail]);
+
+        return view('user.page-items.checkout', ["province" => $province, "detail" => $detail, "dates" => $dates]);
     }
 
 
@@ -88,6 +97,7 @@ class CheckoutController extends Controller
         $order_data['order_status'] = 'Pending';
         $order_data['order_code'] = substr(md5(microtime()), rand(0, 26), 5);;
         $order_data['order_items']   = Cart::countItems();
+        $order_data['created_at'] = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
         $order_id = DB::table("tb_order")->insertGetId($order_data);
 
         $content = Cart::content();
@@ -101,7 +111,7 @@ class CheckoutController extends Controller
             $order_d_data['product_quantity'] = $p->qty;
             $order_d_data['product_size'] = $p->options->size;
             $order_d_data['product_size_price'] = $p->options->p_size;
-            $order_d_data['created_at'] = date("Y/m/d");
+            $order_d_data['created_at'] = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
             DB::table('tb_order_detail')->insertGetId($order_d_data);
 
             $old_qty = Product::where("product_id", $p->id)->first();
@@ -127,7 +137,34 @@ class CheckoutController extends Controller
                 ]);
             }
         }
-        //send email
+
+
+        //add thong ke
+        //composer require symfony/intl: thư viện format
+
+        $datexist = Statistic::where("order_date", Carbon::now("Asia/Ho_Chi_Minh")->toDateString())->exists();
+        $st = Statistic::where("order_date", Carbon::now("Asia/Ho_Chi_Minh")->toDateString())->first();
+        $qty_update = $st->quantity + 1;
+        $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
+        $cart_total_update = Cart::total();
+        $formattedAmount = $formatter->parse($cart_total_update);
+        if ($datexist == true) {
+            Statistic::where("order_date", Carbon::now("Asia/Ho_Chi_Minh")->toDateString())->update([
+                "sales"=>  $st->sales+$formattedAmount,
+                "quantity"=>$qty_update,
+            ]);
+        } else {
+            $statistics = new Statistic();
+            $statistics->sales = Cart::total();
+            $statistics->order_date = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+            $statistics->quantity = 1;
+            $statistics->save();
+        }
+
+
+
+
+        // send email
 
         $username = DB::table("tb_user")->where("email", $request->customer_email_order)->first();
 

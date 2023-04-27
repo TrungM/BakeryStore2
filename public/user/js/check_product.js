@@ -10,8 +10,8 @@ const checkOutAddressSetting1 = document.querySelector(".checkout-address-settin
 const checkOutAddressSetting1a = document.querySelector(".checkout-address-setting1 a");
 
 const btnAddress=document.querySelector(".btn-address");
-const modalBodyTimesInput = document.querySelector(".modal-body-times input");
-const modalBodyTimes = document.querySelector(".modal-body-times select");
+const modalBodyTimesInput = document.querySelector("#form-group-day");
+const modalBodyTimes = document.querySelector("#form-group-times");
 const checkoutAddressText1 = document.querySelector(" .checkout-time .checkout-address-text h5 span");
 const checkoutAddressTextTimes = document.querySelector(" .checkout-time .checkout-address-text p span");
 

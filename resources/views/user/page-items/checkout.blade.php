@@ -74,7 +74,16 @@
                 <div class="modal-body-times">
 
                     <div>
-                        <input type="date" class="form-group-times" name="shipping_time_day" id="form-group-day">
+                        {{-- <input type="date" class="form-group-times" name="shipping_time_day" id="form-group-day"> --}}
+                        <select class="form-group-times" name="shipping_time_day" id="form-group-day">
+                            <option value="">--- Choose a major in receiving goods ---</option>
+                            @foreach ($dates as $v )
+                            <option value="{{$v}}">{{$v}}</option>
+
+                            @endforeach
+
+
+                        </select>
 
                     </div>
                     <select class="form-group-times" name="shipping_time_hour" id="form-group-times">
@@ -118,7 +127,7 @@
                         margin-left: 0.4rem;
                         text-align: center;
                         justify-content: space-between;">
-                            Xác nhận</div>
+                            Confirm</div>
                     </div>
 
                 </div>

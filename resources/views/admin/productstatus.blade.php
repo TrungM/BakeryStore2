@@ -122,7 +122,9 @@
 
             loadProductChart();
             loadProductChart2();
-            var chartproduct = new Morris.Line({
+
+
+            var chartproduct = new Morris.Area ({
                 // ID of the element in which to draw the chart.
                 element: 'productchart',
                 // Chart data records -- each entry in this array corresponds to a point on

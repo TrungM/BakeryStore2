@@ -352,13 +352,10 @@ html {
     width:200px;
 }
 
-/* #quantitySelection option[data-color="1"]{
-    color:red;
-} */
-
-#quantitySelection::after{
-    color:red;
+#quantitySelection option[data-number="1"]{
+    background-color:red;
 }
+
 
 .view-product-item .description-product {
     font-size: 1.7rem;

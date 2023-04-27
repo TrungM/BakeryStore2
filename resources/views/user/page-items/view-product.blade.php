@@ -79,7 +79,7 @@
                         @csrf
                         <div class="size-product">
                             <h4>Size</h4>
-                            <select name="size" id="size" class="icon-products">
+                            <select name="size" id="sizeSelection" class="icon-products">
                                 <option value="">Choose size</option>
                                 @foreach ($product_size as $value)
                                     <option value="{{ $value->size_id }}">{{ $value->size }}
@@ -93,6 +93,7 @@
                             @enderror
 
                         </div>
+
                         <div class="quantity">
                             <h4 style="font-size: 1.9rem;margin-right:2rem;">Quantity</h4>
                             {{-- <input type="number" name="qty" id="qty" min="1"
@@ -100,7 +101,7 @@
                             <input type="hidden" name="product_hidden" id="qt" value="{{ $p->product_id }}">
 
                             <select name="qty" id="quantitySelection" class="icon-products">
-                                <option value="">Select quantity</option>
+                                <option value="" selected>Select quantity</option>
                             </select>
                             @error('qty')
                                 <p class="size_error">{{ $message }}</p>
@@ -379,21 +380,22 @@
             })
 
 
-            $("#size").change(function(e) {
+            $("#sizeSelection").change(function(e) {
                 var size = $(this).val();
                 var _token = $('input[name="_token"]').val();
+
+
+
 
                 $.ajax({
                     url: '{{ url('sizeSelectQuantity') }}',
                     method: "POST",
                     data: {
-                        size: size,
+                        size:size,
                         _token: _token,
                     },
                     success: function(data) {
-
                         $("#quantitySelection").html(data);
-
 
                     }
                 });

@@ -10,19 +10,213 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
+use App\Models\Vistors;
 use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
 {
-    public function adminindex()
+
+    public function loadOrderStatisticYear(Request $request)
+    {
+        $data = $request->all();
+        $today = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+
+        $sub7Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(7)->toDateString();
+        $sub365Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(365)->toDateString();
+
+
+
+
+        // $now = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+
+        $dates = [];
+
+        if ($data["value_s"] == '1') {
+            // $now = Carbon::now('Asia/Ho_Chi_Minh');
+            $now = Carbon::create(2023, 1, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+        }     else if ($data["value_s"] == '2') {
+            $now = Carbon::create(2023, 2, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 28; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }   else if ($data["value_s"] == '3') {
+            $now = Carbon::create(2023, 3, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        } else if ($data["value_s"] == '4') {
+            $now = Carbon::create(2023, 4, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 30; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        } else if ($data["value_s"] == '5') {
+            $now = Carbon::create(2023, 5, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == '6') {
+            $now = Carbon::create(2023, 6, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 30; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == "7") {
+            $now = Carbon::create(2023, 7, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == '8') {
+            $now = Carbon::create(2023, 8, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == '9') {
+            $now = Carbon::create(2023, 9, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 30; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == '10') {
+            $now = Carbon::create(2023, 10, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == '11') {
+            $now = Carbon::create(2023, 11, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 30; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }else if ($data["value_s"] == '12') {
+            $now = Carbon::create(2023, 12, 1);
+            $dates[] = $now->startOfMonth()->toDateString();
+            for ($i = 1; $i < 31; $i++) {
+                $date = $now->startOfMonth()->addDays($i)->toDateString();
+                $dates[] = $date;
+            }
+            $countday = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->count();
+            $get = Statistic::whereIn("order_date", $dates)->orderBy("order_date", 'ASC')->get();
+        }
+
+
+
+        if ($countday == 0) {
+            $chart_data[] = array(
+                'period' =>  $now->startOfMonth()->toDateString(),
+            );
+        } else {
+            foreach ($get as $v) {
+                $chart_data[] = array(
+                    'period' => $v->order_date,
+                    'sales' => $v->sales,
+                    'order' => $v->quantity,
+
+                );
+            }
+        }
+
+
+        $data = json_encode($chart_data);
+        echo $data;
+
+    }
+
+    public function loadOrderStatistic(Request $request)
     {
 
+        $data = $request->all();
+        $today = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+
+
+        $startofcurrentmonth = Carbon::now("Asia/Ho_Chi_Minh")->startOfMonth()->toDateString(); // đầu tháng hiện tại
+        $startofprevmonth = Carbon::now("Asia/Ho_Chi_Minh")->subMonth()->startOfMonth()->toDateString(); // đầu tháng TRƯỚC
+        $endofprevmonth = Carbon::now("Asia/Ho_Chi_Minh")->subMonth()->endOfMonth()->toDateString(); // cuối tháng TRƯỚC
+
+        $sub7Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(7)->toDateString();
+        $sub365Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(365)->toDateString();
+
+        if ($data["value_s"] == 'aweek') {
+
+            $get = Statistic::whereBetween("order_date", [$sub7Days, $today])->orderBy("order_date", 'ASC')->get();
+        } else if ($data["value_s"] == 'apremonth') {
+
+            $get = Statistic::whereBetween("order_date", [$startofprevmonth, $endofprevmonth])->orderBy("order_date", 'ASC')->get();
+        } else if ($data["value_s"] == 'acurrentmonth') {
+            $get = Statistic::whereBetween("order_date", [$startofcurrentmonth, $today])->orderBy("order_date", 'ASC')->get();
+        } else if ($data["value_s"] == 'ayear') {
+            $get = Statistic::whereBetween("order_date", [$sub365Days, $today])->orderBy("order_date", 'ASC')->get();
+        }
+
+
+        foreach ($get as $v) {
+            $chart_data[] = array(
+                'period' => $v->order_date,
+                'sales' => $v->sales,
+                'order' => $v->quantity,
+
+            );
+        }
+        $data = json_encode($chart_data);
+        echo $data;
+    }
+    public function adminindex()
+    {
 
         return view("admin.layout.layout");
     }
     public function showdashboard()
     {
         return view("admin.dashboard");
+    }
+
+    public function loadorderSatistics()
+    {
+        $year = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+        return View("admin.statistics_order", ['year' => $year]);
     }
 
     public  function loadViewProfile($id)
@@ -132,11 +326,24 @@ class AdminController extends Controller
         return view("admin.chart");
     }
 
-    public  function loadStatistics()
+    public  function loadStatistics(Request $request)
     {
-        $order_qty = Order::count();
+        $order_qty = Order::where("created_at",Carbon::now("Asia/Ho_Chi_Minh")->toDateString())->count();
+        $order_today=Order::where("created_at",Carbon::now("Asia/Ho_Chi_Minh")->toDateString())->paginate(5);
+        $ip_address = $request->ip();
+        $user = User::count();
 
-        return view("admin.statistics", ["order_qty" => $order_qty]);
+
+        $current = Vistors::where("ip_address", $ip_address)->get();
+        $ip_count = $current->count();
+        if ($ip_count < 1) {
+            $vistor = new Vistors;
+            $vistor->ip_address = $ip_address;
+            $vistor->date_visitor = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
+            $vistor->save();
+        }
+
+        return view("admin.statistics", ["order_qty" => $order_qty, "user" => $user, "ip_count" => $ip_count,"order_today"=>$order_today]);
     }
 
 
@@ -211,7 +418,7 @@ class AdminController extends Controller
     }
 
 
-    public function dasboard_filter30dateAction(Request $request)
+    public function dasboard_filter7dateAction(Request $request)
     {
         $sub7Days = Carbon::now("Asia/Ho_Chi_Minh")->subDay(7)->toDateString();
         $today = Carbon::now("Asia/Ho_Chi_Minh")->toDateString();
@@ -223,14 +430,11 @@ class AdminController extends Controller
                 'period' => $v->order_date,
                 'sales' => $v->sales,
                 'profit' => $v->profit,
-                'quantity' => $v->quantity,
+                'order' => $v->quantity,
                 'total' => $v->total,
             );
         }
         $data = json_encode($chart_data);
         echo $data;
     }
-
-
-
 }

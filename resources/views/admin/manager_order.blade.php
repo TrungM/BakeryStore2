@@ -23,8 +23,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        {{-- <h3 class="card-title">DataTable with minimal features & hover style</h3> --}}
-                    </div>
+                        <button class="btn btn-warning" aria-controls="example1" type="button"><a
+                            href="{{ URL::to('admin/orderstatistics') }}"><span style="font-size: 1rem; color:#fff">Order statistics</span></a>
+                    </button>
+                </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="product" class="table table-bordered table-hover">
@@ -76,7 +78,7 @@
                 <div class="row paging">
                     <div class="col-sm-12 col-md-5">
                         <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">
-                            Showing {{ $order->count() }} of {{ $order_count }} size
+                            Showing {{ $order->count() }} of {{ $order_count }} orders
                         </div>
                     </div>
                     {{ $order->links() }}
