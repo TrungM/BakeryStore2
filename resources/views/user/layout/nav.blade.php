@@ -168,8 +168,7 @@
         }else{
             ?>
             <a href="{{ URL::to('login') }}" class="btn"
-                nclick="alert('Please login to add  new items')">Checkout</a>
-
+                onclick="alert('Please login to add  new items')">Checkout</a>
             <?php
         }
                    ?>

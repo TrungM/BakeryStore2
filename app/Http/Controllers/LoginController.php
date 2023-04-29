@@ -286,7 +286,9 @@ class LoginController extends Controller
           if($user_id->active=="0"){
             $request->session()->put("login_google", true);
             $request->session()->put("customer_id", $user_id->id);
-            $request->session()->put("image_upload_profile_user", true);
+            if($user_id->number_upload_img=="1"){
+                $request->session()->put("image_upload_profile_user", true);
+            }
 
             $request->session()->put("username", $user_id->name);
 
@@ -310,7 +312,7 @@ class LoginController extends Controller
             $google_id_check = User::where("google_id", $user->getId())->first();
             $request->session()->put("customer_id", $google_id_check->id);
             $request->session()->put("username", $user->getName());
-
+            // $request->session()->put("image_upload_profile_user", $user->getAvatar());
             return  redirect("home");
         }
     }

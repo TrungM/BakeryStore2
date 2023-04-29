@@ -92,6 +92,7 @@ class ProfileController extends Controller
         DB::table('tb_user')->where('id', intval($id))->update([
 
                      "image"=>$imageName,
+                    "number_upload_img"=>1,
 
         ]);
 

@@ -4,6 +4,7 @@
         <div class="detail-profile">
             <div class="image-option-profile">
                 @if (Session::has('login_google'))
+
                 @if (Session::has("image_upload_profile_user"))
 
                 <div class="image-profile">

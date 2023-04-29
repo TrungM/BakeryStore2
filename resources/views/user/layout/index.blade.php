@@ -189,7 +189,6 @@
                 var url = data[i].url;
                 var star = data[i].star;
 
-
                 $("#box-container").append(
                     '<div class="box"><a  id=' + id +
                     '    class="fas fa-times deleteItemF"  style="font-size: 3rem;"></a> <span title=' + i +
