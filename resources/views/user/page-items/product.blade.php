@@ -93,8 +93,6 @@
                                     ->where('product_id_star', $p->product_id)
                                     ->avg('rating');
                                 $rating = round($rating);
-
-
                                 ?>
                                 <div class="stars">
                                     @if ($rating == 1)
